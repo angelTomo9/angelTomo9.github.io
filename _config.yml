@@ -1,0 +1,12 @@
+﻿title: Ángel
+tagline: Mi portal personal
+description: Sitio personal en GitHub Pages.
+url: https://angelTomo9.github.io
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+
+markdown: kramdown
