@@ -5,10 +5,8 @@ permalink: /about/
 
 # Sobre mí
 
-Esta es la página donde cuento un poco sobre mí.
+Soy **Ángel** y este es mi portal para compartir juegos, prototipos y proyectos.
 
-## Algunas cosas
+## Contacto
 
-- Estudio / hago / me interesa **X**.
-- Uso **Unity, C#, Git**.
-- Me podés contactar por GitHub: [github.com/angelTomo9](https://github.com/angelTomo9).
+Me podés encontrar en GitHub: [github.com/angelTomo9](https://github.com/angelTomo9).
