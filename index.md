@@ -34,7 +34,7 @@ permalink: /
       <h2>Create Tycoon</h2>
       <p>Este archivo pesa más de 100 MB. Para publicarlo correctamente conviene subirlo como asset de GitHub Releases o prepararlo con Git LFS.</p>
     </div>
-    <span class="download-button download-button--disabled">Pendiente</span>
+    <a class="download-button" href="{{ '/juegos/Tycoon5.0.apk' | relative_url }}" download>Descargar APK</a>
   </article>
 </section>
 
