@@ -38,6 +38,14 @@ permalink: /
   </article>
 </section>
 
+<section class="notes" aria-label="Proyectos">
+  <h2>Proyectos</h2>
+  <p>También puedes ver apps y herramientas publicadas:</p>
+  <ul>
+    <li><a href="{{ '/apps/piso-peniscola/' | relative_url }}">Piso peñiscola – app de organización del piso</a></li>
+  </ul>
+</section>
+
 <section class="notes">
   <h2>Cómo instalar</h2>
   <ol>
