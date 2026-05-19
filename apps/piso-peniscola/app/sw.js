@@ -1,10 +1,12 @@
-﻿const CACHE_NAME = 'piso-compartido-v1'
-const APP_SHELL = ['/', '/index.html', '/manifest.json', '/icons/icon-192.png', '/icons/icon-512.png']
+const CACHE_NAME = 'piso-compartido-v2'
+const APP_SHELL = ['', 'index.html', 'manifest.json', 'icons/icon-192.png', 'icons/icon-512.png']
+const toAppUrl = (path = '') => new URL(path || '.', self.registration.scope).toString()
+const APP_INDEX_URL = toAppUrl('index.html')
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(APP_SHELL))
+      .then((cache) => cache.addAll(APP_SHELL.map((path) => toAppUrl(path))))
       .catch(() => undefined),
   )
   self.skipWaiting()
@@ -35,7 +37,7 @@ self.addEventListener('fetch', (event) => {
           }
           return networkResponse
         })
-        .catch(() => caches.match('/index.html'))
+        .catch(() => caches.match(APP_INDEX_URL))
     }),
   )
 })
