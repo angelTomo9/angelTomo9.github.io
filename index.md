@@ -38,11 +38,4 @@ permalink: /
   </ul>
 </section>
 
-<section class="notes">
-  <h2>Cómo instalar</h2>
-  <ol>
-    <li>Descarga el archivo ZIP del juego.</li>
-    <li>Descomprímelo en una carpeta de tu ordenador.</li>
-    <li>Abre el ejecutable o archivo principal incluido en la carpeta.</li>
-  </ol>
-</section>
+
