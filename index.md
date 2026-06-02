@@ -12,20 +12,11 @@ permalink: /
 <section class="game-grid" aria-label="Lista de juegos disponibles">
   <article class="game-card">
     <div>
-      <p class="game-version">Versión 3.1</p>
-      <h2>Opolis Inc</h2>
-      <p>Juego comprimido listo para descargar. Descomprime el ZIP y revisa los archivos incluidos para ejecutarlo.</p>
+      <p class="game-version">Versión 1.0</p>
+      <h2>Piso Peñiscola</h2>
+      <p>App de organización del piso. Descarga e instala la APK en tu dispositivo Android.</p>
     </div>
-    <a class="download-button" href="{{ '/juegos/opolis-inc-3.1.zip' | relative_url }}" download>Descargar ZIP</a>
-  </article>
-
-  <article class="game-card">
-    <div>
-      <p class="game-version">Versión 0.1.13</p>
-      <h2>Crazy Tycoon Simulator</h2>
-      <p>Simulador tycoon en archivo ZIP. Descárgalo, descomprímelo y ejecuta la build incluida.</p>
-    </div>
-    <a class="download-button" href="{{ '/juegos/crazy-tycoon-simulator-0.1.13.zip' | relative_url }}" download>Descargar ZIP</a>
+    <a class="download-button" href="{{ '/juegos/pisopeniscola.apk' | relative_url }}" download>Descargar APK</a>
   </article>
 
   <article class="game-card game-card--disabled">
