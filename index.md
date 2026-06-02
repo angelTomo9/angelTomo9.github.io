@@ -36,6 +36,7 @@ permalink: /
     <li><a href="{{ '/apps/piso-peniscola/' | relative_url }}">Piso peñiscola – app de organización del piso</a></li>
     <li><a href="{{ '/sintaxis/' | relative_url }}">SintaxisApp – Analizador sintáctico para 4º ESO</a></li>
     <li><a href="{{ '/apps/rompecabezas/' | relative_url }}">Rompecabezas – Minijuego web</a></li>
+    <li><a href="{{ '/apps/slope/' | relative_url }}">Slope – El famoso juego de carreras 3D</a></li>
   </ul>
 </section>
 
