@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧩 Rompecabezas - Puzzle Game</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);min-height:100vh;color:#fff;display:flex;justify-content:center;padding:20px}
+.container{max-width:600px;width:100%}
+h1{text-align:center;font-size:2em;margin:15px 0 10px;background:linear-gradient(90deg,#f7971e,#ffd200);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{text-align:center;color:#aaa;font-size:.9em;margin-bottom:20px}
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.menu-btn{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.12);border-radius:16px;padding:20px 10px;color:#fff;cursor:pointer;text-align:center;transition:.3s;backdrop-filter:blur(10px)}
+.menu-btn:hover{background:rgba(255,255,255,.15);transform:translateY(-3px);border-color:rgba(255,255,255,.25)}
+.menu-btn .icon{font-size:2.5em;display:block;margin-bottom:8px}
+.menu-btn .name{font-size:1em;font-weight:700}
+.menu-btn .desc{font-size:.75em;color:#aaa;margin-top:4px}
+.screen{display:none}
+.screen.active{display:block}
+.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.back-btn{background:rgba(255,255,255,.1);border:none;color:#fff;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.9em;transition:.3s}
+.back-btn:hover{background:rgba(255,255,255,.2)}
+.game-title{font-size:1.2em;font-weight:700}
+.levels-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px}
+.level-btn{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.1);border-radius:12px;padding:20px 10px;color:#fff;cursor:pointer;text-align:center;transition:.3s}
+.level-btn:hover{background:rgba(255,255,255,.12);border-color:#f7971e}
+.level-btn .n{font-size:2em;font-weight:700;display:block}
+.level-btn .d{font-size:.7em;color:#aaa}
+.level-btn.locked{opacity:.4;cursor:not-allowed}
+.level-btn.locked .n::after{content:'🔒';font-size:.5em;vertical-align:super}
+.level-btn.completed{border-color:#4CAF50}
+.level-btn.completed .n::after{content:'✅';font-size:.5em;vertical-align:super}
+.game-area{background:rgba(255,255,255,.06);border-radius:16px;padding:20px;margin-bottom:15px}
+.stats{display:flex;justify-content:space-between;margin-bottom:15px;font-size:.85em;color:#ccc}
+.stat span{color:#fff;font-weight:700}
+#timer{font-family:monospace;font-size:1.1em}
+#moves{font-family:monospace;font-size:1.1em}
+.puzzle-grid{display:grid;gap:4px;margin:0 auto;max-width:400px;touch-action:manipulation}
+.puzzle-grid .tile{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:1.5em;font-weight:700;border-radius:8px;cursor:pointer;transition:.15s;user-select:none;background:linear-gradient(135deg,#f7971e,#ffd200);color:#1a1a2e}
+.puzzle-grid .tile.empty{background:transparent;cursor:default}
+.puzzle-grid .tile:active{transform:scale(.95)}
+.memory-grid{display:grid;gap:8px;margin:0 auto;max-width:400px}
+.memory-grid .card{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:2em;border-radius:12px;cursor:pointer;transition:.4s;user-select:none;background:linear-gradient(135deg,#667eea,#764ba2);transform-style:preserve-3d}
+.memory-grid .card.flipped{background:rgba(255,255,255,.15);transform:rotateY(180deg)}
+.memory-grid .card.matched{background:rgba(76,175,80,.4);cursor:default;transform:rotateY(180deg)}
+.memory-grid .card:active{transform:scale(.95)}
+.grid-2048{display:grid;gap:6px;margin:0 auto;max-width:400px;background:rgba(0,0,0,.3);border-radius:8px;padding:6px}
+.grid-2048 .cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:1.8em;font-weight:700;border-radius:6px;background:rgba(255,255,255,.05);transition:.1s}
+.grid-2048 .cell.v2{background:#eee4da;color:#776e65}
+.grid-2048 .cell.v4{background:#ede0c8;color:#776e65}
+.grid-2048 .cell.v8{background:#f2b179;color:#f9f6f2}
+.grid-2048 .cell.v16{background:#f59563;color:#f9f6f2}
+.grid-2048 .cell.v32{background:#f67c5f;color:#f9f6f2}
+.grid-2048 .cell.v64{background:#f65e3b;color:#f9f6f2}
+.grid-2048 .cell.v128{background:#edcf72;color:#776e65;font-size:1.4em}
+.grid-2048 .cell.v256{background:#edcc61;color:#776e65;font-size:1.4em}
+.grid-2048 .cell.v512{background:#edc850;color:#776e65;font-size:1.4em}
+.grid-2048 .cell.v1024{background:#edc53f;color:#776e65;font-size:1.1em}
+.grid-2048 .cell.v2048{background:#edc22e;color:#776e65;font-size:1.1em}
+.grid-2048 .cell.v4096{background:#3c3a32;color:#f9f6f2;font-size:.9em}
+.pattern-grid{display:grid;gap:8px;margin:0 auto;max-width:320px}
+.pattern-grid .pcell{border-radius:16px;cursor:pointer;transition:.2s;aspect-ratio:1}
+.pattern-grid .pcell.lit{opacity:1!important;transform:scale(.95)}
+.pattern-grid .pcell:active{transform:scale(.9)!important}
+.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:15px}
+.btn{background:linear-gradient(135deg,#f7971e,#ffd200);border:none;color:#1a1a2e;padding:10px 24px;border-radius:10px;font-weight:700;cursor:pointer;transition:.3s;font-size:.9em}
+.btn:hover{transform:translateY(-2px);box-shadow:0 5px 20px rgba(247,151,30,.3)}
+.btn.secondary{background:rgba(255,255,255,.12);color:#fff}
+.btn.secondary:hover{background:rgba(255,255,255,.2);box-shadow:none}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
+.score-display{text-align:center;margin:10px 0;font-size:.9em;color:#aaa}
+.score-display span{color:#ffd200;font-weight:700}
+.victory-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(5px)}
+.victory-overlay.show{display:flex}
+.victory-box{background:linear-gradient(135deg,#1a1a2e,#302b63);border-radius:20px;padding:40px;text-align:center;max-width:320px;border:2px solid rgba(247,151,30,.3)}
+.victory-box h2{font-size:2em;margin-bottom:5px}
+.victory-box .emoji{font-size:4em;margin-bottom:10px}
+.victory-box p{color:#aaa;margin-bottom:15px;font-size:.9em}
+.victory-box .stats-line{color:#ccc;font-size:.85em;margin-bottom:5px}
+.victory-box .stats-line span{color:#ffd200}
+.hint{text-align:center;font-size:.8em;color:#888;margin-top:10px}
+.progress-bar{height:4px;background:rgba(255,255,255,.1);border-radius:4px;margin-bottom:15px;overflow:hidden}
+.progress-bar .fill{height:100%;background:linear-gradient(90deg,#f7971e,#ffd200);border-radius:4px;transition:width .5s;width:0%}
+@media(max-width:500px){.menu-grid{grid-template-columns:1fr 1fr;gap:8px}.menu-btn{padding:15px 8px}.menu-btn .icon{font-size:2em}.levels-grid{grid-template-columns:1fr 1fr;gap:8px}.game-area{padding:12px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div id="menuScreen" class="screen active">
+    <h1>🧩 Rompecabezas</h1>
+    <p class="subtitle">Elige un tipo de puzzle para empezar</p>
+    <div class="menu-grid">
+      <div class="menu-btn" onclick="openGame('sliding')">
+        <span class="icon">🧊</span>
+        <span class="name">Deslizante</span>
+        <span class="desc">Ordena las fichas deslizando</span>
+      </div>
+      <div class="menu-btn" onclick="openGame('memory')">
+        <span class="icon">🃏</span>
+        <span class="name">Memoria</span>
+        <span class="desc">Encuentra los pares</span>
+      </div>
+      <div class="menu-btn" onclick="openGame('game2048')">
+        <span class="icon">🔢</span>
+        <span class="name">2048</span>
+        <span class="desc">Fusiona números hasta 2048</span>
+      </div>
+      <div class="menu-btn" onclick="openGame('pattern')">
+        <span class="icon">💡</span>
+        <span class="name">Patrón</span>
+        <span class="desc">Repite la secuencia de colores</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="levelScreen" class="screen">
+    <div class="top-bar">
+      <button class="back-btn" onclick="backToMenu()">← Volver</button>
+      <span class="game-title" id="levelTitle">Niveles</span>
+      <span></span>
+    </div>
+    <div id="progressCont" class="progress-bar"><div class="fill" id="progressFill"></div></div>
+    <div class="levels-grid" id="levelsGrid"></div>
+  </div>
+
+  <div id="gameScreen" class="screen">
+    <div class="top-bar">
+      <button class="back-btn" onclick="backToLevels()">← Atrás</button>
+      <span class="game-title" id="gameTitle">Jugando</span>
+      <button class="back-btn" onclick="showVictory()">🏆</button>
+    </div>
+    <div class="game-area">
+      <div class="stats">
+        <div class="stat">⏱️ <span id="timer">00:00</span></div>
+        <div class="stat">🎯 <span id="moves">0</span> mov.</div>
+        <div class="stat" id="scoreDisplay">⭐ <span id="score">0</span></div>
+      </div>
+      <div id="gameContent"></div>
+      <div class="hint" id="hintText"></div>
+    </div>
+    <div class="controls" id="gameControls"></div>
+  </div>
+</div>
+
+<div class="victory-overlay" id="victoryOverlay">
+  <div class="victory-box">
+    <div class="emoji">🎉</div>
+    <h2>¡Completado!</h2>
+    <p id="victoryMsg">Has resuelto el puzzle</p>
+    <div class="stats-line">⏱️ Tiempo: <span id="vTime">00:00</span></div>
+    <div class="stats-line">🎯 Movimientos: <span id="vMoves">0</span></div>
+    <div class="stats-line">⭐ Puntuación: <span id="vScore">0</span></div>
+    <br>
+    <button class="btn" onclick="closeVictory()">Siguiente nivel →</button>
+    <br><br>
+    <button class="btn secondary" onclick="closeVictoryBack()">Volver a niveles</button>
+  </div>
+</div>
+
+<script>
+const GAMES = ['sliding','memory','game2048','pattern'];
+let currentGame = '', currentLevel = 0, timerInterval = null, timerSecs = 0, moveCount = 0;
+let gameRunning = false, gameData = null, isVictory = false;
+let progress = JSON.parse(localStorage.getItem('puzzleProgreso')||'{}');
+
+function saveProgress(){localStorage.setItem('puzzleProgreso',JSON.stringify(progress))}
+function show(s){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(s).classList.add('active')}
+
+const LEVELS = {
+  sliding:[
+    {name:'3×3',grid:3,desc:'Fácil'},
+    {name:'4×4',grid:4,desc:'Clásico'},
+    {name:'5×5',grid:5,desc:'Difícil'},
+    {name:'6×6',grid:6,desc:'Experto'}
+  ],
+  memory:[
+    {name:'4×3',rows:3,cols:4,desc:'Fácil'},
+    {name:'4×4',rows:4,cols:4,desc:'Clásico'},
+    {name:'4×5',rows:4,cols:5,desc:'Difícil'},
+    {name:'6×6',rows:6,cols:6,desc:'Experto'}
+  ],
+  game2048:[
+    {name:'4×4',grid:4,target:128,desc:'Hasta 128'},
+    {name:'4×4',grid:4,target:512,desc:'Hasta 512'},
+    {name:'4×4',grid:4,target:1024,desc:'Hasta 1024'},
+    {name:'4×4',grid:4,target:2048,desc:'Clásico'}
+  ],
+  pattern:[
+    {name:'4 pasos',steps:4,grid:2,desc:'2×2'},
+    {name:'6 pasos',steps:6,grid:2,desc:'2×2'},
+    {name:'8 pasos',steps:8,grid:3,desc:'3×3'},
+    {name:'12 pasos',steps:12,grid:3,desc:'3×3'}
+  ]
+};
+
+const GAME_ICONS = {sliding:'🧊',memory:'🃏',game2048:'🔢',pattern:'💡'};
+const GAME_NAMES = {sliding:'Deslizante',memory:'Memoria',game2048:'2048',pattern:'Patrón'};
+
+function openGame(game){
+  currentGame=game;
+  document.getElementById('levelTitle').textContent=GAME_ICONS[game]+' '+GAME_NAMES[game];
+  const grid=document.getElementById('levelsGrid');grid.innerHTML='';
+  const lvls=LEVELS[game];
+  lvls.forEach((l,i)=>{
+    const key=game+'_'+i;
+    const st=progress[key]||'locked';
+    const div=document.createElement('div');
+    div.className='level-btn';
+    if(st==='locked')div.classList.add('locked');
+    else if(st==='done')div.classList.add('completed');
+    div.innerHTML=`<span class="n">${i+1}</span><span class="d">${l.name} — ${l.desc}</span>`;
+    const unlocked=st!=='locked' || i===0 || progress[game+'_'+(i-1)]==='done';
+    if(unlocked){
+      div.onclick=()=>startLevel(game,i);
+      if(st==='locked'){progress[key]='unlocked';saveProgress();div.classList.remove('locked')}
+    }
+    grid.appendChild(div);
+  });
+  updateProgress(game);
+  document.getElementById('levelTitle').textContent=GAME_ICONS[game]+' '+GAME_NAMES[game];
+  show('levelScreen')
+}
+
+function updateProgress(game){
+  const lvls=LEVELS[game];let done=0;
+  lvls.forEach((_,i)=>{if(progress[game+'_'+i]==='done')done++});
+  const pct=lvls.length?Math.round(done/lvls.length*100):0;
+  document.getElementById('progressFill').style.width=pct+'%'
+}
+
+function startLevel(game,lvl){
+  currentLevel=lvl;currentGame=game;timerSecs=0;moveCount=0;isVictory=false;gameRunning=false;
+  if(timerInterval){clearInterval(timerInterval);timerInterval=null}
+  document.getElementById('timer').textContent='00:00';
+  document.getElementById('moves').textContent='0';
+  document.getElementById('score').textContent='0';
+  document.getElementById('gameTitle').textContent=GAME_ICONS[game]+' '+(lvl+1)+': '+LEVELS[game][lvl].name;
+  show('gameScreen');
+  if(game==='sliding')initSliding(lvl);
+  else if(game==='memory')initMemory(lvl);
+  else if(game==='game2048')init2048(lvl);
+  else if(game==='pattern')initPattern(lvl)
+}
+
+function startTimer(){if(!timerInterval){timerInterval=setInterval(()=>{timerSecs++;const m=String(Math.floor(timerSecs/60)).padStart(2,'0');const s=String(timerSecs%60).padStart(2,'0');document.getElementById('timer').textContent=m+':'+s},1000)}}
+
+function calcScore(baseMoves,baseTime){
+  const timeBonus=Math.max(0,200-timerSecs*2);
+  const movePenalty=Math.max(0,moveCount>baseMoves?baseMoves*10-(moveCount-baseMoves)*5:baseMoves*10);
+  return Math.max(50,timeBonus+movePenalty)
+}
+
+function completeLevel(){
+  if(isVictory)return;isVictory=true;
+  if(timerInterval){clearInterval(timerInterval);timerInterval=null}
+  const key=currentGame+'_'+currentLevel;
+  progress[key]='done';saveProgress();
+  const score=parseInt(document.getElementById('score').textContent);
+  document.getElementById('vTime').textContent=document.getElementById('timer').textContent;
+  document.getElementById('vMoves').textContent=moveCount;
+  document.getElementById('vScore').textContent=score;
+  document.getElementById('victoryMsg').textContent='¡Has completado '+GAME_NAMES[currentGame]+' nivel '+(currentLevel+1)+'!';
+  document.getElementById('victoryOverlay').classList.add('show')
+}
+
+function closeVictory(){
+  document.getElementById('victoryOverlay').classList.remove('show');
+  const lvls=LEVELS[currentGame];
+  if(currentLevel+1<lvls.length){startLevel(currentGame,currentLevel+1)}
+  else{backToLevels()}
+}
+function closeVictoryBack(){document.getElementById('victoryOverlay').classList.remove('show');backToLevels()}
+function backToLevels(){if(timerInterval){clearInterval(timerInterval);timerInterval=null}
+document.getElementById('victoryOverlay').classList.remove('show');
+if(currentGame)openGame(currentGame)}
+function backToMenu(){if(timerInterval){clearInterval(timerInterval);timerInterval=null}
+document.getElementById('victoryOverlay').classList.remove('show');show('menuScreen')}
+function showVictory(){/* manual trigger not used */}
+
+// ============ SLIDING PUZZLE ============
+function initSliding(lvl){
+  const cfg=LEVELS.sliding[lvl],n=cfg.grid;
+  document.getElementById('gameContent').innerHTML=`<div class="puzzle-grid" id="slidingGrid" style="grid-template-columns:repeat(${n},1fr);max-width:${Math.min(400,n*80)}px"></div>`;
+  const grid=document.getElementById('slidingGrid');
+  let tiles=Array.from({length:n*n-1},(_,i)=>i+1);tiles.push(0);
+  do{shuffle(tiles)}while(!isSolvable(tiles,n)||isSolved(tiles));
+  renderSliding(grid,tiles,n);
+  document.getElementById('hintText').textContent='Haz clic en una ficha adyacente al espacio vacío para deslizarla';
+  document.getElementById('gameControls').innerHTML='<button class="btn secondary" onclick="initSliding('+lvl+')">🔀 Revolver</button>';
+  gameRunning=true
+}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}}
+function isSolvable(tiles,n){let inv=0;const arr=tiles.filter(t=>t!==0);for(let i=0;i<arr.length;i++)for(let j=i+1;j<arr.length;j++)if(arr[i]>arr[j])inv++;if(n%2===0){const idx=tiles.indexOf(0);const rowFromBottom=n-Math.floor(idx/n);inv+=rowFromBottom}return inv%2===0}
+function isSolved(tiles){for(let i=0;i<tiles.length-1;i++)if(tiles[i]!==i+1)return false;return true}
+function renderSliding(grid,tiles,n){
+  grid.innerHTML='';
+  tiles.forEach((v,i)=>{
+    const div=document.createElement('div');div.className='tile'+(v===0?' empty':'');
+    if(v!==0)div.textContent=v;div.dataset.idx=i;
+    div.onclick=()=>slideTile(grid,tiles,n,i);
+    grid.appendChild(div)
+  })
+}
+function slideTile(grid,tiles,n,idx){
+  if(!gameRunning||isVictory)return;
+  const empty=tiles.indexOf(0);const r=Math.floor(idx/n),c=idx%n,er=Math.floor(empty/n),ec=empty%n;
+  if(Math.abs(r-er)+Math.abs(c-ec)!==1)return;
+  if(!moveCount){startTimer()}
+  tiles[empty]=tiles[idx];tiles[idx]=0;moveCount++;
+  document.getElementById('moves').textContent=moveCount;
+  renderSliding(grid,tiles,n);
+  if(isSolved(tiles)){document.getElementById('score').textContent=calcScore(30,60);setTimeout(completeLevel,400)}
+}
+
+// ============ MEMORY ============
+function initMemory(lvl){
+  const cfg=LEVELS.memory[lvl],r=cfg.rows,c=cfg.cols,total=r*c;
+  if(total%2!==0)return;
+  const pairs=total/2;
+  const emojis=['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🐔','🐧','🐦','🦄','🐴','🐝','🐛','🦋','🐌','🐞','🐜','🦗','🕷️','🦂','🐢','🐍','🦎','🦖','🦕','🐙','🦑','🦐','🦞','🦀','🐡','🐠','🐟'];
+  const used=emojis.slice(0,pairs);let cards=[...used,...used];shuffle(cards);
+  let flipped=[],matched=[],lock=false,foundPairs=0;
+  document.getElementById('gameContent').innerHTML=`<div class="memory-grid" id="memoryGrid" style="grid-template-columns:repeat(${c},1fr);max-width:${Math.min(400,c*70)}px"></div>`;
+  const grid=document.getElementById('memoryGrid');
+  cards.forEach((emoji,i)=>{
+    const div=document.createElement('div');div.className='card';div.dataset.idx=i;div.dataset.emoji=emoji;
+    div.textContent='❓';div.onclick=()=>{
+      if(lock||flipped.length>=2||flipped.includes(i)||matched.includes(i)||!gameRunning||isVictory)return;
+      if(!moveCount)startTimer();
+      div.textContent=emoji;div.classList.add('flipped');flipped.push(i);
+      if(flipped.length===2){
+        lock=true;moveCount++;document.getElementById('moves').textContent=moveCount;
+        const [a,b]=flipped;
+        if(cards[a]===cards[b]){matched.push(a,b);foundPairs++;flipped=[];lock=false;grid.children[a].classList.add('matched');grid.children[b].classList.add('matched');
+          if(foundPairs===pairs){document.getElementById('score').textContent=calcScore(pairs*2,60);setTimeout(completeLevel,500)}
+        }else{setTimeout(()=>{grid.children[a].textContent='❓';grid.children[a].classList.remove('flipped');grid.children[b].textContent='❓';grid.children[b].classList.remove('flipped');flipped=[];lock=false},800)}
+      }
+    };
+    grid.appendChild(div)
+  });
+  document.getElementById('hintText').textContent='Encuentra todos los pares de emojis iguales';
+  document.getElementById('gameControls').innerHTML='<button class="btn secondary" onclick="initMemory('+lvl+')">🔀 Revolver</button>';
+  gameRunning=true
+}
+
+// ============ 2048 ============
+function init2048(lvl){
+  const cfg=LEVELS.game2048[lvl],n=cfg.grid,target=cfg.target;
+  let board=Array.from({length:n},()=>Array(n).fill(0)),score=0;
+  const container=document.getElementById('gameContent');
+  container.innerHTML=`<div class="grid-2048" id="grid2048" style="grid-template-columns:repeat(${n},1fr)"></div>`;
+  const grid=document.getElementById('grid2048');
+  function render(){
+    grid.innerHTML='';
+    for(let r=0;r<n;r++)for(let c=0;c<n;c++){
+      const div=document.createElement('div');div.className='cell'+(board[r][c]?' v'+board[r][c]:'');
+      div.textContent=board[r][c]||'';grid.appendChild(div)
+    }
+  }
+  function spawn(){
+    const empty=[];for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(!board[r][c])empty.push([r,c]);
+    if(!empty.length)return false;
+    const [r,c]=empty[Math.floor(Math.random()*empty.length)];
+    board[r][c]=Math.random()<.9?2:4;render();return true
+  }
+  function slideRow(row){const f=row.filter(v=>v);const res=[];let i=0;while(i<f.length){if(i+1<f.length&&f[i]===f[i+1]){res.push(f[i]*2);score+=f[i]*2;i+=2}else{res.push(f[i]);i++}}while(res.length<n)res.push(0);return res}
+  function move(d){
+    let moved=false;const prev=JSON.stringify(board);
+    if(d==='left')for(let r=0;r<n;r++)board[r]=slideRow(board[r]);
+    else if(d==='right')for(let r=0;r<n;r++){const rev=[...board[r]].reverse();const sl=slideRow(rev);board[r]=sl.reverse()}
+    else if(d==='up')for(let c=0;c<n;c++){const col=[];for(let r=0;r<n;r++)col.push(board[r][c]);const sl=slideRow(col);for(let r=0;r<n;r++)board[r][c]=sl[r]}
+    else if(d==='down')for(let c=0;c<n;c++){const col=[];for(let r=n-1;r>=0;r--)col.push(board[r][c]);const sl=slideRow(col);for(let r=0;r<n;r++)board[r][c]=sl[n-1-r]}
+    if(JSON.stringify(board)!==prev){if(!moveCount)startTimer();moveCount++;document.getElementById('moves').textContent=moveCount;spawn();render();document.getElementById('score').textContent=score;
+      let hasTarget=false;for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(board[r][c]>=target)hasTarget=true;
+      if(hasTarget){const s=calcScore(100,120)+(score*2);document.getElementById('score').textContent=s;setTimeout(completeLevel,400)}}
+  }
+  spawn();spawn();render();
+  document.getElementById('hintText').textContent='Usa las flechas del teclado para fusionar números. ¡Llega a '+target+'!';
+  document.getElementById('gameControls').innerHTML=`
+    <button class="btn secondary" onclick="init2048(${lvl})">🔄 Reiniciar</button>
+    <div style="display:grid;grid-template-columns:repeat(3,50px);gap:4px;margin-top:8px">
+      <div></div><button class="btn secondary" style="padding:8px" onpointerdown="move2048('up')">⬆️</button><div></div>
+      <button class="btn secondary" style="padding:8px" onpointerdown="move2048('left')">⬅️</button><button class="btn secondary" style="padding:8px" onpointerdown="move2048('down')">⬇️</button><button class="btn secondary" style="padding:8px" onpointerdown="move2048('right')">➡️</button>
+    </div>`;
+  window.move2048=move;gameRunning=true;
+  window.addEventListener('keydown',_2048key=(e)=>{
+    const map={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right'};
+    if(map[e.key]){e.preventDefault();move(map[e.key])}
+  })
+}
+// cleanup old listener when leaving
+
+// ============ PATTERN ============
+function initPattern(lvl){
+  const cfg=LEVELS.pattern[lvl],steps=cfg.steps,n=cfg.grid;
+  const colors=['#FF4444','#44BB44','#4488FF','#FFBB00','#FF44FF','#44FFBB','#FF8844','#44FFFF','#FF4488'];
+  let sequence=[],playerStep=0,playing=false,lock=false;
+  const container=document.getElementById('gameContent');
+  container.innerHTML=`<div class="pattern-grid" id="patternGrid" style="grid-template-columns:repeat(${n},1fr);max-width:${Math.min(320,n*80)}px"></div>`;
+  const grid=document.getElementById('patternGrid');const cells=[];
+  for(let i=0;i<n*n;i++){
+    const div=document.createElement('div');div.className='pcell';
+    div.style.background=colors[i%colors.length];div.style.opacity=.4;
+    div.dataset.idx=i;cells.push(div);grid.appendChild(div);
+    div.onclick=()=>{
+      if(lock||playing||isVictory)return;
+      if(!moveCount)startTimer();
+      const expected=sequence[playerStep];
+      if(i===expected){div.classList.add('lit');setTimeout(()=>div.classList.remove('lit'),200);playerStep++;
+        let s=parseInt(document.getElementById('moves').textContent);s++;document.getElementById('moves').textContent=s;
+        if(playerStep>=sequence.length){moveCount=s;document.getElementById('score').textContent=calcScore(steps,steps*3);setTimeout(completeLevel,500)}
+      }else{
+        lock=true;gameRunning=false;document.getElementById('hintText').textContent='❌ ¡Te equivocaste! Intenta de nuevo';
+        setTimeout(()=>{initPattern(lvl)},1000)
+      }
+    }
+  }
+  // Generate sequence
+  for(let i=0;i<steps;i++)sequence.push(Math.floor(Math.random()*cells.length));
+  document.getElementById('hintText').textContent='👀 Observa la secuencia...';
+  document.getElementById('gameControls').innerHTML='<button class="btn secondary" onclick="initPattern('+lvl+')">🔄 Repetir</button>';
+  // Play sequence
+  let delay=500;playing=true;
+  cells.forEach(c=>c.classList.remove('lit'));
+  sequence.forEach((idx,i)=>{
+    setTimeout(()=>{
+      cells[idx].classList.add('lit');
+      setTimeout(()=>{
+        cells[idx].classList.remove('lit');
+        if(i===sequence.length-1){playing=false;lock=false;document.getElementById('hintText').textContent='🎯 Repite la secuencia haciendo clic en los colores';gameRunning=true}
+      },300)
+    },delay);delay+=600
+  });
+  gameRunning=true;moveCount=0
+}
+
+// Initial unlock
+GAMES.forEach(g=>{if(!progress[g+'_0'])progress[g+'_0']='unlocked'});
+saveProgress();
+</script>
+</body>
+</html>

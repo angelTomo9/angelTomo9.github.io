@@ -1,0 +1,68 @@
+╔══════════════════════════════════════════╗
+║     🧩 ROMPECABEZAS - GUÍA DE USO       ║
+║       por Angel (Angel/rompecabezas)     ║
+╚══════════════════════════════════════════╝
+
+📋 ¿QUÉ ES ESTO?
+===============
+Un juego de rompecabezas con 4 tipos distintos:
+  🧊 Deslizante   - Ordena fichas numéricas deslizando
+  🃏 Memoria      - Encuentra pares de emojis
+  🔢 2048         - Fusiona números hasta la meta
+  💡 Patrón       - Repite secuencias de colores
+
+Cada tipo tiene 4 niveles de dificultad.
+El progreso se guarda automáticamente.
+
+📁 ARCHIVOS
+===========
+  index.html   → El juego completo (todo en un solo archivo)
+  LEEME.txt    → Esta guía
+
+🚀 CÓMO JUGAR EN EL ORDENADOR
+=============================
+1. Copia la carpeta "Angel/rompecabezas" a tu ordenador
+   (por USB, Google Drive, WhatsApp, etc.)
+
+2. Abre index.html en cualquier navegador:
+   - Chrome, Edge, Firefox, Safari...
+   - Doble clic en el archivo, o
+   - Arrástralo a una ventana del navegador
+
+3. ¡A jugar!
+   - Elige un tipo de puzzle en el menú
+   - Selecciona un nivel
+   - Completalo para desbloquear el siguiente
+
+🎮 CONTROLES
+===========
+  🧊 Deslizante → Clic en fichas adyacentes al hueco
+  🃏 Memoria    → Clic en cartas para voltearlas
+  🔢 2048       → Flechas del teclado (⬆⬇⬅➡)
+                    o botones táctiles en pantalla
+  💡 Patrón     → Clic en los colores en orden
+
+🔧 PERSONALIZAR / MEJORAR
+========================
+Para añadir niveles, abre index.html con un editor
+de texto (Bloc de notas, VS Code) y busca "LEVELS".
+Ahí puedes cambiar tamaños, metas, etc.
+
+Para añadir nuevos tipos de puzzle, busca "GAMES"
+y sigue la estructura de los existentes.
+
+❓ SI ALGO NO FUNCIONA
+====================
+- Asegúrate de usar un navegador moderno
+- El juego funciona 100% offline, no necesita internet
+- Si algo no carga, abre la consola del navegador (F12)
+  y dime el error
+
+📱 TAMBIÉN FUNCIONA EN EL MÓVIL
+===============================
+Si abres index.html en el navegador de tu móvil,
+también funciona con controles táctiles.
+
+────────────────────────────────────
+  Creado con Codex CLI en 2026
+────────────────────────────────────
