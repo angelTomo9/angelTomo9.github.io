@@ -3,137 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Zurullo World Cup | Panini Edition</title>
+    <title>Porra Mundial | Panini Edition</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- BACKGROUND EFFECTS -->
-    <div class="bg-grid"></div>
-    <div class="bg-glow"></div>
-
-    <!-- APP HEADER -->
     <header class="app-header">
-        <h1 class="glitch" data-text="ZURULLO WORLD CUP">ZURULLO WORLD CUP</h1>
-        <div class="user-selector-container">
-            <label>👤 JUGADOR ACTIVO:</label>
-            <select id="user-select" class="cyber-select"></select>
+        <h1>🏆 ZURULLO WORLD CUP</h1>
+        <div class="user-selector">
+            <label>Viendo predicciones de:</label>
+            <select id="user-select"></select>
         </div>
     </header>
 
-    <!-- NAVIGATION (BOTTOM ON MOBILE, TOP ON DESKTOP) -->
     <nav class="app-nav">
-        <button class="nav-btn active" data-target="view-album">
-            <span class="nav-icon">🎴</span>
-            <span class="nav-text">ÁLBUM</span>
-        </button>
-        <button class="nav-btn" data-target="view-dashboard">
-            <span class="nav-icon">⚽</span>
-            <span class="nav-text">PARTIDOS</span>
-        </button>
-        <button class="nav-btn" data-target="view-leaderboard">
-            <span class="nav-icon">🏆</span>
-            <span class="nav-text">RANKING</span>
-        </button>
-        <button class="nav-btn" data-target="view-rules">
-            <span class="nav-icon">📜</span>
-            <span class="nav-text">REGLAS</span>
-        </button>
+        <button class="nav-btn active" data-target="view-album">🎴 ÁLBUM</button>
+        <button class="nav-btn" data-target="view-dashboard">⚽ PARTIDOS</button>
+        <button class="nav-btn" data-target="view-leaderboard">🏆 RANKING</button>
     </nav>
 
-    <!-- MAIN VIEWS -->
     <main class="app-main">
-        
         <!-- VISTA 1: ÁLBUM PANINI -->
         <section id="view-album" class="view-section active">
-            <div class="section-title-wrapper">
+            <div class="section-title">
                 <h2>CROMOS OFICIALES</h2>
-                <p>Colección Edición Limitada 2026. <br><em>(Pasa el ratón por encima para revelar el brillo holográfico)</em></p>
+                <p>Colección Edición Limitada 2026. Los 4 Titanes.</p>
             </div>
             <div class="panini-grid" id="panini-container">
-                <!-- Generado por JS -->
+                <!-- Generado dinámicamente en app.js -->
             </div>
         </section>
 
         <!-- VISTA 2: DASHBOARD PARTIDOS -->
         <section id="view-dashboard" class="view-section">
-            <div class="section-title-wrapper">
-                <h2>TUS PREDICCIONES</h2>
+            <div class="section-title">
+                <h2>CALENDARIO Y PREDICCIONES</h2>
             </div>
-            
-            <!-- Pestañas de Jornadas -->
             <div class="matchdays-tabs" id="matchdays-tabs-container">
-                <!-- Generado por JS -->
+                <!-- Generado dinámicamente -->
             </div>
-
-            <!-- Contenedor de Partidos de la Jornada Seleccionada -->
             <div class="fixtures-grid" id="fixtures-container">
-                <!-- Generado por JS -->
+                <!-- Generado dinámicamente -->
             </div>
         </section>
 
-        <!-- VISTA 3: CLASIFICACIÓN -->
+        <!-- VISTA 3: CLASIFICACIÓN Y REGLAS -->
         <section id="view-leaderboard" class="view-section">
-            <div class="section-title-wrapper">
+            <div class="section-title">
                 <h2>CLASIFICACIÓN EN VIVO</h2>
             </div>
-            <div class="leaderboard-container">
-                <div class="cyber-table-wrapper">
-                    <table class="cyber-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>JUGADOR</th>
-                                <th>PTS TOTALES</th>
-                            </tr>
-                        </thead>
-                        <tbody id="leaderboard-body">
-                            <!-- Generado por JS -->
-                        </tbody>
-                    </table>
-                </div>
+            <div class="table-container">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>JUGADOR</th>
+                            <th>PUNTOS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body">
+                        <!-- Generado dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="rules-container">
+                <h3>📜 REGLAS DEL TORNEO</h3>
+                <ul>
+                    <li><strong style="color: #28a745;">Acierto Perfecto (3 pts):</strong> Acertar el resultado exacto.</li>
+                    <li><strong style="color: #ffc107;">Tendencia (1 pt):</strong> Acertar quién gana o empata, fallando los goles.</li>
+                    <li><strong style="color: #dc3545;">Error Total (0 pts):</strong> Fallar todo.</li>
+                </ul>
+                <h3 style="margin-top: 1rem;">🗑️ LA PEOR SELECCIÓN (Caótico)</h3>
+                <ul>
+                    <li><strong>+1 PUNTO</strong> si tu peor selección anota un gol.</li>
+                    <li><strong>+1 PUNTO EXTRA</strong> si tu peor selección recibe exactamente 3 goles en un partido.</li>
+                </ul>
             </div>
         </section>
-
-        <!-- VISTA 4: REGLAS Y BONOS -->
-        <section id="view-rules" class="view-section">
-            <div class="section-title-wrapper">
-                <h2>REGLAMENTO Y BONOS</h2>
-            </div>
-            <div class="rules-grid">
-                <div class="cyber-card">
-                    <h3>🏆 PUNTUACIÓN DE PARTIDOS</h3>
-                    <ul>
-                        <li><span class="color-dot dot-green"></span> <strong>Acierto Perfecto (3 pts):</strong> Clavas el resultado.</li>
-                        <li><span class="color-dot dot-yellow"></span> <strong>Tendencia (1 pt):</strong> Aciertas quién gana (o empate) pero fallas goles.</li>
-                        <li><span class="color-dot dot-red"></span> <strong>Error Total (0 pts):</strong> Paquete.</li>
-                    </ul>
-                </div>
-                
-                <div class="cyber-card">
-                    <h3>🔮 APUESTAS A LARGO PLAZO</h3>
-                    <div id="bonuses-display">
-                        <!-- Generado por JS -->
-                    </div>
-                </div>
-
-                <div class="cyber-card chaotic">
-                    <h3>🗑️ REGLA CAÓTICA: LA PEOR SELECCIÓN</h3>
-                    <p>Cada jugador tiene atado su destino al de una de las peores selecciones del mundial.</p>
-                    <ul>
-                        <li><strong>+1 PUNTO</strong> si tu peor selección marca un mísero gol.</li>
-                        <li><strong>+1 PUNTO EXTRA</strong> si tu peor selección recibe exactamente 3 goles en un partido.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
     </main>
 
-    <!-- Scripts -->
-    <script src="data.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
