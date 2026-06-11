@@ -95,47 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const matchesContainer = document.getElementById('matches-container');
     const savePredictionsBtn = document.getElementById('save-predictions-btn');
     
-    let partidos = []; // Se llenará desde la API
-    const API_KEY = '44f1435bc3704c82b557fb70255ec7cf';
-
-    const fetchResultadosReales = async () => {
-        try {
-            // NOTA: La API de football-data.org bloquea las peticiones desde el navegador (CORS) 
-            // a menos que estés en 'localhost'. Por eso, en GitHub Pages fallará la petición en vivo.
-            // Para solucionarlo, leemos el archivo 'api_response.json' que tienes en la raíz de tu proyecto.
-            const response = await fetch('../../api_response.json');
-            
-            /* 
-            // Si en el futuro tienes un backend o proxy que solucione el CORS, el código sería así:
-            const response = await fetch('https://api.football-data.org/v4/competitions/WC/matches', {
-                method: 'GET',
-                headers: { 'X-Auth-Token': API_KEY }
-            });
-            */
-            
-            const data = await response.json();
-            
-            if (data && data.matches) {
-                // Mapear y ordenar los partidos por fecha (del más antiguo al más nuevo)
-                partidos = data.matches.map(m => {
-                    return {
-                        id: m.id,
-                        stage: m.stage || m.group || 'Fase de Grupos',
-                        utcDate: m.utcDate,
-                        status: m.status, // SCHEDULED, TIMED, IN_PLAY, PAUSED, FINISHED
-                        homeTeam: m.homeTeam?.name ? m.homeTeam.name : 'TBD',
-                        awayTeam: m.awayTeam?.name ? m.awayTeam.name : 'TBD',
-                        homeCrest: m.homeTeam?.crest || null,
-                        awayCrest: m.awayTeam?.crest || null,
-                        winnerReal: m.score?.winner // HOME_TEAM, AWAY_TEAM, DRAW
-                    };
-                }).sort((a, b) => new Date(a.utcDate) - new Date(b.utcDate));
-            }
-        } catch (error) {
-            console.error('Error fetching data from API:', error);
-            matchesContainer.innerHTML = '<div class="error-msg text-center">Error al cargar los partidos desde la API.</div>';
-        }
-    };
+    // La variable 'partidos' ahora se carga desde el archivo partidos.js incluido en el HTML
 
     const formatFecha = (isoString) => {
         const date = new Date(isoString);
@@ -300,8 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => toast.classList.remove('show'), 3000);
     };
 
-    const iniciarSeccionPartidos = async () => {
-        await fetchResultadosReales();
+    const iniciarSeccionPartidos = () => {
         renderPartidos();
         
         setInterval(() => {
