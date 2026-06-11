@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Porra del Mundial</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Pantalla de Login -->
+    <div id="login-screen" class="screen active">
+        <div class="login-card glassmorphism">
+            <h1 class="logo-title">PORRA MUNDIAL</h1>
+            <p class="subtitle">Ingresa tus credenciales para acceder</p>
+            
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="username">Nombre</label>
+                    <input type="text" id="username" placeholder="Tu nombre" required autocomplete="off">
+                </div>
+                
+                <div class="input-group">
+                    <label for="secret-code">Código Secreto</label>
+                    <input type="password" id="secret-code" placeholder="Código" required autocomplete="off">
+                </div>
+                
+                <p id="error-message" class="error-msg hidden">Credenciales incorrectas.</p>
+                
+                <button type="submit" class="btn-primary">Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pantalla Principal -->
+    <div id="main-screen" class="screen hidden">
+        <header class="main-header glassmorphism-header">
+            <h2 class="logo-title-small">PORRA MUNDIAL</h2>
+            <div class="user-info">
+                <span id="display-user"></span>
+                <button id="logout-btn" class="btn-secondary">Salir</button>
+            </div>
+        </header>
+        <main class="main-content">
+            <h1>Bienvenido a la Porra</h1>
+            <p>El contenido principal se añadirá en los siguientes pasos.</p>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
