@@ -92,7 +92,78 @@ const partidos = [
 let usuarioActivoId = participantes[0].id;
 let jornadaActiva = partidos[0].jornada;
 
-// 2. LÓGICA CORE Y CALCULO DE PUNTOS
+// ==========================================
+// SISTEMA DE LOGIN Y AUTENTICACIÓN
+// ==========================================
+const usuariosValidos = ["ángel", "angel", "iker", "ibai", "xavi"];
+const codigoSecreto = "charos";
+
+function initLogin() {
+    const usuarioGuardado = localStorage.getItem('porraUser');
+    
+    // Auto-login si ya existe la sesión
+    if (usuarioGuardado && usuariosValidos.includes(usuarioGuardado.toLowerCase())) {
+        entrarALaApp(usuarioGuardado);
+    } else {
+        // Event listener para el botón de login
+        document.getElementById('login-btn').addEventListener('click', procesarLogin);
+    }
+}
+
+function procesarLogin() {
+    const inputNombre = document.getElementById('login-user').value.trim().toLowerCase();
+    const inputCodigo = document.getElementById('login-code').value.trim();
+    const errorDiv = document.getElementById('login-error');
+    
+    // Validación Nombre
+    if (!usuariosValidos.includes(inputNombre)) {
+        errorDiv.textContent = "Nombre de jugador no reconocido.";
+        return;
+    }
+    
+    // Validación Código
+    if (inputCodigo !== codigoSecreto) {
+        errorDiv.textContent = "Código secreto incorrecto.";
+        return;
+    }
+    
+    // Éxito
+    errorDiv.textContent = "";
+    localStorage.setItem('porraUser', inputNombre);
+    entrarALaApp(inputNombre);
+}
+
+function entrarALaApp(nombreLogueado) {
+    const loginScreen = document.getElementById('login-screen');
+    const appContent = document.getElementById('app-content');
+    
+    // Animación de salida del Login
+    loginScreen.style.opacity = '0';
+    setTimeout(() => {
+        loginScreen.style.display = 'none';
+        
+        // Mapear nombre al ID correspondiente para el selector global
+        const n = nombreLogueado.toLowerCase();
+        if (n === "ángel" || n === "angel") usuarioActivoId = 1;
+        else if (n === "iker") usuarioActivoId = 2;
+        else if (n === "ibai") usuarioActivoId = 3;
+        else if (n === "xavi") usuarioActivoId = 4;
+
+        // Mostrar app con animación
+        appContent.style.display = 'block';
+        setTimeout(() => {
+            appContent.style.opacity = '1';
+            appContent.style.transition = 'opacity 0.5s ease';
+        }, 50);
+
+        // Arrancar el motor principal de la app
+        renderizar();
+    }, 500);
+}
+
+// ==========================================
+// LÓGICA CORE Y CALCULO DE PUNTOS
+// ==========================================
 function calcularPuntos() {
     participantes.forEach(user => {
         user.puntos = 0; // Reset
@@ -100,7 +171,7 @@ function calcularPuntos() {
         partidos.forEach(p => {
             if (!p.finalizado) return;
 
-            // 2.1 Puntos normales
+            // Puntos normales
             const pred = user.predicciones[p.id];
             if (pred) {
                 const rH = p.resultadoReal.home;
@@ -113,7 +184,7 @@ function calcularPuntos() {
                 }
             }
 
-            // 2.2 Bonus Peor Equipo
+            // Bonus Peor Equipo
             if (p.local === user.seleccionPeor || p.visitante === user.seleccionPeor) {
                 const golesFavor = p.local === user.seleccionPeor ? p.resultadoReal.home : p.resultadoReal.away;
                 const golesContra = p.local === user.seleccionPeor ? p.resultadoReal.away : p.resultadoReal.home;
@@ -127,7 +198,9 @@ function calcularPuntos() {
     participantes.sort((a, b) => b.puntos - a.puntos);
 }
 
-// 3. RENDERIZADO DE LA UI
+// ==========================================
+// RENDERIZADO DE LA UI
+// ==========================================
 function renderizar() {
     calcularPuntos();
     
@@ -188,7 +261,7 @@ function renderizar() {
         const fechaObj = new Date(p.fechaIso);
         const estaBloqueado = now >= fechaObj || p.finalizado;
 
-        // Clase de color según acierto
+        // Clase de color estricta requerida
         let claseColor = '';
         if (p.finalizado && pred.home !== '') {
             const rH = p.resultadoReal.home;
@@ -239,15 +312,20 @@ function renderizar() {
     });
 }
 
-// 4. EVENTOS Y SETUP INICIAL
+// ==========================================
+// EVENTOS GLOBALES
+// ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-    // Cambio de usuario
+    // 1. Iniciar la verificación de Login en lugar de renderizar directamente
+    initLogin();
+
+    // 2. Cambio de usuario en el menú principal
     document.getElementById('user-select').addEventListener('change', (e) => {
         usuarioActivoId = parseInt(e.target.value);
         renderizar();
     });
 
-    // Navegación principal
+    // 3. Navegación principal
     const navBtns = document.querySelectorAll('.nav-btn');
     const views = document.querySelectorAll('.view-section');
     navBtns.forEach(btn => {
@@ -259,9 +337,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Loop de bloqueo para inputs (verifica cada minuto)
+    // 4. Loop de bloqueo temporal (recalcula si un partido se bloquea mientras la app está abierta)
     setInterval(renderizar, 60000);
-
-    // Primer render
-    renderizar();
 });

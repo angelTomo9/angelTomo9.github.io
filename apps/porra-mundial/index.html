@@ -8,80 +8,97 @@
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header class="app-header">
-        <h1>🏆 ZURULLO WORLD CUP</h1>
-        <div class="user-selector">
-            <label>Viendo predicciones de:</label>
-            <select id="user-select"></select>
+    <!-- PANTALLA DE LOGIN -->
+    <div id="login-screen" class="login-overlay">
+        <div class="login-card">
+            <h1 class="login-title">ZURULLO WORLD CUP</h1>
+            <p class="login-subtitle">ACCESO RESTRINGIDO</p>
+            <div class="login-form">
+                <input type="text" id="login-user" placeholder="Nombre (Ángel, Iker, Ibai, Xavi)" autocomplete="off">
+                <input type="password" id="login-code" placeholder="Código Secreto">
+                <button id="login-btn">ENTRAR</button>
+                <div id="login-error" class="login-error"></div>
+            </div>
         </div>
-    </header>
+    </div>
 
-    <nav class="app-nav">
-        <button class="nav-btn active" data-target="view-album">🎴 ÁLBUM</button>
-        <button class="nav-btn" data-target="view-dashboard">⚽ PARTIDOS</button>
-        <button class="nav-btn" data-target="view-leaderboard">🏆 RANKING</button>
-    </nav>
+    <!-- CONTENIDO PRINCIPAL DE LA APP (Oculto hasta hacer login) -->
+    <div id="app-content" style="display: none; opacity: 0;">
+        <header class="app-header">
+            <h1>🏆 ZURULLO WORLD CUP</h1>
+            <div class="user-selector">
+                <label>Viendo predicciones de:</label>
+                <select id="user-select"></select>
+            </div>
+        </header>
 
-    <main class="app-main">
-        <!-- VISTA 1: ÁLBUM PANINI -->
-        <section id="view-album" class="view-section active">
-            <div class="section-title">
-                <h2>CROMOS OFICIALES</h2>
-                <p>Colección Edición Limitada 2026. Los 4 Titanes.</p>
-            </div>
-            <div class="panini-grid" id="panini-container">
-                <!-- Generado dinámicamente en app.js -->
-            </div>
-        </section>
+        <nav class="app-nav">
+            <button class="nav-btn active" data-target="view-album">🎴 ÁLBUM</button>
+            <button class="nav-btn" data-target="view-dashboard">⚽ PARTIDOS</button>
+            <button class="nav-btn" data-target="view-leaderboard">🏆 RANKING</button>
+        </nav>
 
-        <!-- VISTA 2: DASHBOARD PARTIDOS -->
-        <section id="view-dashboard" class="view-section">
-            <div class="section-title">
-                <h2>CALENDARIO Y PREDICCIONES</h2>
-            </div>
-            <div class="matchdays-tabs" id="matchdays-tabs-container">
-                <!-- Generado dinámicamente -->
-            </div>
-            <div class="fixtures-grid" id="fixtures-container">
-                <!-- Generado dinámicamente -->
-            </div>
-        </section>
+        <main class="app-main">
+            <!-- VISTA 1: ÁLBUM PANINI -->
+            <section id="view-album" class="view-section active">
+                <div class="section-title">
+                    <h2>CROMOS OFICIALES</h2>
+                    <p>Colección Edición Limitada 2026. Los 4 Titanes.</p>
+                </div>
+                <div class="panini-grid" id="panini-container">
+                    <!-- Generado dinámicamente en app.js -->
+                </div>
+            </section>
 
-        <!-- VISTA 3: CLASIFICACIÓN Y REGLAS -->
-        <section id="view-leaderboard" class="view-section">
-            <div class="section-title">
-                <h2>CLASIFICACIÓN EN VIVO</h2>
-            </div>
-            <div class="table-container">
-                <table class="leaderboard-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>JUGADOR</th>
-                            <th>PUNTOS</th>
-                        </tr>
-                    </thead>
-                    <tbody id="leaderboard-body">
-                        <!-- Generado dinámicamente -->
-                    </tbody>
-                </table>
-            </div>
+            <!-- VISTA 2: DASHBOARD PARTIDOS -->
+            <section id="view-dashboard" class="view-section">
+                <div class="section-title">
+                    <h2>CALENDARIO Y PREDICCIONES</h2>
+                </div>
+                <div class="matchdays-tabs" id="matchdays-tabs-container">
+                    <!-- Generado dinámicamente -->
+                </div>
+                <div class="fixtures-grid" id="fixtures-container">
+                    <!-- Generado dinámicamente -->
+                </div>
+            </section>
 
-            <div class="rules-container">
-                <h3>📜 REGLAS DEL TORNEO</h3>
-                <ul>
-                    <li><strong style="color: #28a745;">Acierto Perfecto (3 pts):</strong> Acertar el resultado exacto.</li>
-                    <li><strong style="color: #ffc107;">Tendencia (1 pt):</strong> Acertar quién gana o empata, fallando los goles.</li>
-                    <li><strong style="color: #dc3545;">Error Total (0 pts):</strong> Fallar todo.</li>
-                </ul>
-                <h3 style="margin-top: 1rem;">🗑️ LA PEOR SELECCIÓN (Caótico)</h3>
-                <ul>
-                    <li><strong>+1 PUNTO</strong> si tu peor selección anota un gol.</li>
-                    <li><strong>+1 PUNTO EXTRA</strong> si tu peor selección recibe exactamente 3 goles en un partido.</li>
-                </ul>
-            </div>
-        </section>
-    </main>
+            <!-- VISTA 3: CLASIFICACIÓN Y REGLAS -->
+            <section id="view-leaderboard" class="view-section">
+                <div class="section-title">
+                    <h2>CLASIFICACIÓN EN VIVO</h2>
+                </div>
+                <div class="table-container">
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>JUGADOR</th>
+                                <th>PUNTOS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body">
+                            <!-- Generado dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="rules-container">
+                    <h3>📜 REGLAS DEL TORNEO</h3>
+                    <ul>
+                        <li><strong style="color: #28a745;">Acierto Perfecto (3 pts):</strong> Acertar el resultado exacto.</li>
+                        <li><strong style="color: #ffc107;">Tendencia (1 pt):</strong> Acertar quién gana o empata, fallando los goles.</li>
+                        <li><strong style="color: #dc3545;">Error Total (0 pts):</strong> Fallar todo.</li>
+                    </ul>
+                    <h3 style="margin-top: 1rem;">🗑️ LA PEOR SELECCIÓN (Caótico)</h3>
+                    <ul>
+                        <li><strong>+1 PUNTO</strong> si tu peor selección anota un gol.</li>
+                        <li><strong>+1 PUNTO EXTRA</strong> si tu peor selección recibe exactamente 3 goles en un partido.</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
 
     <script src="app.js"></script>
 </body>

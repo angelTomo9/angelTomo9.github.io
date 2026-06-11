@@ -25,7 +25,97 @@ h1, h2, h3 {
     font-family: 'Chakra Petch', sans-serif;
 }
 
-/* HEADER & NAV */
+/* ================================
+   PANTALLA DE LOGIN
+   ================================ */
+.login-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: var(--bg-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.login-card {
+    background: var(--bg-card);
+    border: 2px solid #334155;
+    padding: 3rem;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+}
+
+.login-title {
+    color: var(--gold);
+    font-size: 2.5rem;
+    margin-bottom: 0.2rem;
+    text-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+}
+
+.login-subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    letter-spacing: 2px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.login-form input {
+    background: #0b1120;
+    border: 1px solid #334155;
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 1.2rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.login-form input:focus {
+    border-color: var(--accent);
+}
+
+#login-btn {
+    background: var(--accent);
+    color: #000;
+    font-weight: bold;
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 1.3rem;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 0.5rem;
+}
+
+#login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+}
+
+.login-error {
+    color: #dc3545;
+    font-size: 1rem;
+    min-height: 1.5rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+}
+
+/* ================================
+   HEADER & NAV
+   ================================ */
 .app-header {
     display: flex;
     justify-content: space-between;
@@ -81,7 +171,9 @@ h1, h2, h3 {
     box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
 }
 
-/* MAIN & SECTIONS */
+/* ================================
+   MAIN & SECTIONS
+   ================================ */
 .app-main {
     padding: 2rem;
     max-width: 1200px;
@@ -117,7 +209,9 @@ h1, h2, h3 {
     font-size: 1.1rem;
 }
 
-/* EFECTO CROMO PANINI */
+/* ================================
+   EFECTO CROMO PANINI
+   ================================ */
 .panini-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -141,7 +235,7 @@ h1, h2, h3 {
     box-shadow: 0 15px 30px rgba(251, 191, 36, 0.2);
 }
 
-/* Brillo Holográfico (Hover) */
+/* Brillo Holográfico */
 .cromo-panini::before {
     content: '';
     position: absolute;
@@ -212,7 +306,9 @@ h1, h2, h3 {
     font-size: 1.2rem;
 }
 
-/* DASHBOARD PARTIDOS */
+/* ================================
+   DASHBOARD PARTIDOS
+   ================================ */
 .matchdays-tabs {
     display: flex;
     justify-content: center;
@@ -327,7 +423,9 @@ h1, h2, h3 {
     color: white !important;
 }
 
-/* TABLA CLASIFICACIÓN Y REGLAS */
+/* ================================
+   TABLA CLASIFICACIÓN Y REGLAS
+   ================================ */
 .table-container {
     background: var(--bg-card);
     border: 1px solid #334155;
