@@ -1,146 +1,86 @@
 /**
- * app.js - Lógica Principal de la Porra Mundial V2
- * 
- * Arquitectura Modular:
- * 1. State Management (Gestión del estado de los datos locales)
- * 2. Business Logic (Motor de cálculo de puntuaciones)
- * 3. UI Renderers (Actualización dinámica del DOM)
+ * app.js - Lógica Principal (V3: Panini Gamificada)
  */
 
-// ==========================================
-// 1. STATE MANAGEMENT
-// ==========================================
-const AppState = {
-    // Inicializamos con el primer usuario de la lista simulada
-    currentUser: tournamentData.users[0], 
-    
-    // Extendemos los usuarios con los campos dinámicos para calcular la puntuación
-    users: tournamentData.users.map(u => ({ 
-        ...u, 
-        totalPoints: 0, 
-        exacts: 0, 
-        tendencies: 0, 
-        worstTeamPoints: 0 
-    })),
-    
-    matches: tournamentData.matches,
-    teams: tournamentData.teams,
-    predictions: tournamentData.predictions,
-    config: tournamentData.config
+const State = {
+    activeUserId: participantes[0].id,
+    currentJornada: partidos.length > 0 ? partidos[0].jornada : ''
 };
 
-
-// ==========================================
-// 2. BUSINESS LOGIC (MOTOR DE PUNTUACIÓN)
-// ==========================================
-class ScoringEngine {
-    /**
-     * Recalcula todos los puntos de todos los usuarios en base a los partidos finalizados.
-     */
-    static calculate() {
-        // Reset de puntuaciones
-        AppState.users.forEach(u => {
-            u.totalPoints = 0;
-            u.exacts = 0;
-            u.tendencies = 0;
-            u.worstTeamPoints = 0;
-        });
-
-        AppState.matches.forEach(match => {
-            // Solo puntuamos partidos finalizados (90 Minutos Regulares)
-            if (match.status !== 'FINISHED') return;
-
-            const homeGoals = match.homeScore;
-            const awayGoals = match.awayScore;
-
-            // --- A. LÓGICA DE PREDICCIONES NORMALES ---
-            AppState.users.forEach(user => {
-                const userPreds = AppState.predictions[user.id];
-                if (!userPreds) return;
-                
-                const pred = userPreds[match.id];
-                if (!pred) return; // El usuario no hizo pronóstico
-
-                if (pred.homeScore === homeGoals && pred.awayScore === awayGoals) {
-                    // ACIERTO PERFECTO
-                    user.totalPoints += AppState.config.points.exact;
-                    user.exacts++;
-                } else if (Math.sign(homeGoals - awayGoals) === Math.sign(pred.homeScore - pred.awayScore)) {
-                    // ACIERTO DE TENDENCIA (Gana mismo equipo o Empate)
-                    user.totalPoints += AppState.config.points.tendency;
-                    user.tendencies++;
-                }
-            });
-
-            // --- B. LÓGICA CAÓTICA DE LA PEOR SELECCIÓN ---
-            AppState.users.forEach(user => {
-                const worstTeamId = user.bonuses.worstTeam;
-                if (!worstTeamId) return;
-
-                let goalsScored = 0;
-                let goalsConceded = 0;
-
-                // Identificamos si la peor selección jugó en este partido
-                if (match.homeTeam === worstTeamId) {
-                    goalsScored = homeGoals;
-                    goalsConceded = awayGoals;
-                } else if (match.awayTeam === worstTeamId) {
-                    goalsScored = awayGoals;
-                    goalsConceded = homeGoals;
-                } else {
-                    return; // No jugó
-                }
-
-                // Regla B.1: +1 punto por cada gol que marque
-                if (goalsScored > 0) {
-                    user.worstTeamPoints += goalsScored;
-                    user.totalPoints += goalsScored;
-                }
-
-                // Regla B.2: +1 punto extra si le marcan EXACTAMENTE 3 goles
-                if (goalsConceded === 3) {
-                    user.worstTeamPoints += 1;
-                    user.totalPoints += 1;
-                }
-            });
-        });
-
-        // Ordenamos la clasificación de mayor a menor puntuación total
-        AppState.users.sort((a, b) => b.totalPoints - a.totalPoints);
-    }
-}
-
-
-// ==========================================
-// 3. UI RENDERERS (VISTAS)
-// ==========================================
-class UIRenderer {
+class GameEngine {
     static init() {
-        ScoringEngine.calculate();
-        
+        this.calculatePoints();
         this.setupNavigation();
-        this.renderHeader();
         this.renderUserSelector();
-        
-        this.renderLeaderboard();
-        this.renderFixtures(AppState.currentUser.id);
         this.renderPaniniAlbum();
-        this.renderBonuses(AppState.currentUser.id);
-        
-        this.startCountdowns();
+        this.renderDashboard();
+        this.renderLeaderboard();
+        this.renderRulesBonuses();
+        this.startTimers();
     }
 
     /**
-     * Configura el menú de navegación lateral/inferior
+     * Motor de cálculo: recorre participantes y partidos para asignar los puntos a cada participante.
+     */
+    static calculatePoints() {
+        participantes.forEach(user => {
+            user.puntos = 0; // Reinicio
+            user.exactos = 0;
+            user.tendencias = 0;
+            user.peorEquipoPuntos = 0;
+
+            partidos.forEach(p => {
+                if (!p.finalizado) return;
+
+                const pred = user.predicciones[p.id];
+                if (!pred) return;
+
+                const rHome = p.resultadoReal.home;
+                const rAway = p.resultadoReal.away;
+                const pHome = pred.home;
+                const pAway = pred.away;
+
+                // Lógica Estándar
+                if (rHome === pHome && rAway === pAway) {
+                    user.puntos += reglas.aciertoPerfecto;
+                    user.exactos++;
+                } else if (Math.sign(rHome - rAway) === Math.sign(pHome - pAway)) {
+                    user.puntos += reglas.tendencia;
+                    user.tendencias++;
+                }
+
+                // Lógica Peor Equipo
+                if (user.seleccionPeor === p.equipoLocal || user.seleccionPeor === p.equipoVisitante) {
+                    const golesFavor = user.seleccionPeor === p.equipoLocal ? rHome : rAway;
+                    const golesContra = user.seleccionPeor === p.equipoLocal ? rAway : rHome;
+
+                    if (golesFavor > 0) {
+                        user.puntos += (golesFavor * reglas.peorEquipoGolFavor);
+                        user.peorEquipoPuntos += golesFavor;
+                    }
+                    if (golesContra === 3) {
+                        user.puntos += reglas.peorEquipoGolesContra3;
+                        user.peorEquipoPuntos += reglas.peorEquipoGolesContra3;
+                    }
+                }
+            });
+        });
+
+        // Ordenamos el array mutándolo
+        participantes.sort((a, b) => b.puntos - a.puntos);
+    }
+
+    /**
+     * Sistema de pestañas principal (Menú inferior/lateral)
      */
     static setupNavigation() {
-        const navBtns = document.querySelectorAll('.nav-btn');
-        const sections = document.querySelectorAll('.view-section');
+        const btns = document.querySelectorAll('.nav-btn');
+        const views = document.querySelectorAll('.view-section');
 
-        navBtns.forEach(btn => {
+        btns.forEach(btn => {
             btn.addEventListener('click', () => {
-                navBtns.forEach(b => b.classList.remove('active'));
-                sections.forEach(s => s.classList.remove('active'));
+                btns.forEach(b => b.classList.remove('active'));
+                views.forEach(v => v.classList.remove('active'));
                 
                 btn.classList.add('active');
                 document.getElementById(btn.dataset.target).classList.add('active');
@@ -148,259 +88,245 @@ class UIRenderer {
         });
     }
 
-    static renderHeader() {
-        document.getElementById('current-user-name').textContent = AppState.currentUser.name;
-        document.getElementById('current-user-avatar').src = AppState.currentUser.avatar;
-    }
-
-    /**
-     * Selector para ver los pronósticos/bonos de diferentes amigos
-     */
     static renderUserSelector() {
-        const select = document.getElementById('user-predictions-select');
+        const select = document.getElementById('user-select');
         select.innerHTML = '';
-        AppState.users.forEach(u => {
-            const option = document.createElement('option');
-            option.value = u.id;
-            option.textContent = u.name;
-            if (u.id === AppState.currentUser.id) option.selected = true;
-            select.appendChild(option);
+        participantes.forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p.id;
+            opt.textContent = p.apodo;
+            if (p.id === State.activeUserId) opt.selected = true;
+            select.appendChild(opt);
         });
 
         select.addEventListener('change', (e) => {
-            this.renderFixtures(e.target.value);
-            this.renderBonuses(e.target.value);
+            State.activeUserId = parseInt(e.target.value);
+            this.renderDashboard();
+            this.renderRulesBonuses();
         });
     }
 
     /**
-     * Renderiza la tabla de clasificación dinámica
+     * VISTA 1: El Álbum Panini (Cuadrícula interactiva)
+     */
+    static renderPaniniAlbum() {
+        const container = document.getElementById('panini-container');
+        container.innerHTML = '';
+
+        participantes.forEach(user => {
+            const card = document.createElement('div');
+            card.className = 'panini-card-container';
+
+            // Animación holográfica interactiva al mover el ratón
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                // Rotación 3D
+                const rotateX = ((y - centerY) / centerY) * -15; // Max 15 deg
+                const rotateY = ((x - centerX) / centerX) * 15;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
+            });
+
+            card.innerHTML = `
+                <div class="panini-card">
+                    <div class="card-top">
+                        <div class="card-points">${user.puntos} PTS</div>
+                        <img src="${user.foto}" class="card-avatar" alt="Foto">
+                        <div class="card-name">${user.nombre}</div>
+                        <div class="card-alias">"${user.apodo}"</div>
+                    </div>
+                    <div class="card-bottom">
+                        <div class="stat-row">
+                            <span class="stat-label">Nacimiento</span>
+                            <span class="stat-value">${user.stats.nacimiento}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Altura / Peso</span>
+                            <span class="stat-value">${user.stats.altura} / ${user.stats.peso}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Club Base</span>
+                            <span class="stat-value">${user.stats.equipo}</span>
+                        </div>
+                        <div class="worst-team-badge">
+                            <span>PEOR SELECCIÓN:</span>
+                            <span style="font-size:1.1rem">${user.seleccionPeor}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    /**
+     * VISTA 2: Dashboard de Partidos por Pestañas
+     */
+    static renderDashboard() {
+        const tabsContainer = document.getElementById('matchdays-tabs-container');
+        const fixturesContainer = document.getElementById('fixtures-container');
+        
+        // Extraer jornadas únicas
+        const jornadas = [...new Set(partidos.map(p => p.jornada))];
+        if(!State.currentJornada && jornadas.length > 0) State.currentJornada = jornadas[0];
+
+        // Renderizar Pestañas
+        tabsContainer.innerHTML = '';
+        jornadas.forEach(jor => {
+            const btn = document.createElement('button');
+            btn.className = `tab-btn ${jor === State.currentJornada ? 'active' : ''}`;
+            btn.textContent = jor;
+            btn.addEventListener('click', () => {
+                State.currentJornada = jor;
+                this.renderDashboard();
+            });
+            tabsContainer.appendChild(btn);
+        });
+
+        // Renderizar Partidos de la jornada seleccionada para el usuario activo
+        fixturesContainer.innerHTML = '';
+        const user = participantes.find(u => u.id === State.activeUserId);
+        const userPreds = user ? user.predicciones : {};
+
+        const partidosJornada = partidos.filter(p => p.jornada === State.currentJornada);
+        const now = new Date();
+
+        partidosJornada.forEach(p => {
+            const pred = userPreds[p.id] || { home: '', away: '' };
+            const matchDate = new Date(p.fechaIso);
+            const isLocked = now >= matchDate || p.finalizado;
+
+            let inputClassHome = '';
+            let inputClassAway = '';
+            let lockText = '';
+
+            // Regla estricta de color
+            if (p.finalizado && pred.home !== '') {
+                const rH = p.resultadoReal.home;
+                const rA = p.resultadoReal.away;
+                
+                if (pred.home === rH && pred.away === rA) {
+                    inputClassHome = inputClassAway = 'input-exact';
+                } else if (Math.sign(rH - rA) === Math.sign(pred.home - pred.away)) {
+                    inputClassHome = inputClassAway = 'input-tendency';
+                } else {
+                    inputClassHome = inputClassAway = 'input-fail';
+                }
+            }
+
+            const card = document.createElement('div');
+            card.className = 'fixture-card';
+            card.innerHTML = `
+                <div class="fixture-header">
+                    <span>${matchDate.toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
+                    <span class="fixture-timer ${isLocked ? 'locked' : ''}" data-date="${p.fechaIso}">
+                        ${isLocked ? (p.finalizado ? 'FINALIZADO' : 'CERRADO') : 'Calculando...'}
+                    </span>
+                </div>
+                <div class="fixture-teams">
+                    <div class="f-team">
+                        <span class="f-flag">${p.banderaLocal}</span>
+                        <span class="f-name">${p.equipoLocal}</span>
+                    </div>
+                    <div class="f-inputs">
+                        <input type="number" class="${inputClassHome}" value="${pred.home}" ${isLocked ? 'disabled' : ''}>
+                        <span style="color: var(--text-muted); font-weight: bold;">:</span>
+                        <input type="number" class="${inputClassAway}" value="${pred.away}" ${isLocked ? 'disabled' : ''}>
+                    </div>
+                    <div class="f-team">
+                        <span class="f-flag">${p.banderaVisitante}</span>
+                        <span class="f-name">${p.equipoVisitante}</span>
+                    </div>
+                </div>
+            `;
+            fixturesContainer.appendChild(card);
+        });
+    }
+
+    /**
+     * VISTA 3: Leaderboard / Clasificación
      */
     static renderLeaderboard() {
         const tbody = document.getElementById('leaderboard-body');
         tbody.innerHTML = '';
 
-        AppState.users.forEach((user, index) => {
+        participantes.forEach((p, i) => {
             const tr = document.createElement('tr');
-            
-            // Clase para color del top 3
-            const posClass = index < 3 ? `pos-${index + 1}` : '';
-            
             tr.innerHTML = `
-                <td class="lb-pos ${posClass}">#${index + 1}</td>
+                <td class="row-pos ${i === 0 ? 'row-pos-1' : ''}">#${i + 1}</td>
                 <td>
-                    <div class="lb-player">
-                        <img src="${user.avatar}" class="lb-avatar" alt="Avatar">
-                        <span>${user.name}</span>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <img src="${p.foto}" style="width:30px; border-radius:50%; border:2px solid var(--accent)">
+                        ${p.nombre} "${p.apodo}"
                     </div>
                 </td>
-                <td class="lb-pts">${user.totalPoints}</td>
-                <td><span style="color:var(--success); font-weight:bold;">${user.exacts}</span> exactos</td>
-                <td><span style="color:var(--warning); font-weight:bold;">${user.tendencies}</span> tendencias</td>
-                <td><span style="color:var(--danger); font-weight:bold;">+${user.worstTeamPoints}</span> pts</td>
+                <td class="row-pts">${p.puntos} PTS</td>
             `;
             tbody.appendChild(tr);
         });
     }
 
     /**
-     * Renderiza las tarjetas de los partidos con sus inputs interactivos
+     * VISTA 4: Mostrar Bonos del usuario activo
      */
-    static renderFixtures(viewUserId) {
-        const container = document.getElementById('fixtures-container');
-        container.innerHTML = '';
-
-        const viewUserPreds = AppState.predictions[viewUserId] || {};
-
-        AppState.matches.forEach(match => {
-            const home = AppState.teams[match.homeTeam];
-            const away = AppState.teams[match.awayTeam];
-            const pred = viewUserPreds[match.id] || { homeScore: '', awayScore: '' };
-            
-            const matchDate = new Date(match.datetime);
-            const now = new Date();
-            const hasStarted = now >= matchDate || match.status === 'FINISHED';
-            const isFinished = match.status === 'FINISHED';
-
-            // Comprobar resultado del pronóstico para colorear
-            let resultClass = 'res-pending';
-            let resultText = 'Esperando resultado...';
-            
-            if (isFinished && pred.homeScore !== '') {
-                if (pred.homeScore === match.homeScore && pred.awayScore === match.awayScore) {
-                    resultClass = 'res-exact'; resultText = '¡Acierto Perfecto! (+3)';
-                } else if (Math.sign(match.homeScore - match.awayScore) === Math.sign(pred.homeScore - pred.awayScore)) {
-                    resultClass = 'res-tendency'; resultText = 'Tendencia (+1)';
-                } else {
-                    resultClass = 'res-fail'; resultText = 'Fallaste (0)';
-                }
-            }
-
-            const card = document.createElement('div');
-            card.className = 'fixture-card';
-            
-            card.innerHTML = `
-                <div class="fixture-time">
-                    ${matchDate.toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
-                    ${!hasStarted ? `<span class="countdown" data-time="${match.datetime}">...</span>` : '<span class="countdown" style="color:var(--text-secondary); background:transparent;">Bloqueado</span>'}
-                </div>
-                
-                <div class="fixture-teams">
-                    <div class="team">
-                        <span class="team-flag">${home.flag}</span>
-                        <span class="team-name">${home.name}</span>
-                    </div>
-                    
-                    <div class="score-inputs">
-                        <input type="number" class="score-input" value="${pred.homeScore}" ${hasStarted ? 'disabled' : ''} placeholder="-">
-                        <span style="color:var(--text-secondary); font-weight:bold;">:</span>
-                        <input type="number" class="score-input" value="${pred.awayScore}" ${hasStarted ? 'disabled' : ''} placeholder="-">
-                    </div>
-                    
-                    <div class="team">
-                        <span class="team-flag">${away.flag}</span>
-                        <span class="team-name">${away.name}</span>
-                    </div>
-                </div>
-
-                ${isFinished ? `
-                    <div class="fixture-result ${resultClass}">
-                        Resultado Real: ${match.homeScore} - ${match.awayScore}
-                        <br>${resultText}
-                    </div>
-                ` : ''}
-            `;
-            
-            container.appendChild(card);
-        });
-    }
-
-    /**
-     * Renderiza el Álbum de Cromos Panini con efecto FLIP 3D
-     */
-    static renderPaniniAlbum() {
-        const container = document.getElementById('panini-container');
-        container.innerHTML = '';
-
-        AppState.users.forEach(user => {
-            const worstTeam = AppState.teams[user.bonuses.worstTeam];
-            const card = document.createElement('div');
-            card.className = 'panini-card';
-            
-            card.innerHTML = `
-                <!-- Cara Frontal -->
-                <div class="panini-front">
-                    <div style="width:100%; text-align:right; font-weight:bold; color:var(--text-secondary)">ID: ${user.id}</div>
-                    <img src="${user.avatar}" class="p-avatar" alt="Avatar">
-                    <div class="p-name">${user.name}</div>
-                    <div class="p-points">${user.totalPoints} PTS</div>
-                    <div style="margin-top:auto; font-size:0.8rem; color:var(--text-secondary); text-transform:uppercase;">
-                        Team: ${user.panini.alias}
-                    </div>
-                </div>
-
-                <!-- Reverso (Estadísticas) -->
-                <div class="panini-back">
-                    <div class="p-name" style="font-size: 1.5rem;">${user.panini.alias}</div>
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">${worstTeam ? worstTeam.flag : '❓'}</div>
-                    <ul class="p-stats-list">
-                        <li>
-                            <span class="p-stats-label">Nacimiento</span>
-                            <span class="p-stats-value">${user.panini.dob}</span>
-                        </li>
-                        <li>
-                            <span class="p-stats-label">Altura</span>
-                            <span class="p-stats-value">${user.panini.height}</span>
-                        </li>
-                        <li>
-                            <span class="p-stats-label">Peso</span>
-                            <span class="p-stats-value">${user.panini.weight}</span>
-                        </li>
-                        <li>
-                            <span class="p-stats-label">Peor Equipo</span>
-                            <span class="p-stats-value">${worstTeam ? worstTeam.name : '-'}</span>
-                        </li>
-                        <li>
-                            <span class="p-stats-label">Aciertos %</span>
-                            <span class="p-stats-value">${user.exacts > 0 ? ((user.exacts / AppState.matches.filter(m=>m.status==='FINISHED').length)*100).toFixed(0) : 0}%</span>
-                        </li>
-                    </ul>
-                </div>
-            `;
-            container.appendChild(card);
-        });
-    }
-
-    /**
-     * Muestra los bonos del usuario seleccionado
-     */
-    static renderBonuses(userId) {
-        const container = document.getElementById('user-bonuses-display');
-        const user = AppState.users.find(u => u.id === userId);
+    static renderRulesBonuses() {
+        const container = document.getElementById('bonuses-display');
+        const user = participantes.find(u => u.id === State.activeUserId);
         if (!user) return;
 
-        const championTeam = AppState.teams[user.bonuses.champion];
-        const subTeam = AppState.teams[user.bonuses.subChampion];
-        const worstTeam = AppState.teams[user.bonuses.worstTeam];
-
         container.innerHTML = `
-            <div class="bonus-pill">
-                <span class="bp-label">Campeón (+10)</span>
-                <span class="bp-value">${championTeam ? championTeam.flag + ' ' + championTeam.name : '-'}</span>
+            <div class="bonus-item">
+                <span class="bonus-label">Selección Campeona:</span>
+                <span class="bonus-val">${user.predicciones.campeon}</span>
             </div>
-            <div class="bonus-pill">
-                <span class="bp-label">Subcampeón (+5)</span>
-                <span class="bp-value">${subTeam ? subTeam.flag + ' ' + subTeam.name : '-'}</span>
+            <div class="bonus-item">
+                <span class="bonus-label">Subcampeona:</span>
+                <span class="bonus-val">${user.predicciones.subcampeon}</span>
             </div>
-            <div class="bonus-pill">
-                <span class="bp-label">Goleador (+5)</span>
-                <span class="bp-value">👟 ${user.bonuses.topScorer}</span>
-            </div>
-            <div class="bonus-pill" style="border-color: var(--danger)">
-                <span class="bp-label" style="color:var(--danger)">Peor Selección</span>
-                <span class="bp-value">${worstTeam ? worstTeam.flag + ' ' + worstTeam.name : '-'}</span>
+            <div class="bonus-item">
+                <span class="bonus-label">Máx. Goleador:</span>
+                <span class="bonus-val">${user.predicciones.maxGoleador}</span>
             </div>
         `;
     }
 
     /**
-     * Actualiza los temporizadores cada segundo
+     * Temporizadores de cuenta atrás globales
      */
-    static startCountdowns() {
+    static startTimers() {
         setInterval(() => {
-            const countdowns = document.querySelectorAll('.countdown[data-time]');
+            const timers = document.querySelectorAll('.fixture-timer[data-date]');
             const now = new Date().getTime();
 
-            countdowns.forEach(el => {
-                const matchTime = new Date(el.dataset.time).getTime();
-                const diff = matchTime - now;
+            timers.forEach(t => {
+                const limit = new Date(t.dataset.date).getTime();
+                const diff = limit - now;
 
-                if (diff <= 0) {
-                    el.textContent = "Bloqueado";
-                    el.style.color = 'var(--text-secondary)';
-                    el.style.background = 'transparent';
-                    el.removeAttribute('data-time');
-                    
-                    // Bloquear inputs inmediatamente si se cumple el tiempo mientras la app está abierta
-                    const card = el.closest('.fixture-card');
-                    if (card) {
-                        const inputs = card.querySelectorAll('input');
-                        inputs.forEach(i => i.disabled = true);
-                    }
-                } else {
-                    // Cálculo de HH:MM:SS
+                if (diff > 0 && !t.classList.contains('locked')) {
                     const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                     const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                     const s = Math.floor((diff % (1000 * 60)) / 1000);
-                    
-                    el.textContent = `Faltan ${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                    t.textContent = `-${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                } else {
+                    // Si expiró y no estaba bloqueado, forzar re-render de la vista para aplicar 'disabled' a los inputs
+                    if (!t.classList.contains('locked') && t.textContent !== 'CERRADO' && t.textContent !== 'FINALIZADO') {
+                        this.renderDashboard(); 
+                    }
                 }
             });
         }, 1000);
     }
 }
 
-// Iniciar aplicación cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
-    UIRenderer.init();
+    GameEngine.init();
 });

@@ -1,119 +1,92 @@
-// Base de datos local mockeada para la Porra Mundial V2
-
-const tournamentData = {
-    teams: {
-        ESP: { name: 'España', flag: '🇪🇸' },
-        BRA: { name: 'Brasil', flag: '🇧🇷' },
-        FRA: { name: 'Francia', flag: '🇫🇷' },
-        ARG: { name: 'Argentina', flag: '🇦🇷' },
-        GER: { name: 'Alemania', flag: '🇩🇪' },
-        ENG: { name: 'Inglaterra', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
-        POR: { name: 'Portugal', flag: '🇵🇹' },
-        HAI: { name: 'Haití', flag: '🇭🇹' }, // Peor equipo
-        UZB: { name: 'Uzbekistán', flag: '🇺🇿' }, // Peor equipo
-        CPV: { name: 'Cabo Verde', flag: '🇨🇻' } // Peor equipo
+// ESTADO GLOBAL DE LA APLICACIÓN
+// Estructura de datos estricta solicitada para participantes
+const participantes = [
+    {
+      id: 1,
+      nombre: "Sergiales",
+      apodo: "Zurullete",
+      seleccionPeor: "Haití",
+      foto: "https://api.dicebear.com/9.x/avataaars/svg?seed=Sergio", 
+      stats: { nacimiento: "11-06-2026", altura: "1.74m", peso: "65kg", equipo: "Zurullos FC" },
+      predicciones: { 
+        maxGoleador: "Mbappé", 
+        campeon: "España", 
+        subcampeon: "Francia",
+        // ID_PARTIDO: { home: goles, away: goles }
+        "p1": { home: 3, away: 0 }, // J1
+        "p2": { home: 1, away: 1 }, // J1
+        "p3": { home: 2, away: 0 }, // J2
+        "p4": { home: 0, away: 2 }  // J2
+      },
+      puntos: 24 // Puntos calculados iniciales (se sobreescriben por JS)
     },
-    users: [
-        {
-            id: 'user_1',
-            name: 'Ángel',
-            avatar: 'https://api.dicebear.com/9.x/avataaars/svg?seed=Angel',
-            panini: {
-                alias: 'El Míster',
-                height: '1.80m',
-                weight: '75kg',
-                dob: '15/05/1998'
-            },
-            bonuses: {
-                champion: 'ESP',
-                subChampion: 'FRA',
-                topScorer: 'Morata',
-                worstTeam: 'HAI' // Haití asignado como peor equipo
-            }
-        },
-        {
-            id: 'user_2',
-            name: 'Sergio',
-            avatar: 'https://api.dicebear.com/9.x/avataaars/svg?seed=Sergio',
-            panini: {
-                alias: 'Zurullete',
-                height: '1.74m',
-                weight: '65kg',
-                dob: '11/06/2026' // Fecha del mundial
-            },
-            bonuses: {
-                champion: 'BRA',
-                subChampion: 'GER',
-                topScorer: 'Mbappé',
-                worstTeam: 'UZB'
-            }
-        }
-    ],
-    matches: [
-        {
-            id: 'm1',
-            homeTeam: 'ESP',
-            awayTeam: 'CPV',
-            // Partido en el pasado (Finalizado)
-            datetime: '2026-06-10T16:00:00Z', 
-            status: 'FINISHED',
-            homeScore: 3,
-            awayScore: 0
-        },
-        {
-            id: 'm2',
-            homeTeam: 'BRA',
-            awayTeam: 'HAI',
-            // Partido finalizado para probar la lógica de Peor Equipo
-            // Haití metió 1 gol (+1pt) y recibió exactamente 3 goles (+1pt). Total 2pts para Ángel.
-            datetime: '2026-06-10T20:00:00Z',
-            status: 'FINISHED',
-            homeScore: 3,
-            awayScore: 1
-        },
-        {
-            id: 'm3',
-            homeTeam: 'FRA',
-            awayTeam: 'ENG',
-            // Partido en el futuro para probar el Countdown
-            // Ponemos una fecha adelantada un poco al futuro respecto a hoy
-            datetime: new Date(Date.now() + 3600000).toISOString(), // Dentro de 1 hora
-            status: 'TIMED',
-            homeScore: null,
-            awayScore: null
-        },
-        {
-            id: 'm4',
-            homeTeam: 'ARG',
-            awayTeam: 'GER',
-            datetime: new Date(Date.now() + 86400000).toISOString(), // Mañana
-            status: 'TIMED',
-            homeScore: null,
-            awayScore: null
-        }
-    ],
-    predictions: {
-        'user_1': {
-            'm1': { homeScore: 3, awayScore: 0 }, // Acierto Perfecto (3 pts)
-            'm2': { homeScore: 4, awayScore: 0 }, // Acierto Tendencia (1 pt)
-            'm3': { homeScore: 2, awayScore: 1 },
-            'm4': { homeScore: 1, awayScore: 1 }
-        },
-        'user_2': {
-            'm1': { homeScore: 2, awayScore: 0 }, // Acierto Tendencia (1 pt)
-            'm2': { homeScore: 1, awayScore: 1 }, // Error Total (0 pts)
-            'm3': { homeScore: 0, awayScore: 2 },
-            'm4': { homeScore: 2, awayScore: 0 }
-        }
-    },
-    config: {
-        points: {
-            exact: 3,
-            tendency: 1,
-            fail: 0,
-            champion: 10,
-            subChampion: 5,
-            topScorer: 5
-        }
+    {
+      id: 2,
+      nombre: "Ángel",
+      apodo: "El Míster",
+      seleccionPeor: "Uzbekistán",
+      foto: "https://api.dicebear.com/9.x/avataaars/svg?seed=Angel", 
+      stats: { nacimiento: "15-05-1998", altura: "1.80m", peso: "75kg", equipo: "Ángel FC" },
+      predicciones: { 
+        maxGoleador: "Morata", 
+        campeon: "Brasil", 
+        subcampeon: "Alemania",
+        "p1": { home: 3, away: 0 }, 
+        "p2": { home: 2, away: 1 },
+        "p3": { home: 1, away: 1 },
+        "p4": { home: 1, away: 3 }
+      },
+      puntos: 0
     }
-};
+  ];
+  
+  // Base de datos de partidos estructurada por Jornadas/Grupos
+  const partidos = [
+    {
+      id: "p1",
+      jornada: "J1 Fase de Grupos",
+      equipoLocal: "España", banderaLocal: "🇪🇸",
+      equipoVisitante: "Cabo Verde", banderaVisitante: "🇨🇻",
+      fechaIso: "2026-06-10T16:00:00Z", // Ya ha pasado
+      resultadoReal: { home: 3, away: 0 }, // Acierto perfecto para ambos
+      finalizado: true
+    },
+    {
+      id: "p2",
+      jornada: "J1 Fase de Grupos",
+      equipoLocal: "Brasil", banderaLocal: "🇧🇷",
+      equipoVisitante: "Haití", banderaVisitante: "🇭🇹",
+      fechaIso: "2026-06-10T20:00:00Z", // Ya ha pasado
+      resultadoReal: { home: 4, away: 1 }, // Acierto de tendencia para Sergiales (puso 1-1 = Error), Ángel puso 2-1 (Tendencia)
+      finalizado: true
+    },
+    {
+      id: "p3",
+      jornada: "J2 Fase de Grupos",
+      equipoLocal: "Francia", banderaLocal: "🇫🇷",
+      equipoVisitante: "Inglaterra", banderaVisitante: "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+      fechaIso: new Date(Date.now() + 3600000).toISOString(), // Futuro (1h)
+      resultadoReal: null,
+      finalizado: false
+    },
+    {
+      id: "p4",
+      jornada: "J2 Fase de Grupos",
+      equipoLocal: "Argentina", banderaLocal: "🇦🇷",
+      equipoVisitante: "Alemania", banderaVisitante: "🇩🇪",
+      fechaIso: new Date(Date.now() + 86400000).toISOString(), // Futuro (Mañana)
+      resultadoReal: null,
+      finalizado: false
+    }
+  ];
+  
+  const reglas = {
+    aciertoPerfecto: 3,
+    tendencia: 1,
+    error: 0,
+    campeon: 10,
+    subcampeon: 5,
+    goleador: 5,
+    peorEquipoGolFavor: 1,
+    peorEquipoGolesContra3: 1
+  };
