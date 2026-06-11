@@ -27,26 +27,21 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const checkSession = () => {
-        // Soporte retrocompatible por si ya estaban con 'porraMundialUser'
         const storedUser = localStorage.getItem('usuarioLogueado') || localStorage.getItem('porraMundialUser');
         if (storedUser) {
-            // Aseguramos que se guarde en la clave que pidió el usuario
             localStorage.setItem('usuarioLogueado', storedUser);
-            
             displayUser.textContent = `Hola, ${storedUser}`;
             loginScreen.classList.remove('active');
             loginScreen.classList.add('hidden');
             mainScreen.classList.remove('hidden');
             mainScreen.classList.add('active');
             
-            // Iniciar lógica de partidos del Paso 2
             iniciarSeccionPartidos();
         }
     };
 
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        
         const username = usernameInput.value.trim();
         const code = secretCodeInput.value.trim();
         const normalizedUsername = removeAccents(username.toLowerCase());
@@ -54,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (validUsers.includes(normalizedUsername) && code === secretCode) {
             errorMessage.classList.add('hidden');
             const displayName = username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
-            
             localStorage.setItem('usuarioLogueado', displayName);
             displayUser.textContent = `Hola, ${displayName}`;
             
@@ -69,82 +63,73 @@ document.addEventListener('DOMContentLoaded', () => {
 
     logoutBtn.addEventListener('click', () => {
         localStorage.removeItem('usuarioLogueado');
-        localStorage.removeItem('porraMundialUser');
         usernameInput.value = '';
         secretCodeInput.value = '';
         errorMessage.classList.add('hidden');
-        
         switchScreen(mainScreen, loginScreen);
     });
 
-    // --- PASO 2: SECCIÓN DE PARTIDOS, API Y PREDICCIONES ---
+    // --- TABS (Pestañas) ---
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Quitar active de todos
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(c => {
+                c.classList.remove('active');
+                c.classList.add('hidden');
+            });
+
+            // Poner active al seleccionado
+            btn.classList.add('active');
+            const target = document.getElementById(btn.dataset.target);
+            target.classList.remove('hidden');
+            target.classList.add('active');
+        });
+    });
+
+
+    // --- PASO 2: SECCIÓN DE PARTIDOS CON API REAL ---
     const matchesContainer = document.getElementById('matches-container');
     const savePredictionsBtn = document.getElementById('save-predictions-btn');
     
-    // 1. Estructura de Datos (Simulando respuesta de API)
-    let partidos = [
-        {
-            id: 1,
-            equipoLocal: 'España',
-            equipoVisitante: 'Croacia',
-            banderaLocal: '🇪🇸',
-            banderaVisitante: '🇭🇷',
-            fechaHora: '2026-06-15T18:00:00', // Fecha futura (abierto)
-            resultadoReal: { golesLocal: null, golesVisitante: null }
-        },
-        {
-            id: 2,
-            equipoLocal: 'Brasil',
-            equipoVisitante: 'Suiza',
-            banderaLocal: '🇧🇷',
-            banderaVisitante: '🇨🇭',
-            fechaHora: '2026-06-16T21:00:00', // Fecha futura (abierto)
-            resultadoReal: { golesLocal: null, golesVisitante: null }
-        },
-        {
-            id: 3,
-            equipoLocal: 'Argentina',
-            equipoVisitante: 'México',
-            banderaLocal: '🇦🇷',
-            banderaVisitante: '🇲🇽',
-            fechaHora: '2026-06-10T20:00:00', // Fecha pasada (cerrado, con resultado)
-            resultadoReal: { golesLocal: 2, golesVisitante: 1 } 
-        }
-    ];
+    let partidos = []; // Se llenará desde la API
+    const API_KEY = '44f1435bc3704c82b557fb70255ec7cf';
 
-    // 2. Integración con API (Simulador Fetch)
     const fetchResultadosReales = async () => {
-        /* 
-        // ESTRUCTURA PARA API REAL (Ej: football-data.org o API-Football)
         try {
-            // Ejemplo con API-Football
-            const response = await fetch('https://v3.football.api-sports.io/fixtures?league=1&season=2026', {
+            const response = await fetch('https://api.football-data.org/v4/competitions/WC/matches', {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-host': 'v3.football.api-sports.io',
-                    'x-rapidapi-key': 'TU_API_KEY_AQUI'
+                    'X-Auth-Token': API_KEY
                 }
             });
             const data = await response.json();
             
-            // Lógica de mapeo de datos reales a nuestra estructura de "partidos"
-            // Por ejemplo:
-            // data.response.forEach(fixture => {
-            //     // Buscar por ID y actualizar "resultadoReal" si el status es "Finalizado" (FT)
-            //     if (fixture.fixture.status.short === 'FT') {
-            //         actualizarResultado(fixture.fixture.id, fixture.goals.home, fixture.goals.away);
-            //     }
-            // });
+            if (data && data.matches) {
+                // Mapear y ordenar los partidos por fecha (del más antiguo al más nuevo)
+                partidos = data.matches.map(m => {
+                    return {
+                        id: m.id,
+                        stage: m.stage || m.group || 'Fase de Grupos',
+                        utcDate: m.utcDate,
+                        status: m.status, // SCHEDULED, TIMED, IN_PLAY, PAUSED, FINISHED
+                        homeTeam: m.homeTeam?.name ? m.homeTeam.name : 'TBD',
+                        awayTeam: m.awayTeam?.name ? m.awayTeam.name : 'TBD',
+                        homeCrest: m.homeTeam?.crest || null,
+                        awayCrest: m.awayTeam?.crest || null,
+                        winnerReal: m.score?.winner // HOME_TEAM, AWAY_TEAM, DRAW
+                    };
+                }).sort((a, b) => new Date(a.utcDate) - new Date(b.utcDate));
+            }
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('Error fetching data from API:', error);
+            matchesContainer.innerHTML = '<div class="error-msg text-center">Error al cargar los partidos desde la API.</div>';
         }
-        */
-
-        // SIMULACIÓN: Aquí podríamos actualizar los partidos dinámicamente.
-        console.log("Resultados obtenidos de la API (simulada).");
     };
 
-    // Formatear la fecha para mostrarla amigable
     const formatFecha = (isoString) => {
         const date = new Date(isoString);
         return date.toLocaleString('es-ES', { 
@@ -156,87 +141,80 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // 3. Renderizar Tarjetas
+    // Renderizar Tarjetas
     const renderPartidos = () => {
         if (!matchesContainer) return;
-        matchesContainer.innerHTML = '';
+        if (partidos.length === 0) {
+            matchesContainer.innerHTML = '<div class="loading-spinner">No hay partidos disponibles.</div>';
+            return;
+        }
 
+        matchesContainer.innerHTML = '';
         const usuarioActual = localStorage.getItem('usuarioLogueado');
-        const prediccionesGuardadas = JSON.parse(localStorage.getItem(`predicciones_${usuarioActual}`)) || {};
+        // predicciones guardará el ID del partido y qué equipo ganó ('home' o 'away')
+        const prediccionesGuardadas = JSON.parse(localStorage.getItem(`predicciones_v2_${usuarioActual}`)) || {};
         const ahora = new Date();
 
         partidos.forEach(partido => {
-            const fechaPartido = new Date(partido.fechaHora);
+            const fechaPartido = new Date(partido.utcDate);
+            const isEmpezado = ahora >= fechaPartido || partido.status === 'IN_PLAY' || partido.status === 'FINISHED';
+            const hasResultadoReal = partido.status === 'FINISHED';
             
-            // 4. Bloqueo de Seguridad por Fecha/Hora
-            const isEmpezado = ahora >= fechaPartido;
-            const hasResultadoReal = partido.resultadoReal.golesLocal !== null && partido.resultadoReal.golesVisitante !== null;
-            
-            // Obtener predicción del usuario si existe
-            const predLocal = prediccionesGuardadas[partido.id]?.local ?? '';
-            const predVisit = prediccionesGuardadas[partido.id]?.visitante ?? '';
+            // Obtener predicción del usuario (home o away)
+            const predSeleccionada = prediccionesGuardadas[partido.id] || null;
 
-            // Determinar clases de estilo y bloqueo
             let cardClasses = 'match-card';
             let puntosHtml = '';
 
-            // 5. Comparación Visual en Tiempo Real
-            if (hasResultadoReal && predLocal !== '' && predVisit !== '') {
-                const golesLocalReal = partido.resultadoReal.golesLocal;
-                const golesVisitanteReal = partido.resultadoReal.golesVisitante;
-                const pLocal = parseInt(predLocal);
-                const pVisit = parseInt(predVisit);
+            // Lógica de aciertos si está finalizado
+            if (hasResultadoReal && predSeleccionada) {
+                let winnerAPI = 'draw';
+                if (partido.winnerReal === 'HOME_TEAM') winnerAPI = 'home';
+                if (partido.winnerReal === 'AWAY_TEAM') winnerAPI = 'away';
 
-                const realResult = Math.sign(golesLocalReal - golesVisitanteReal);
-                const predResult = Math.sign(pLocal - pVisit);
-
-                if (golesLocalReal === pLocal && golesVisitanteReal === pVisit) {
-                    // Acierto perfecto (3 puntos)
+                if (predSeleccionada === winnerAPI) {
                     cardClasses += ' acierto-perfecto';
-                    puntosHtml = '<div class="puntos-badge puntos-3">+3 Puntos (Pleno exacto)</div>';
-                } else if (realResult === predResult) {
-                    // Acierto tendencia (1 punto)
-                    cardClasses += ' acierto-tendencia';
-                    puntosHtml = '<div class="puntos-badge puntos-1">+1 Punto (Tendencia)</div>';
+                    puntosHtml = '<div class="puntos-badge puntos-3">+3 Puntos (Acierto)</div>';
                 } else {
-                    // Error total (0 puntos)
                     cardClasses += ' error-total';
                     puntosHtml = '<div class="puntos-badge puntos-0">0 Puntos (Fallo)</div>';
                 }
             }
 
-            let statusText = isEmpezado ? (hasResultadoReal ? 'Finalizado' : 'En juego') : formatFecha(partido.fechaHora);
+            let statusText = isEmpezado ? (hasResultadoReal ? 'Finalizado' : 'En juego') : formatFecha(partido.utcDate);
             let statusClass = isEmpezado && !hasResultadoReal ? 'live' : (hasResultadoReal ? 'finished' : '');
 
-            // Atributo disable si ya ha empezado
-            const disabledAttr = isEmpezado ? 'disabled' : '';
+            const disabledClass = isEmpezado ? 'disabled' : '';
+
+            // Banderas (usar imagen de API o fallback)
+            const homeFlag = partido.homeCrest ? `<img src="${partido.homeCrest}" class="flag" alt="bandera">` : `<span class="flag-emoji">🏳️</span>`;
+            const awayFlag = partido.awayCrest ? `<img src="${partido.awayCrest}" class="flag" alt="bandera">` : `<span class="flag-emoji">🏳️</span>`;
+
+            // Clases para mostrar selección
+            const homeSelectedClass = predSeleccionada === 'home' ? 'selected' : '';
+            const awaySelectedClass = predSeleccionada === 'away' ? 'selected' : '';
+
+            // Normalizar stage nombre
+            let stageName = partido.stage.replace('_', ' ');
 
             const cardHtml = `
                 <div class="${cardClasses}" data-id="${partido.id}">
                     <div class="match-header">
-                        <span>Fase de Grupos</span>
+                        <span>${stageName}</span>
                         <span class="match-status ${statusClass}">${statusText}</span>
                     </div>
                     
                     <div class="teams-container">
-                        <div class="team">
-                            <span class="flag">${partido.banderaLocal}</span>
-                            <span class="team-name">${partido.equipoLocal}</span>
-                            <div class="prediction-inputs">
-                                <input type="number" min="0" max="20" class="score-input" 
-                                       id="local-${partido.id}" value="${predLocal}" ${disabledAttr} placeholder="-">
-                            </div>
+                        <div class="team team-selectable ${homeSelectedClass} ${disabledClass}" data-match-id="${partido.id}" data-team="home">
+                            ${homeFlag}
+                            <span class="team-name">${partido.homeTeam}</span>
                         </div>
                         
                         <div class="vs">VS</div>
                         
-                        <div class="team">
-                            <span class="flag">${partido.banderaVisitante}</span>
-                            <span class="team-name">${partido.equipoVisitante}</span>
-                            <div class="prediction-inputs">
-                                <input type="number" min="0" max="20" class="score-input" 
-                                       id="visitante-${partido.id}" value="${predVisit}" ${disabledAttr} placeholder="-">
-                            </div>
+                        <div class="team team-selectable ${awaySelectedClass} ${disabledClass}" data-match-id="${partido.id}" data-team="away">
+                            ${awayFlag}
+                            <span class="team-name">${partido.awayTeam}</span>
                         </div>
                     </div>
                     ${puntosHtml}
@@ -244,53 +222,64 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             matchesContainer.innerHTML += cardHtml;
         });
+
+        // Añadir eventos de click a los equipos
+        document.querySelectorAll('.team-selectable:not(.disabled)').forEach(teamDiv => {
+            teamDiv.addEventListener('click', function() {
+                const matchId = this.dataset.matchId;
+                const team = this.dataset.team;
+                
+                // Buscar el contenedor padre
+                const parentContainer = this.closest('.teams-container');
+                // Quitar selected de ambos
+                parentContainer.querySelectorAll('.team-selectable').forEach(el => el.classList.remove('selected'));
+                // Poner selected al clickado
+                this.classList.add('selected');
+            });
+        });
     };
 
-    // Guardar Predicciones por Usuario
+    // Guardar Predicciones (solo qué equipo gana)
     if (savePredictionsBtn) {
         savePredictionsBtn.addEventListener('click', () => {
             const usuarioActual = localStorage.getItem('usuarioLogueado');
             if (!usuarioActual) return;
 
             const ahora = new Date();
-            let predicciones = JSON.parse(localStorage.getItem(`predicciones_${usuarioActual}`)) || {};
+            let predicciones = JSON.parse(localStorage.getItem(`predicciones_v2_${usuarioActual}`)) || {};
             let hayCambios = false;
 
-            partidos.forEach(partido => {
-                const fechaPartido = new Date(partido.fechaHora);
+            // Recorrer el DOM para buscar seleccionados
+            document.querySelectorAll('.match-card').forEach(card => {
+                const matchId = card.dataset.id;
+                const partidoObj = partidos.find(p => p.id == matchId);
                 
-                // Solo guardar si el partido NO ha empezado (Doble validación de seguridad)
-                if (ahora < fechaPartido) {
-                    const inputLocal = document.getElementById(`local-${partido.id}`);
-                    const inputVisitante = document.getElementById(`visitante-${partido.id}`);
-                    
-                    if (inputLocal && inputVisitante) {
-                        const valLocal = inputLocal.value;
-                        const valVisitante = inputVisitante.value;
-                        
-                        // Solo guardar si hay valores numéricos introducidos
-                        if (valLocal !== '' && valVisitante !== '') {
-                            predicciones[partido.id] = {
-                                local: parseInt(valLocal),
-                                visitante: parseInt(valVisitante)
-                            };
-                            hayCambios = true;
+                if (partidoObj) {
+                    const fechaPartido = new Date(partidoObj.utcDate);
+                    // Solo guarda si el partido NO ha empezado
+                    if (ahora < fechaPartido && partidoObj.status === 'TIMED' || partidoObj.status === 'SCHEDULED') {
+                        const selectedTeam = card.querySelector('.team.selected');
+                        if (selectedTeam) {
+                            const val = selectedTeam.dataset.team; // 'home' o 'away'
+                            if (predicciones[matchId] !== val) {
+                                predicciones[matchId] = val;
+                                hayCambios = true;
+                            }
                         }
                     }
                 }
             });
 
             if (hayCambios) {
-                localStorage.setItem(`predicciones_${usuarioActual}`, JSON.stringify(predicciones));
+                localStorage.setItem(`predicciones_v2_${usuarioActual}`, JSON.stringify(predicciones));
                 mostrarToast('¡Pronósticos guardados correctamente!');
-                renderPartidos(); // Re-render para mostrar posibles estilos actualizados
+                renderPartidos();
             } else {
-                mostrarToast('No hay nuevos pronósticos válidos o los partidos ya han empezado.');
+                mostrarToast('No hay nuevos pronósticos o los partidos ya han empezado.');
             }
         });
     }
 
-    // Utilidad: Mostrar Toast Notification (mensaje emergente elegante)
     const mostrarToast = (mensaje) => {
         let toast = document.getElementById('toast-notification');
         if (!toast) {
@@ -304,17 +293,15 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => toast.classList.remove('show'), 3000);
     };
 
-    // Función principal para iniciar la sección cuando el usuario entra
     const iniciarSeccionPartidos = async () => {
         await fetchResultadosReales();
         renderPartidos();
         
-        // Actualizar automáticamente cada minuto por si un partido empieza mientras está en la pantalla
         setInterval(() => {
+            // Actualización visual periódica para bloquear si llegó la hora
             renderPartidos();
         }, 60000);
     };
 
-    // Ejecución inicial 
     checkSession();
 });
