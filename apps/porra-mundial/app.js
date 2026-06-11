@@ -89,3 +89,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // Iniciar
     checkSession();
 });
+// Inicializacion completada
