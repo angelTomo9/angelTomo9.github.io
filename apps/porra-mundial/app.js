@@ -100,12 +100,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchResultadosReales = async () => {
         try {
+            // NOTA: La API de football-data.org bloquea las peticiones desde el navegador (CORS) 
+            // a menos que estés en 'localhost'. Por eso, en GitHub Pages fallará la petición en vivo.
+            // Para solucionarlo, leemos el archivo 'api_response.json' que tienes en la raíz de tu proyecto.
+            const response = await fetch('../../api_response.json');
+            
+            /* 
+            // Si en el futuro tienes un backend o proxy que solucione el CORS, el código sería así:
             const response = await fetch('https://api.football-data.org/v4/competitions/WC/matches', {
                 method: 'GET',
-                headers: {
-                    'X-Auth-Token': API_KEY
-                }
+                headers: { 'X-Auth-Token': API_KEY }
             });
+            */
+            
             const data = await response.json();
             
             if (data && data.matches) {
