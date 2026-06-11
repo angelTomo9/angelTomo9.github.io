@@ -2,85 +2,89 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Porra del Mundial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🏆 Porra Mundial 2026</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Pantalla de Login -->
     <div id="login-screen" class="screen active">
         <div class="login-card glassmorphism">
-            <h1 class="logo-title">PORRA MUNDIAL</h1>
-            <p class="subtitle">Ingresa tus credenciales para acceder</p>
-            
+            <h1 class="logo-title">🏆 PORRA</h1>
+            <p class="subtitle">Mundial 2026</p>
             <form id="login-form">
                 <div class="input-group">
-                    <label for="username">Nombre</label>
+                    <label>Nombre</label>
                     <input type="text" id="username" placeholder="Tu nombre" required autocomplete="off">
                 </div>
-                
                 <div class="input-group">
-                    <label for="secret-code">Código Secreto</label>
-                    <input type="password" id="secret-code" placeholder="Código" required autocomplete="off">
+                    <label>Código</label>
+                    <input type="password" id="secret-code" placeholder="Código secreto" autocomplete="off">
                 </div>
-                
-                <p id="error-message" class="error-msg hidden">Credenciales incorrectas.</p>
-                
+                <p id="error-message" class="error-msg hidden"></p>
                 <button type="submit" class="btn-primary">Entrar</button>
             </form>
         </div>
     </div>
 
-    <!-- Pantalla Principal -->
     <div id="main-screen" class="screen hidden">
         <header class="main-header glassmorphism-header">
-            <h2 class="logo-title-small">PORRA MUNDIAL</h2>
+            <h2 class="logo-title-small">🏆 PORRA 2026</h2>
             <div class="user-info">
                 <span id="display-user"></span>
                 <button id="logout-btn" class="btn-secondary">Salir</button>
             </div>
         </header>
-        <!-- Navegación de Pestañas -->
+
         <nav class="tabs-nav glassmorphism-header">
-            <button class="tab-btn active" data-target="tab-partidos">Partidos</button>
-            <button class="tab-btn" data-target="tab-tabla">Tabla</button>
+            <button class="tab-btn active" data-target="tab-partidos">⚽ Partidos</button>
+            <button class="tab-btn" data-target="tab-clasificacion">🏅 Clasificación</button>
+            <button class="tab-btn" data-target="tab-logs">📋 Historial</button>
         </nav>
 
         <main class="main-content">
-            <!-- Sección Partidos -->
             <section id="tab-partidos" class="tab-content active">
                 <div class="matches-header">
-                    <h1>Calendario del Mundial</h1>
-                    <p>Selecciona qué equipo crees que ganará cada partido.</p>
+                    <h1>📅 Calendario</h1>
+                    <p id="ultima-actualizacion" style="font-size:0.8rem;color:#64748b"></p>
+                    <p>Toca el equipo que crees que ganará</p>
                 </div>
-                
-                <div id="matches-container" class="matches-grid">
-                    <!-- Los partidos se generarán dinámicamente con JavaScript -->
-                    <div class="loading-spinner">Cargando partidos...</div>
-                </div>
-                
+                <div id="matches-container" class="matches-grid"></div>
                 <div class="save-action">
-                    <button id="save-predictions-btn" class="btn-primary">Guardar mis Pronósticos</button>
+                    <button id="save-predictions-btn" class="btn-primary">💾 Guardar Pronósticos</button>
                 </div>
             </section>
 
-            <!-- Sección Tabla -->
-            <section id="tab-tabla" class="tab-content hidden">
+            <section id="tab-clasificacion" class="tab-content hidden">
                 <div class="matches-header">
-                    <h1>Tabla de Posiciones</h1>
-                    <p>La clasificación se mostrará aquí próximamente.</p>
+                    <h1>🏅 Clasificación</h1>
+                    <p id="clasif-info"></p>
                 </div>
-                <div class="glassmorphism placeholder-box">
-                    <p>Aún no hay datos suficientes para mostrar la tabla.</p>
+                <div id="leaderboard-container"></div>
+                <div style="margin-top:2rem">
+                    <h2 style="font-size:1.1rem;margin-bottom:.8rem;color:#94a3b8">📋 Tus pronósticos</h2>
+                    <div id="user-predictions-summary" class="matches-grid" style="grid-template-columns:1fr"></div>
                 </div>
+            </section>
+
+            <section id="tab-logs" class="tab-content hidden">
+                <div class="matches-header">
+                    <h1>📋 Historial</h1>
+                    <p>Todos los eventos del mundial en orden cronológico</p>
+                </div>
+                <div id="logs-container" class="logs-list"></div>
             </section>
         </main>
     </div>
 
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
     <script src="partidos.js"></script>
+    <script src="firebase-config.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

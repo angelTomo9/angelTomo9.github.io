@@ -482,3 +482,132 @@ body {
 .toast.show {
     transform: translateX(0);
 }
+
+/* ===== LEADERBOARD (Clasificación) ===== */
+.leaderboard {
+    padding: 0;
+    overflow: hidden;
+    border-radius: 16px;
+}
+
+.leaderboard table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.leaderboard th {
+    background: rgba(0,0,0,0.3);
+    padding: 1rem 0.8rem;
+    text-align: left;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.75rem;
+}
+
+.leaderboard td {
+    padding: 0.9rem 0.8rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.leaderboard tr:last-child td {
+    border-bottom: none;
+}
+
+.leaderboard .pts {
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: #fbbf24;
+}
+
+.leaderboard tr:first-child td.pts {
+    color: #f59e0b;
+    font-size: 1.4rem;
+}
+
+/* Acierto/Fallo en tarjetas */
+.match-card.acierto {
+    border-color: rgba(16, 185, 129, 0.3);
+    background: rgba(16, 185, 129, 0.05);
+}
+
+.match-card.fallo {
+    border-color: rgba(239, 68, 68, 0.2);
+    background: rgba(239, 68, 68, 0.03);
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    background: rgba(15, 23, 42, 0.95);
+    border-left: 4px solid #10b981;
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    transform: translateX(120%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1000;
+    font-weight: 600;
+}
+
+.toast:not(.hidden) {
+    transform: translateX(0);
+}
+
+/* Admin panel */
+#admin-status {
+    min-height: 1.5rem;
+}
+
+/* ===== LOGS / HISTORIAL ===== */
+.logs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.log-entry {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.8rem;
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px;
+    border-left: 3px solid rgba(255,255,255,0.1);
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+
+.log-entry:hover {
+    background: rgba(255,255,255,0.06);
+}
+
+.log-hora {
+    color: #475569;
+    font-family: monospace;
+    font-size: 0.75rem;
+    min-width: 65px;
+    flex-shrink: 0;
+}
+
+.log-icono {
+    font-size: 1rem;
+    min-width: 24px;
+    text-align: center;
+}
+
+.log-msg {
+    flex: 1;
+    color: #cbd5e1;
+}
+
+.log-partido { border-left-color: #10b981; }
+.log-acierto { border-left-color: #10b981; }
+.log-fallo { border-left-color: #ef4444; }
+.log-cierre { border-left-color: #f59e0b; }
+.log-sistema { border-left-color: #3b82f6; }
