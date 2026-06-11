@@ -33,6 +33,7 @@ permalink: /
   <h2>Proyectos</h2>
   <p>También puedes ver apps y herramientas publicadas:</p>
   <ul>
+    <li><a href="{{ '/apps/porra-mundial/' | relative_url }}">Porra Mundial – Predicciones interactivas del Mundial</a></li>
     <li><a href="{{ '/apps/piso-peniscola/' | relative_url }}">Piso peñiscola – app de organización del piso</a></li>
     <li><a href="{{ '/sintaxis/' | relative_url }}">SintaxisApp – Analizador sintáctico para 4º ESO</a></li>
     <li><a href="{{ '/apps/rompecabezas/' | relative_url }}">Rompecabezas – Minijuego web</a></li>

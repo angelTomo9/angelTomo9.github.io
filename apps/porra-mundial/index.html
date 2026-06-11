@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Porra Mundial | Zurullo World Cup</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <h1>🏆 Porra Mundial <span>2026</span></h1>
+                <p class="subtitle">Actualización automática todos los días a las 12:00</p>
+            </div>
+            <nav class="app-nav">
+                <button class="nav-btn active" data-target="tab-leaderboard">Clasificación</button>
+                <button class="nav-btn" data-target="tab-matches">Partidos</button>
+                <button class="nav-btn" data-target="tab-participants">Participantes</button>
+                <button class="nav-btn" data-target="tab-rules">Reglamento</button>
+            </nav>
+        </header>
+
+        <main class="app-content">
+            <!-- Pestaña Clasificación -->
+            <section id="tab-leaderboard" class="tab-content active">
+                <div class="panel">
+                    <h2>Clasificación General</h2>
+                    <div id="leaderboard-container" class="leaderboard-list">
+                        <!-- Generado por JS -->
+                        <div class="loading">Calculando puntos...</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pestaña Partidos -->
+            <section id="tab-matches" class="tab-content">
+                <div class="panel">
+                    <h2>Resultados y Predicciones</h2>
+                    <div class="filter-controls">
+                        <select id="matchday-filter">
+                            <option value="all">Todos los partidos</option>
+                            <option value="1">Jornada 1</option>
+                            <option value="2">Jornada 2</option>
+                            <option value="3">Jornada 3</option>
+                        </select>
+                    </div>
+                    <div id="matches-container" class="matches-grid">
+                        <!-- Generado por JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pestaña Participantes -->
+            <section id="tab-participants" class="tab-content">
+                <div class="panel">
+                    <h2>Cartas de Participantes</h2>
+                    <div id="participants-container" class="participants-grid">
+                        <!-- Generado por JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pestaña Reglas -->
+            <section id="tab-rules" class="tab-content">
+                <div class="panel rules-panel">
+                    <h2>El Reglamento Oficial</h2>
+                    <p>Aquí tenéis los puntos redactados de forma clara para evitar vacíos legales durante el mundial:</p>
+                    
+                    <div class="rule-card">
+                        <h3>1. Sistema de Puntuación Base</h3>
+                        <ul>
+                            <li><strong class="color-green">Acierto Perfecto (3 puntos):</strong> Acertar el marcador exacto del partido. (Ej. Pronóstico 2-1 | Resultado Real 2-1).</li>
+                            <li><strong class="color-yellow">Acierto de Tendencia (1 punto):</strong> Acertar quién gana o si hay empate, pero no los goles exactos. (Ej. Pronóstico 2-0 | Resultado Real 1-0).</li>
+                            <li><strong class="color-red">Error Total (0 puntos):</strong> Fallar tanto el ganador como el número de goles.</li>
+                        </ul>
+                    </div>
+
+                    <div class="rule-card">
+                        <h3>2. Multiplicadores</h3>
+                        <ul>
+                            <li>Los partidos de España y de sus rivales directos de grupo valen <strong>EL DOBLE</strong> de puntos. ¡Atención especial a estos encuentros!</li>
+                        </ul>
+                    </div>
+
+                    <div class="rule-card">
+                        <h3>3. Puntos Bonus Finales</h3>
+                        <ul>
+                            <li><strong>Campeón del Mundial:</strong> 10 puntos a quien lo acierte.</li>
+                            <li><strong>Sub-campeón del Mundial:</strong> 5 puntos.</li>
+                            <li><strong>Bota de Oro (Máximo Goleador):</strong> 5 puntos.</li>
+                            <li><strong>Peor Selección:</strong> Cada participante tiene asignada una de las 14 peores selecciones. Te llevas 1 punto por cada gol en contra que reciba tu selección a lo largo del mundial. ¡Si le meten una goleada, tú ganas!</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

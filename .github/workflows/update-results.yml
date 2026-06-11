@@ -1,0 +1,27 @@
+name: Update World Cup Results
+
+on:
+  schedule:
+    # Ejecuta todos los días a las 12:00 UTC
+    - cron: '0 12 * * *'
+  workflow_dispatch: # Permite ejecutarlo manualmente
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch Latest Results
+        run: |
+          curl -s -H "X-Auth-Token: a668da74313d4b42b3833c000108b0db" https://api.football-data.org/v4/competitions/WC/matches > apps/porra-mundial/results.json
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add apps/porra-mundial/results.json
+          # Commit solo si hay cambios
+          git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update World Cup results"
+          git push
