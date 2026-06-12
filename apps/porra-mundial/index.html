@@ -15,14 +15,8 @@
             <h1 class="logo-title">🏆 PORRA</h1>
             <p class="subtitle">Mundial 2026</p>
             <form id="login-form">
-                <div class="input-group">
-                    <label>Nombre</label>
-                    <input type="text" id="username" placeholder="Tu nombre" required autocomplete="off">
-                </div>
-                <div class="input-group">
-                    <label>Código</label>
-                    <input type="password" id="secret-code" placeholder="Código secreto" autocomplete="off">
-                </div>
+                <div class="input-group"><label>Nombre</label><input type="text" id="username" placeholder="Tu nombre" required autocomplete="off"></div>
+                <div class="input-group"><label>Código</label><input type="password" id="secret-code" placeholder="Código secreto" autocomplete="off"></div>
                 <p id="error-message" class="error-msg hidden"></p>
                 <button type="submit" class="btn-primary">Entrar</button>
             </form>
@@ -32,19 +26,18 @@
     <div id="main-screen" class="screen hidden">
         <header class="main-header glassmorphism-header">
             <h2 class="logo-title-small">🏆 PORRA 2026</h2>
-            <div class="user-info">
-                <span id="display-user"></span>
-                <button id="logout-btn" class="btn-secondary">Salir</button>
-            </div>
+            <div class="user-info"><span id="display-user"></span><button id="logout-btn" class="btn-secondary">Salir</button></div>
         </header>
 
         <nav class="tabs-nav glassmorphism-header">
             <button class="tab-btn active" data-target="tab-partidos">⚽ Partidos</button>
+            <button class="tab-btn" data-target="tab-bonus">🔮 Bonus</button>
             <button class="tab-btn" data-target="tab-clasificacion">🏅 Clasificación</button>
             <button class="tab-btn" data-target="tab-logs">📋 Historial</button>
         </nav>
 
         <main class="main-content">
+            <!-- PARTIDOS -->
             <section id="tab-partidos" class="tab-content active">
                 <div class="matches-header">
                     <h1>📅 Calendario</h1>
@@ -52,28 +45,48 @@
                     <p>Toca el equipo que crees que ganará</p>
                 </div>
                 <div id="matches-container" class="matches-grid"></div>
-                <div class="save-action">
-                    <button id="save-predictions-btn" class="btn-primary">💾 Guardar Pronósticos</button>
-                </div>
+                <div class="save-action"><button id="save-predictions-btn" class="btn-primary">💾 Guardar Pronósticos</button></div>
             </section>
 
+            <!-- BONUS -->
+            <section id="tab-bonus" class="tab-content hidden">
+                <div class="matches-header"><h1>🔮 Pronósticos Extra</h1><p>Elige una vez y gana puntos extra</p></div>
+
+                <div class="glassmorphism bonus-section">
+                    <h3>🏆 Campeón del Mundial</h3>
+                    <p class="bonus-desc">+15 pts si aciertas</p>
+                    <select id="select-campeon" class="bonus-select"><option value="">— Selecciona —</option></select>
+                </div>
+
+                <div class="glassmorphism bonus-section">
+                    <h3>🥈 Subcampeón</h3>
+                    <p class="bonus-desc">+10 pts si aciertas</p>
+                    <select id="select-subcampeon" class="bonus-select"><option value="">— Selecciona —</option></select>
+                </div>
+
+                <div class="glassmorphism bonus-section">
+                    <h3>⚽ Máximo Goleador</h3>
+                    <p class="bonus-desc">+10 pts si aciertas</p>
+                    <input type="text" id="input-goleador" class="bonus-input" placeholder="Ej: Kylian Mbappé">
+                </div>
+
+                <div class="save-action"><button id="save-bonus-btn" class="btn-primary">💾 Guardar Pronósticos Extra</button></div>
+
+                <div class="matches-header" style="margin-top:2rem"><h1>📊 Orden de Grupos</h1><p>Ordena los equipos como crees que quedarán. Usa ▲▼ para moverlos.</p><p style="font-size:.8rem;color:#10b981">+5 pts por cada grupo completamente acertado</p></div>
+                <div id="groups-container"></div>
+                <div class="save-action"><button id="save-groups-btn" class="btn-primary">💾 Guardar Orden de Grupos</button></div>
+            </section>
+
+            <!-- CLASIFICACIÓN -->
             <section id="tab-clasificacion" class="tab-content hidden">
-                <div class="matches-header">
-                    <h1>🏅 Clasificación</h1>
-                    <p id="clasif-info"></p>
-                </div>
+                <div class="matches-header"><h1>🏅 Clasificación</h1><p id="clasif-info"></p></div>
                 <div id="leaderboard-container"></div>
-                <div style="margin-top:2rem">
-                    <h2 style="font-size:1.1rem;margin-bottom:.8rem;color:#94a3b8">📋 Tus pronósticos</h2>
-                    <div id="user-predictions-summary" class="matches-grid" style="grid-template-columns:1fr"></div>
-                </div>
+                <div id="leaderboard-detalle" style="margin-top:1rem"></div>
             </section>
 
+            <!-- LOGS -->
             <section id="tab-logs" class="tab-content hidden">
-                <div class="matches-header">
-                    <h1>📋 Historial</h1>
-                    <p>Todos los eventos del mundial en orden cronológico</p>
-                </div>
+                <div class="matches-header"><h1>📋 Historial</h1><p>Todos los eventos del mundial</p></div>
                 <div id="logs-container" class="logs-list"></div>
             </section>
         </main>
