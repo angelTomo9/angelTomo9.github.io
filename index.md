@@ -38,6 +38,7 @@ permalink: /
     <li><a href="{{ '/sintaxis/' | relative_url }}">SintaxisApp – Analizador sintáctico para 4º ESO</a></li>
     <li><a href="{{ '/apps/rompecabezas/' | relative_url }}">Rompecabezas – Minijuego web</a></li>
     <li><a href="{{ '/apps/slope/' | relative_url }}">Slope – El famoso juego de carreras 3D</a></li>
+    <li><a href="{{ '/apps/word-counter/' | relative_url }}">Contador de Palabras – Analizador de texto en tiempo real</a></li>
   </ul>
 </section>
 
