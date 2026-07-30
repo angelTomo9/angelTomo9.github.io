@@ -1,7 +1,10 @@
-﻿title: Ángel
+title: Ángel
 tagline: Mi portal personal
 description: Sitio personal en GitHub Pages.
 url: https://angelTomo9.github.io
+
+include:
+  - "apps/swissknife/_next"
 
 defaults:
   - scope:
