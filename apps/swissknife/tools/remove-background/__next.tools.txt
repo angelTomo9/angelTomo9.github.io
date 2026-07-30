@@ -1,5 +1,6 @@
 1:"$Sreact.fragment"
-2:I[39756,["/apps/swissknife/_next/static/chunks/0-bzwvk1ko0pp.js","/apps/swissknife/_next/static/chunks/14mrh2-p_w84d.js"],"default"]
-3:I[37457,["/apps/swissknife/_next/static/chunks/0-bzwvk1ko0pp.js","/apps/swissknife/_next/static/chunks/14mrh2-p_w84d.js"],"default"]
+2:I[39756,["/apps/swissknife/next_assets/static/chunks/0-bzwvk1ko0pp.js","/apps/swissknife/next_assets/static/chunks/14mrh2-p_w84d.js"],"default"]
+3:I[37457,["/apps/swissknife/next_assets/static/chunks/0-bzwvk1ko0pp.js","/apps/swissknife/next_assets/static/chunks/14mrh2-p_w84d.js"],"default"]
 4:[]
-0:{"rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"isPartial":false,"staleTime":300,"varyParams":"$W4","buildId":"k9FJ5E59d06syngtNnIrw"}
+0:{"rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"isPartial":false,"staleTime":300,"varyParams":"$W4","buildId":"5NudUlNqcXsB6ulBHHW9L"}
+

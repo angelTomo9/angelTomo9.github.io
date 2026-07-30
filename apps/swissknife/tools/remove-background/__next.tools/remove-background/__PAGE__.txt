@@ -1,10 +1,11 @@
 1:"$Sreact.fragment"
-2:I[47257,["/apps/swissknife/_next/static/chunks/0-bzwvk1ko0pp.js","/apps/swissknife/_next/static/chunks/14mrh2-p_w84d.js"],"ClientPageRoot"]
-3:I[22316,["/apps/swissknife/_next/static/chunks/0-bzwvk1ko0pp.js","/apps/swissknife/_next/static/chunks/14mrh2-p_w84d.js","/apps/swissknife/_next/static/chunks/1-u4q-vw0m623.js"],"default"]
-6:I[97367,["/apps/swissknife/_next/static/chunks/0-bzwvk1ko0pp.js","/apps/swissknife/_next/static/chunks/14mrh2-p_w84d.js"],"OutletBoundary"]
+2:I[47257,["/apps/swissknife/next_assets/static/chunks/0-bzwvk1ko0pp.js","/apps/swissknife/next_assets/static/chunks/14mrh2-p_w84d.js"],"ClientPageRoot"]
+3:I[22316,["/apps/swissknife/next_assets/static/chunks/0-bzwvk1ko0pp.js","/apps/swissknife/next_assets/static/chunks/14mrh2-p_w84d.js","/apps/swissknife/next_assets/static/chunks/1-u4q-vw0m623.js"],"default"]
+6:I[97367,["/apps/swissknife/next_assets/static/chunks/0-bzwvk1ko0pp.js","/apps/swissknife/next_assets/static/chunks/14mrh2-p_w84d.js"],"OutletBoundary"]
 7:"$Sreact.suspense"
-:HL["/apps/swissknife/_next/static/chunks/078r0xtkqxv27.css","style"]
-0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","link","0",{"rel":"stylesheet","href":"/apps/swissknife/_next/static/chunks/078r0xtkqxv27.css","precedence":"next"}],["$","script","script-0",{"src":"/apps/swissknife/_next/static/chunks/1-u4q-vw0m623.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"k9FJ5E59d06syngtNnIrw"}
+:HL["/apps/swissknife/next_assets/static/chunks/078r0xtkqxv27.css","style"]
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","link","0",{"rel":"stylesheet","href":"/apps/swissknife/next_assets/static/chunks/078r0xtkqxv27.css","precedence":"next"}],["$","script","script-0",{"src":"/apps/swissknife/next_assets/static/chunks/1-u4q-vw0m623.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"5NudUlNqcXsB6ulBHHW9L"}
 4:{}
 5:"$0:rsc:props:children:0:props:serverProvidedParams:params"
 8:null
+
