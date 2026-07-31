@@ -1,0 +1,8 @@
+1:"$Sreact.fragment"
+2:I[69658,["/apps/swissknife/next_assets/static/chunks/1reif18h-9-d0.js","/apps/swissknife/next_assets/static/chunks/3ixnum3-fm047.js","/apps/swissknife/next_assets/static/chunks/0j52fzkupi34e.js","/apps/swissknife/next_assets/static/chunks/0w_ieuav8b0kn.js","/apps/swissknife/next_assets/static/chunks/3eibt0z8t5kvl.js","/apps/swissknife/next_assets/static/chunks/1m3pywbt9x1e1.js"],"default"]
+3:I[97367,["/apps/swissknife/next_assets/static/chunks/1reif18h-9-d0.js","/apps/swissknife/next_assets/static/chunks/3ixnum3-fm047.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+:HL["/apps/swissknife/next_assets/static/chunks/25vselkkoj4f9.css","style"]
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"id":"text-to-speech"}],[["$","link","0",{"rel":"stylesheet","href":"/apps/swissknife/next_assets/static/chunks/25vselkkoj4f9.css","precedence":"next"}],["$","script","script-0",{"src":"/apps/swissknife/next_assets/static/chunks/0j52fzkupi34e.js","async":true}],["$","script","script-1",{"src":"/apps/swissknife/next_assets/static/chunks/0w_ieuav8b0kn.js","async":true}],["$","script","script-2",{"src":"/apps/swissknife/next_assets/static/chunks/3eibt0z8t5kvl.js","async":true}],["$","script","script-3",{"src":"/apps/swissknife/next_assets/static/chunks/1m3pywbt9x1e1.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"XdVa43yuEbsbWIzW_oGYx"}
+5:null
+

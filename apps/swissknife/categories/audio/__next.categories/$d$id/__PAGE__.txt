@@ -1,0 +1,8 @@
+1:"$Sreact.fragment"
+2:I[74640,["/apps/swissknife/next_assets/static/chunks/1reif18h-9-d0.js","/apps/swissknife/next_assets/static/chunks/3ixnum3-fm047.js","/apps/swissknife/next_assets/static/chunks/40y5hcttnunbo.js"],"default"]
+3:I[97367,["/apps/swissknife/next_assets/static/chunks/1reif18h-9-d0.js","/apps/swissknife/next_assets/static/chunks/3ixnum3-fm047.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+:HL["/apps/swissknife/next_assets/static/chunks/3m_17wq79aw9j.css","style"]
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"category":{"id":"audio","title":"Audio y Voz","shortTitle":"Audio","description":"Transcribe audios, genera voces hiperrealistas y edita pistas","tools":[{"id":"audio-to-text","name":"Audio a Texto","desc":"Transcribe notas de voz y reuniones a texto con precisión","icon":"🎙️"},{"id":"text-to-speech","name":"Texto a Voz","desc":"Genera voz sintética natural a partir de cualquier escrito","icon":"🔊"},{"id":"audio-trimmer","name":"Recortar Audio","desc":"Corta y ajusta el inicio o fin de tus archivos MP3","icon":"✂️"},{"id":"audio-converter","name":"Conversor de Audio","desc":"Convierte entre formatos MP3, WAV, AAC, FLAC y OGG","icon":"🎧"},{"id":"noise-remover","name":"Limpiador de Ruido","desc":"Elimina el ruido de fondo en tus grabaciones de voz","icon":"🧹"}]}}],[["$","link","0",{"rel":"stylesheet","href":"/apps/swissknife/next_assets/static/chunks/3m_17wq79aw9j.css","precedence":"next"}],["$","script","script-0",{"src":"/apps/swissknife/next_assets/static/chunks/40y5hcttnunbo.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"XdVa43yuEbsbWIzW_oGYx"}
+5:null
+
