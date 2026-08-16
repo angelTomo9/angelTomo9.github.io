@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para la Mejor Mamá del Mundo ❤️ | Un Regalo Especial</title>
+  <meta name="description" content="Una recopilación interactiva de nuestros mejores recuerdos familiares y momentos inolvidables. ¡Feliz Cumpleaños Mamá!">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Floating Ambient Particles Canvas -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- Initial Gift Envelope Modal / Intro Screen -->
+  <div id="gift-modal" class="gift-modal active" role="dialog" aria-modal="true" aria-label="Abrir regalo">
+    <div class="gift-card">
+      <div class="gift-ribbon"></div>
+      <div class="gift-icon-wrapper">
+        <span class="gift-sparkle s1">✨</span>
+        <span class="gift-icon">🎁</span>
+        <span class="gift-sparkle s2">💖</span>
+      </div>
+      <p class="gift-tag">15 DE AGOSTO · UN DÍA MUY ESPECIAL</p>
+      <h1 class="gift-title">Para la Mejor Mamá del Mundo</h1>
+      <p class="gift-subtitle">Hemos preparado este rincón interactivo para recordar cada momento, viaje y risa juntos a lo largo de los años.</p>
+      
+      <button id="open-gift-btn" class="btn-open-gift" aria-label="Abrir regalo de cumpleaños">
+        <span class="btn-text">Abrir tu Regalo</span>
+        <span class="btn-icon">💌</span>
+      </button>
+      
+      <p class="gift-hint">🎵 Con la música de Chayanne que tanto te gusta</p>
+    </div>
+  </div>
+
+  <!-- Main Cinema Experience Container -->
+  <main id="cinema-container" class="cinema-container">
+    
+    <!-- Top Navigation Header -->
+    <header class="app-header">
+      <div class="header-content">
+        <div class="header-brand">
+          <span class="badge-special">✨ Regalo de Cumpleaños</span>
+          <h2>Nuestra Historia en Recuerdos</h2>
+        </div>
+        <div class="header-actions">
+          <button id="btn-celebrate-top" class="btn-action-pill" title="Lanzar confeti y corazones">
+            <span>🎉 Celebrar</span>
+          </button>
+          <a href="../../" class="btn-back-home" title="Volver al inicio">
+            <span>🏠 Inicio</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Video Stage -->
+    <section class="video-stage">
+      <div class="ambient-glow" id="ambient-glow"></div>
+      
+      <div class="video-frame-wrapper" id="video-wrapper">
+        <video 
+          id="main-video" 
+          preload="auto" 
+          playsinline 
+          src="video_regalo_mama.mp4"
+          poster=""
+        >
+          Tu navegador no soporta el formato de vídeo HTML5.
+        </video>
+
+        <!-- Big Play Button Overlay -->
+        <div id="play-overlay" class="play-overlay">
+          <button id="btn-big-play" class="btn-big-play" aria-label="Reproducir vídeo">
+            <svg class="play-icon-svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </button>
+          <span class="play-overlay-text">Haz clic para reproducir</span>
+        </div>
+
+        <!-- Custom Player Controls Bar -->
+        <div class="custom-controls" id="custom-controls">
+          <!-- Progress Bar with Milestone Markers -->
+          <div class="progress-bar-container" id="progress-container">
+            <div class="progress-buffered" id="progress-buffered"></div>
+            <div class="progress-filled" id="progress-filled"></div>
+            <div class="progress-thumb" id="progress-thumb"></div>
+            
+            <!-- Milestones Markers -->
+            <div class="milestone" style="left: 4.3%;" title="2002 · Comienzos" data-time="3.5"></div>
+            <div class="milestone" style="left: 9.0%;" title="2010 · Nace Ángel" data-time="7.3"></div>
+            <div class="milestone" style="left: 32.2%;" title="2015 · 5 Años" data-time="26.3"></div>
+            <div class="milestone" style="left: 46.2%;" title="2022 · Vacaciones" data-time="37.7"></div>
+            <div class="milestone" style="left: 55.6%;" title="2025 · Veranos juntos" data-time="45.3"></div>
+            <div class="milestone" style="left: 71.9%;" title="2026 · Hoy" data-time="58.6"></div>
+            <div class="milestone milestone-bday" style="left: 92.0%;" title="🎂 Felicidades" data-time="75.0"></div>
+          </div>
+
+          <div class="controls-row">
+            <div class="controls-left">
+              <button id="btn-play-pause" class="btn-ctrl" aria-label="Reproducir o pausar" title="Espacio">
+                <svg id="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <svg id="icon-pause" class="hidden" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+              </button>
+
+              <button id="btn-replay-10" class="btn-ctrl btn-small" title="Retroceder 10s" aria-label="Retroceder 10 segundos">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/><text x="12" y="14.5" font-size="7" font-weight="bold" fill="currentColor" text-anchor="middle">10</text></svg>
+              </button>
+
+              <button id="btn-forward-10" class="btn-ctrl btn-small" title="Avanzar 10s" aria-label="Avanzar 10 segundos">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 5V1l5 5-5 5V7c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6h2c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8z"/><text x="12" y="14.5" font-size="7" font-weight="bold" fill="currentColor" text-anchor="middle">10</text></svg>
+              </button>
+
+              <div class="time-display">
+                <span id="time-current">0:00</span> / <span id="time-duration">1:21</span>
+              </div>
+            </div>
+
+            <div class="controls-right">
+              <!-- Volume Control -->
+              <div class="volume-box">
+                <button id="btn-volume" class="btn-ctrl" aria-label="Silenciar o activar sonido" title="Mute (M)">
+                  <svg id="icon-vol-high" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                  <svg id="icon-vol-mute" class="hidden" viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                </button>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="1" aria-label="Volumen">
+              </div>
+
+              <!-- Fullscreen Button -->
+              <button id="btn-fullscreen" class="btn-ctrl" aria-label="Pantalla completa" title="Pantalla completa (F)">
+                <svg id="icon-fs-enter" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+                <svg id="icon-fs-exit" class="hidden" viewBox="0 0 24 24" fill="currentColor"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Chapters & Timeline Navigation -->
+    <section class="timeline-nav-section" aria-label="Capítulos del vídeo">
+      <h3 class="section-title">✨ Momentos de Nuestra Historia</h3>
+      <div class="chapters-grid">
+        <button class="chapter-card" data-time="3.5">
+          <span class="chap-badge">2002 - 2005</span>
+          <h4>Comienzos</h4>
+          <p>Donde comenzó nuestra historia de amor</p>
+        </button>
+
+        <button class="chapter-card" data-time="7.3">
+          <span class="chap-badge">2010 - 2011</span>
+          <h4>Llegada y Primeros Pasos</h4>
+          <p>El día que el mundo se iluminó</p>
+        </button>
+
+        <button class="chapter-card" data-time="26.3">
+          <span class="chap-badge">2015 - 2020</span>
+          <h4>Creciendo Juntos</h4>
+          <p>5 añitos y momentos inolvidables</p>
+        </button>
+
+        <button class="chapter-card" data-time="37.7">
+          <span class="chap-badge">2022 - 2025</span>
+          <h4>Vacaciones y Viajes</h4>
+          <p>Conociendo mundo y sonriendo juntos</p>
+        </button>
+
+        <button class="chapter-card" data-time="58.6">
+          <span class="chap-badge">2026</span>
+          <h4>Hoy en Día</h4>
+          <p>Siempre seré tu pequeño</p>
+        </button>
+
+        <button class="chapter-card highlight-card" data-time="75.0">
+          <span class="chap-badge bday-badge">🎂 Especial</span>
+          <h4>¡Felicidades Mamá!</h4>
+          <p>A la mejor madre y mujer del mundo</p>
+        </button>
+      </div>
+    </section>
+
+    <!-- Interactive Dedication Card Section -->
+    <section class="dedication-section">
+      <div class="dedication-card">
+        <div class="dedication-header">
+          <span class="dedication-heart">❤️</span>
+          <h3>Para Ti, con Todo Nuestro Amor</h3>
+        </div>
+        <p class="dedication-text">
+          Gracias por cada abrazo que calma el alma, por cada viaje inolvidable, por tus sonrisas infinitas y por enseñarnos lo que significa amar de verdad. Eres nuestro mayor orgullo, nuestro refugio y la mejor madre y mujer que podríamos desear.
+        </p>
+        <p class="dedication-signature">
+          — Con todo nuestro cariño infinito en tu día especial 🎂✨
+        </p>
+
+        <div class="dedication-actions">
+          <button id="btn-fireworks" class="btn-primary-heart">
+            <span>💖 Lanzar Lluvia de Amor</span>
+          </button>
+          <a href="video_regalo_mama.mp4" download="Video_Regalo_Mama_Chayanne.mp4" class="btn-secondary-download">
+            <span>📥 Descargar Vídeo HD</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>Hecho con amor y cariño para el cumpleaños de Mamá ❤️ · 15 de Agosto</p>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
