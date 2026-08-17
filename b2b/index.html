@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B2B Growth Engine | Datasets Comerciales y Optimización Web España</title>
+  <meta name="description" content="Bases de datos B2B verificadas de pymes en España, auditorías de conversión y soluciones técnicas express en 24h.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --accent: #059669;
+      --dark: #0f172a;
+      --slate: #334155;
+      --light-slate: #64748b;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--slate); line-height: 1.6; }
+    .header { background: #ffffff; border-bottom: 1px solid var(--border); padding: 18px 24px; position: sticky; top: 0; z-index: 50; }
+    .nav-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .brand { font-weight: 800; font-size: 20px; color: var(--dark); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .brand-badge { background: #dbeafe; color: var(--primary); font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 99px; }
+    .hero { max-width: 900px; margin: 60px auto 40px; text-align: center; padding: 0 20px; }
+    .hero h1 { font-size: 42px; font-weight: 800; color: var(--dark); line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .hero p { font-size: 18px; color: var(--light-slate); max-width: 680px; margin: 0 auto 30px; }
+    .guarantee-pills { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 50px; font-size: 14px; font-weight: 600; color: var(--slate); }
+    .pill { display: flex; align-items: center; gap: 6px; background: #ffffff; padding: 6px 14px; border-radius: 99px; border: 1px solid var(--border); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+    
+    .container { max-width: 1100px; margin: 0 auto 80px; padding: 0 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 32px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04); transition: transform 0.2s, box-shadow 0.2s; position: relative; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px -3px rgba(0,0,0,0.08); }
+    .card.featured { border: 2px solid var(--primary); }
+    .card-tag { position: absolute; top: -12px; right: 24px; background: var(--primary); color: #ffffff; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 99px; }
+    
+    .card-title { font-size: 22px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .card-desc { font-size: 14px; color: var(--light-slate); margin-bottom: 20px; }
+    .price-box { display: flex; align-items: baseline; gap: 6px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+    .price { font-size: 38px; font-weight: 800; color: var(--dark); }
+    .price-period { font-size: 14px; color: var(--light-slate); }
+    
+    .features-list { list-style: none; margin-bottom: 30px; }
+    .features-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--slate); margin-bottom: 12px; }
+    .features-list li span.check { color: var(--accent); font-weight: 800; }
+    
+    .btn { display: inline-block; width: 100%; text-align: center; background: var(--primary); color: #ffffff; font-weight: 700; padding: 14px 20px; border-radius: 10px; text-decoration: none; font-size: 15px; border: none; cursor: pointer; transition: background 0.15s; }
+    .btn:hover { background: var(--primary-dark); }
+    .btn-secondary { background: #f1f5f9; color: var(--dark); }
+    .btn-secondary:hover { background: #e2e8f0; }
+
+    .payment-modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+    .modal-content { background: #ffffff; max-width: 520px; width: 100%; border-radius: 16px; padding: 32px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .modal-header h3 { font-size: 20px; font-weight: 700; color: var(--dark); }
+    .close-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--light-slate); }
+
+    .payment-methods { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+    .pay-card { border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.15s; }
+    .pay-card:hover { border-color: var(--primary); background: #f8fafc; }
+    .wallet-box { background: #f1f5f9; border-radius: 8px; padding: 12px; font-family: monospace; font-size: 11px; word-break: break-all; margin-top: 10px; color: #1e293b; user-select: all; }
+
+    .footer { text-align: center; padding: 40px 20px; font-size: 13px; color: var(--light-slate); border-top: 1px solid var(--border); background: #ffffff; }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="nav-container">
+      <a href="../" class="brand">
+        ⚡ B2B Growth Engine
+        <span class="brand-badge">España 2026</span>
+      </a>
+      <a href="#catalogo" class="btn btn-secondary" style="width: auto; padding: 8px 18px; font-size: 13px;">Ver Catálogo</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Impulsa tus Ventas B2B con Datos Verificados y Mejoras de Alta Conversión</h1>
+      <p>Bases de datos comerciales hiper-segmentadas de empresas en España, auditorías técnicas de rendimiento y soluciones de captación express en menos de 24 horas.</p>
+
+      <div class="guarantee-pills">
+        <div class="pill"><span>✅</span> Datos Verificados 100% Reales</div>
+        <div class="pill"><span>⚡</span> Entrega Inmediata en CSV / Excel</div>
+        <div class="pill"><span>🔒</span> Pago Seguro con Múltiples Opciones</div>
+        <div class="pill"><span>🛡️</span> Garantía de Satisfacción</div>
+      </div>
+    </section>
+
+    <section id="catalogo" class="container">
+      <div class="grid">
+        
+        <!-- PRODUCT 1: B2B LEADS PACK -->
+        <article class="card">
+          <div>
+            <h2 class="card-title">Base de Datos B2B España</h2>
+            <p class="card-desc">Pack de 250 contactos comerciales verificados de pymes y profesionales en España (Madrid, Barcelona, Valencia, Sevilla, etc.).</p>
+            <div class="price-box">
+              <div class="price">29 €</div>
+              <div class="price-period">pago único</div>
+            </div>
+            <ul class="features-list">
+              <li><span class="check">✓</span> 250 empresas con Nombre, Sector y Ciudad</li>
+              <li><span class="check">✓</span> Teléfono directo y Email comercial verificado</li>
+              <li><span class="check">✓</span> Enlace a web y diagnóstico de conversión</li>
+              <li><span class="check">✓</span> Formato Excel (.xlsx) y CSV compatible con CRM</li>
+              <li><span class="check">✓</span> Descarga inmediata tras confirmar pedido</li>
+            </ul>
+          </div>
+          <button onclick="openPayment('Base de Datos B2B (250 Leads)', '29 €')" class="btn">Comprar Ahora (29 €)</button>
+        </article>
+
+        <!-- PRODUCT 2: OPTIMIZACIÓN WEB EXPRESS -->
+        <article class="card featured">
+          <div class="card-tag">MÁS POPULAR</div>
+          <div>
+            <h2 class="card-title">Optimización Web & WhatsApp 24h</h2>
+            <p class="card-desc">Implementación directa en tu web para disparar los presupuestos y llamadas de clientes desde el móvil.</p>
+            <div class="price-box">
+              <div class="price">49 €</div>
+              <div class="price-period">servicio llave en mano</div>
+            </div>
+            <ul class="features-list">
+              <li><span class="check">✓</span> Botón flotante WhatsApp personalizado con mensaje directo</li>
+              <li><span class="check">✓</span> Optimización de velocidad móvil (< 2.0s de carga)</li>
+              <li><span class="check">✓</span> Corrección de certificado SSL y etiquetas SEO clave</li>
+              <li><span class="check">✓</span> Informe de auditoría técnica antes y después</li>
+              <li><span class="check">✓</span> Listo y funcionando en tu web en menos de 24h</li>
+            </ul>
+          </div>
+          <button onclick="openPayment('Optimización Web Express 24h', '49 €')" class="btn">Contratar Servicio (49 €)</button>
+        </article>
+
+        <!-- PRODUCT 3: B2B PACK PRO 1000 LEADS -->
+        <article class="card">
+          <div>
+            <h2 class="card-title">Pack Pro: 1.000 Leads B2B</h2>
+            <p class="card-desc">El dataset completo para agencias, empresas de reformas, instaladores, clínicas y equipos de venta activa.</p>
+            <div class="price-box">
+              <div class="price">79 €</div>
+              <div class="price-period">ahorro del 35%</div>
+            </div>
+            <ul class="features-list">
+              <li><span class="check">✓</span> 1.000 empresas segmentadas en 10 sectores top</li>
+              <li><span class="check">✓</span> Cobertura de las 10 mayores ciudades de España</li>
+              <li><span class="check">✓</span> Teléfonos móviles y fijos + Emails directos</li>
+              <li><span class="check">✓</span> Incluye suite de scripts de filtrado y prospección</li>
+              <li><span class="check">✓</span> Soporte prioritario y actualizaciones</li>
+            </ul>
+          </div>
+          <button onclick="openPayment('Pack Pro 1000 Leads B2B', '79 €')" class="btn btn-secondary">Comprar Pack Pro (79 €)</button>
+        </article>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- PAYMENT MODAL -->
+  <div id="paymentModal" class="payment-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalProductTitle">Completar Pedido</h3>
+        <button class="close-btn" onclick="closePayment()">&times;</button>
+      </div>
+      <p style="font-size: 14px; color: var(--light-slate); margin-bottom: 15px;">
+        Producto: <strong id="modalProductName" style="color:var(--dark);"></strong> (<span id="modalProductPrice" style="color:var(--primary); font-weight:700;"></span>)
+      </p>
+
+      <div class="payment-methods">
+        <!-- Option 1: Direct Email / Transfer / Bizum -->
+        <div class="pay-card" onclick="location.href='mailto:paraalgoservira@gmail.com?subject=Pedido:%20' + encodeURIComponent(currentProduct) + '&body=Hola,%20deseo%20adquirir%20' + encodeURIComponent(currentProduct) + '%20por%20' + encodeURIComponent(currentPrice) + '.%20Por%20favor%20indicar%20los%20datos%20de%20pago/Bizum/transferencia.'">
+          <div>
+            <strong>💳 Bizum / Transferencia / Tarjeta</strong>
+            <div style="font-size:12px; color:var(--light-slate);">Contacto directo para activación inmediata</div>
+          </div>
+          <span style="font-size: 18px;">➡️</span>
+        </div>
+
+        <!-- Option 2: Crypto Monero XMR -->
+        <div class="pay-card" onclick="toggleCrypto()">
+          <div>
+            <strong>🪙 Criptomoneda (Monero XMR)</strong>
+            <div style="font-size:12px; color:var(--light-slate);">Pago privado sin comisiones bancarias</div>
+          </div>
+          <span style="font-size: 18px;">▼</span>
+        </div>
+
+        <div id="cryptoDetails" style="display:none; background:#f8fafc; border:1px dashed var(--border); border-radius:8px; padding:12px; margin-top:8px;">
+          <div style="font-size:12px; font-weight:600; color:var(--dark);">Dirección Monero (XMR):</div>
+          <div class="wallet-box">46K1Pqw4XaLPGPLAQhkcfCSQzt1q8RAqHWjyGg7aDeoaKHa8xGvJf4S2Q6S31RazgZfnKDqALgYcRJj5d5Y8XBLXAEFWjyB</div>
+          <div style="font-size:11px; color:var(--light-slate); margin-top:6px;">Tras realizar la transferencia, envía el ID de transacción o comprobante a <strong>paraalgoservira@gmail.com</strong> para recibir tus archivos al instante.</div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 24px;">
+        <button onclick="closePayment()" class="btn btn-secondary" style="width:auto; padding:8px 24px;">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© 2026 B2B Growth Engine. Todos los derechos reservados. Contacto directo: paraalgoservira@gmail.com</p>
+  </footer>
+
+  <script>
+    let currentProduct = '';
+    let currentPrice = '';
+
+    function openPayment(productName, price) {
+      currentProduct = productName;
+      currentPrice = price;
+      document.getElementById('modalProductName').innerText = productName;
+      document.getElementById('modalProductPrice').innerText = price;
+      document.getElementById('paymentModal').style.display = 'flex';
+    }
+
+    function closePayment() {
+      document.getElementById('paymentModal').style.display = 'none';
+    }
+
+    function toggleCrypto() {
+      const details = document.getElementById('cryptoDetails');
+      details.style.display = details.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>
