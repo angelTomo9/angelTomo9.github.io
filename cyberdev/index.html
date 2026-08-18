@@ -3,18 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CyberDev Tycoon | Web Hacker & Startup Simulator</title>
-  <meta name="description" content="Juego interactivo de estrategia y simulación: programa código, defiende servidores contra ataques DDoS, desbloquea clusters de IA y convierte tu startup de garaje en un unicornio tecnológico.">
+  <title>CyberDev Tycoon 2026 | Hacker & Startup Simulator</title>
+  <meta name="description" content="Simulador interactivo de desarrollo de software, ciberdefensa y monetización de startups. Escribe código, desbloquea clusters de IA, repele ciberataques y lleva tu startup a la IPO.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #030712;
-      --card-bg: #0f172a;
+      --panel-bg: rgba(15, 23, 42, 0.85);
       --border: #1e293b;
       --primary: #3b82f6;
+      --primary-glow: rgba(59, 130, 246, 0.4);
       --accent: #10b981;
+      --accent-glow: rgba(16, 185, 129, 0.4);
       --warning: #f59e0b;
       --danger: #ef4444;
       --text: #f8fafc;
@@ -29,313 +31,484 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      position: relative;
     }
+    
+    /* Background Matrix Canvas */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.15;
+    }
+
+    /* Scanlines effect (toggleable) */
+    .scanlines {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      background-size: 100% 3px, 3px 100%;
+      pointer-events: none;
+      z-index: 99;
+    }
+
     header {
-      background: #0b132b;
+      background: rgba(11, 19, 43, 0.9);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
       padding: 14px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative;
+      z-index: 10;
     }
-    .brand { font-size: 20px; font-weight: 800; color: #38bdf8; display: flex; align-items: center; gap: 8px; text-decoration: none; }
-    .badge-live { background: #059669; color: #fff; font-size: 11px; padding: 2px 8px; border-radius: 99px; font-weight: 700; }
-    
-    /* Top Ad Banner */
+    .brand { font-size: 22px; font-weight: 900; color: #38bdf8; display: flex; align-items: center; gap: 8px; text-decoration: none; letter-spacing: -0.5px; }
+    .brand span { color: #f8fafc; }
+    .badge-live { background: #059669; color: #fff; font-size: 11px; padding: 2px 10px; border-radius: 99px; font-weight: 800; }
+
+    /* Top Sponsor Ad Bar */
     .ad-banner-top {
-      background: #0f172a;
+      background: rgba(15, 23, 42, 0.95);
       border-bottom: 1px solid var(--border);
-      padding: 10px;
+      padding: 8px 16px;
       text-align: center;
       font-size: 12px;
       color: var(--muted);
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
+      position: relative;
+      z-index: 10;
     }
     .ad-banner-top a { color: #38bdf8; font-weight: 700; text-decoration: none; }
+    .ad-banner-top a:hover { text-decoration: underline; }
 
+    /* Main Container */
     .game-container {
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 0 20px;
+      max-width: 1380px;
+      margin: 16px auto;
+      padding: 0 16px;
       display: grid;
-      grid-template-columns: 340px 1fr 320px;
-      gap: 20px;
+      grid-template-columns: 320px 1fr 360px;
+      gap: 16px;
       flex: 1;
+      position: relative;
+      z-index: 10;
     }
-    @media (max-width: 1024px) {
+    @media (max-width: 1150px) {
       .game-container { grid-template-columns: 1fr; }
     }
 
     .panel {
-      background: var(--card-bg);
+      background: var(--panel-bg);
+      backdrop-filter: blur(12px);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
+      border-radius: 14px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     }
 
-    .stat-box {
-      background: #020617;
+    .stat-card {
+      background: rgba(2, 6, 23, 0.7);
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 12px;
+      border-radius: 10px;
+      padding: 12px 14px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
-    .stat-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
-    .stat-val { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 800; margin-top: 4px; }
+    .stat-label { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .stat-val { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 800; margin-top: 3px; }
 
-    /* Center Main Action */
+    /* Center Coding Hub */
     .center-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       text-align: center;
       position: relative;
     }
+    
     .clicker-btn {
-      background: linear-gradient(135deg, #1d4ed8, #7c3aed);
-      border: 2px solid #3b82f6;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      border: 2px solid #60a5fa;
       color: #ffffff;
       font-size: 20px;
-      font-weight: 800;
-      padding: 28px 48px;
+      font-weight: 900;
+      padding: 24px 44px;
       border-radius: 99px;
       cursor: pointer;
-      box-shadow: 0 10px 30px -5px rgba(59, 130, 246, 0.6);
-      transition: all 0.1s ease;
-      margin: 20px 0;
+      box-shadow: 0 0 30px var(--primary-glow);
+      transition: transform 0.08s ease, box-shadow 0.08s ease;
+      margin: 14px 0;
       user-select: none;
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
     }
     .clicker-btn:active {
-      transform: scale(0.96);
-      box-shadow: 0 4px 15px -2px rgba(59, 130, 246, 0.8);
+      transform: scale(0.95);
+      box-shadow: 0 0 15px var(--primary-glow);
     }
+    .clicker-sub { font-size: 11px; font-weight: 700; color: #bfdbfe; text-transform: uppercase; letter-spacing: 0.05em; }
 
-    .terminal {
+    /* Terminal */
+    .terminal-wrapper {
+      width: 100%;
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 8px;
-      padding: 14px;
-      height: 180px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    .terminal-header {
+      background: #0f172a;
+      padding: 8px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #1e293b;
+    }
+    .terminal {
+      padding: 12px;
+      height: 160px;
       overflow-y: auto;
       text-align: left;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
+      font-size: 11.5px;
       color: #34d399;
+      line-height: 1.5;
     }
 
-    /* Upgrade items */
-    .upgrade-card {
+    /* Floating particles on click */
+    .floating-text {
+      position: absolute;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      color: #38bdf8;
+      pointer-events: none;
+      animation: floatUp 0.8s forwards;
+      font-size: 14px;
+      text-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
+      z-index: 100;
+    }
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-50px) scale(1.2); }
+    }
+
+    /* Upgrade and Tech Tree tabs */
+    .tab-bar {
+      display: flex;
+      gap: 6px;
       background: #020617;
+      padding: 4px;
+      border-radius: 8px;
+      border: 1px solid #1e293b;
+    }
+    .tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      padding: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .tab-btn.active {
+      background: #1e293b;
+      color: #38bdf8;
+    }
+
+    .upgrade-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 380px;
+      overflow-y: auto;
+    }
+    .upgrade-card {
+      background: rgba(2, 6, 23, 0.7);
       border: 1px solid #1e293b;
       border-radius: 8px;
-      padding: 12px;
+      padding: 10px 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: border-color 0.15s;
+      transition: all 0.15s;
     }
-    .upgrade-card:hover { border-color: #3b82f6; }
+    .upgrade-card:hover { border-color: #38bdf8; }
+    .upgrade-info { text-align: left; }
+    .upgrade-title { font-size: 13px; font-weight: 700; color: #f8fafc; }
+    .upgrade-desc { font-size: 11px; color: var(--muted); }
     .btn-buy {
       background: #2563eb;
       color: #ffffff;
       border: none;
-      padding: 8px 14px;
+      padding: 8px 12px;
       border-radius: 6px;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 12px;
       cursor: pointer;
+      transition: background 0.15s;
     }
     .btn-buy:hover { background: #1d4ed8; }
+    .btn-buy:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
 
     /* Alert Banner */
     .alert-banner {
-      background: #dc2626;
+      background: linear-gradient(135deg, #dc2626, #991b1b);
+      border: 2px solid #f87171;
       color: #fff;
-      padding: 12px;
-      border-radius: 8px;
+      padding: 12px 16px;
+      border-radius: 10px;
       font-weight: 800;
       font-size: 13px;
       display: none;
       animation: pulse 1s infinite;
+      margin-bottom: 12px;
+      width: 100%;
     }
     @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.9; transform: scale(0.99); }
     }
 
-    /* VIP & Ad section */
+    /* VIP Developer Pass */
     .vip-box {
-      background: linear-gradient(135deg, #1e1b4b, #311042);
-      border: 2px solid #8b5cf6;
+      background: linear-gradient(135deg, #1e1b4b, #2e1065);
+      border: 2px solid #a855f7;
       border-radius: 12px;
-      padding: 16px;
+      padding: 14px;
       text-align: center;
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
     }
+    .vip-title { font-size: 14px; font-weight: 900; color: #c084fc; text-transform: uppercase; }
+    .vip-price { font-size: 16px; font-weight: 900; color: #38bdf8; margin: 4px 0; }
     .btn-bizum {
       background: #10b981;
       color: #ffffff;
       border: none;
-      padding: 10px 16px;
+      padding: 10px 14px;
       border-radius: 8px;
       font-weight: 800;
       font-size: 13px;
       cursor: pointer;
       width: 100%;
-      margin-top: 8px;
+      margin-top: 6px;
+      transition: background 0.15s;
     }
+    .btn-bizum:hover { background: #059669; }
 
     footer {
-      background: #0b132b;
+      background: rgba(11, 19, 43, 0.9);
       border-top: 1px solid var(--border);
-      padding: 20px;
+      padding: 16px;
       text-align: center;
       font-size: 12px;
       color: var(--muted);
-      margin-top: 30px;
+      margin-top: auto;
+      position: relative;
+      z-index: 10;
     }
   </style>
 </head>
 <body>
 
+  <!-- Canvas for Matrix background -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="scanlines"></div>
+
   <!-- Top Ad Banner -->
   <div class="ad-banner-top">
-    <span>📢 <strong>Sponsor Oficial</strong>: SwissDev Tools Pro v3.0 - Suite de utilidades para desarrolladores y auditorías web en vivo.</span>
+    <span>📢 <strong>Sponsor Oficial</strong>: SwissDev Tools Pro v3.0 | Suite de Auditoría Web en Vivo, QR & Utilidades B2B.</span>
     <a href="https://angeltomo9.github.io/" target="_blank">Abrir Herramientas →</a>
   </div>
 
+  <!-- Header -->
   <header>
     <a href="#" class="brand">
-      ⚡ CyberDev Tycoon
-      <span class="badge-live">v2.0 Online</span>
+      ⚡ CyberDev <span>Tycoon 2026</span>
+      <span class="badge-live">v3.0 DEFINITIVE</span>
     </a>
-    <div style="font-size:13px; color:#94a3b8;">
-      Servidor: <strong style="color:#10b981;">Activo (100% Uptime)</strong>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <button onclick="toggleAudio()" id="audio-toggle" style="background:#1e293b; border:1px solid #334155; color:#94a3b8; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer;">
+        🔊 Sonido: ON
+      </button>
+      <div style="font-size:12px; color:#10b981; font-weight:700;">
+        🟢 Uptime 100%
+      </div>
     </div>
   </header>
 
+  <!-- Game Layout -->
   <div class="game-container">
     
-    <!-- LEFT: Startup Status -->
+    <!-- LEFT: Metrics & Startup Valuation -->
     <aside class="panel">
-      <h3 style="font-size: 16px; font-weight: 800; color: #38bdf8;">📊 Métricas de la Startup</h3>
-      
-      <div class="stat-box">
+      <h3 style="font-size: 15px; font-weight: 800; color: #38bdf8; display:flex; align-items:center; gap:6px;">
+        📊 Métricas de la Startup
+      </h3>
+
+      <div class="stat-card">
         <div class="stat-label">Líneas de Código (LOC)</div>
         <div id="stat-loc" class="stat-val" style="color:#38bdf8;">0</div>
         <div style="font-size:11px; color:#64748b; margin-top:2px;">+<span id="stat-loc-sec">0</span> LOC/s pasivo</div>
       </div>
 
-      <div class="stat-box">
+      <div class="stat-card">
         <div class="stat-label">Valoración / Capital</div>
         <div id="stat-cash" class="stat-val" style="color:#34d399;">0.00 €</div>
-        <div style="font-size:11px; color:#64748b; margin-top:2px;">Ingresos generados</div>
+        <div style="font-size:11px; color:#64748b; margin-top:2px;">Ronda: <span id="funding-round" style="color:#fbbf24; font-weight:700;">Garage Seed</span></div>
       </div>
 
-      <div class="stat-box">
+      <div class="stat-card">
         <div class="stat-label">Nivel de Compañía</div>
         <div id="stat-tier" class="stat-val" style="color:#fbbf24; font-size: 18px;">Garage Dev</div>
         <div id="stat-progress" style="font-size:11px; color:#64748b; margin-top:2px;">Nivel 1 de 5</div>
       </div>
 
-      <!-- Live Leaderboard Mock -->
-      <div style="background:#020617; border:1px solid #1e293b; border-radius:8px; padding:12px;">
-        <div style="font-size:12px; font-weight:800; color:#94a3b8; margin-bottom:8px;">🏆 TOP HACKERS GLOBALES</div>
-        <div style="font-size:11px; color:#cbd5e1; display:flex; justify-content:space-between; padding:3px 0;">
-          <span>1. @NeoMaster</span> <span>1,420,000 LOC</span>
+      <!-- Live Leaderboard -->
+      <div style="background:#020617; border:1px solid #1e293b; border-radius:8px; padding:10px;">
+        <div style="font-size:11px; font-weight:800; color:#94a3b8; margin-bottom:6px; text-transform:uppercase;">🏆 TOP HACKERS GLOBALES</div>
+        <div style="font-size:11px; color:#cbd5e1; display:flex; justify-content:space-between; padding:2px 0;">
+          <span>1. 👑 @CyberSatoshi</span> <span style="font-family:'JetBrains Mono';">2,500,000 LOC</span>
         </div>
-        <div style="font-size:11px; color:#cbd5e1; display:flex; justify-content:space-between; padding:3px 0;">
-          <span>2. @BitRunner</span> <span>890,500 LOC</span>
+        <div style="font-size:11px; color:#cbd5e1; display:flex; justify-content:space-between; padding:2px 0;">
+          <span>2. 🚀 @AdaLovelace99</span> <span style="font-family:'JetBrains Mono';">1,120,400 LOC</span>
         </div>
-        <div style="font-size:11px; color:#38bdf8; font-weight:700; display:flex; justify-content:space-between; padding:3px 0;">
-          <span>3. Tú (<span id="user-name">AnonDev</span>)</span> <span id="user-rank-score">0 LOC</span>
+        <div style="font-size:11px; color:#38bdf8; font-weight:800; display:flex; justify-content:space-between; padding:2px 0;">
+          <span>3. ⚡ Tú (<span id="player-alias">Hacker_1</span>)</span> <span id="user-score" style="font-family:'JetBrains Mono';">0 LOC</span>
         </div>
+      </div>
+
+      <!-- Sound & Settings -->
+      <div style="font-size:11px; color:#64748b; text-align:center;">
+        Consejo: Puedes presionar cualquier tecla para compilar rápido.
       </div>
     </aside>
 
-    <!-- CENTER: Main Clicker & Terminal -->
+    <!-- CENTER: Main Coding Core & Terminal -->
     <main class="panel center-panel">
       
-      <!-- DDoS Attack Notification -->
+      <!-- DDoS Attack Notification Banner -->
       <div id="ddos-alert" class="alert-banner">
-        ⚠️ ¡ATAQUE DDoS DETECTADO EN EL CLUSTER!
-        <button onclick="defendDDoS()" style="background:#fbbf24; color:#000; font-weight:800; border:none; padding:4px 12px; border-radius:4px; margin-left:10px; cursor:pointer;">
+        ⚠️ ¡ATAQUE DDoS MASIVO DETECTADO! 
+        <button onclick="defendDDoS()" style="background:#fbbf24; color:#000; font-weight:900; border:none; padding:6px 14px; border-radius:6px; margin-left:10px; cursor:pointer;">
           🛡️ MITIGAR (+50 € BOUNTY)
         </button>
       </div>
 
-      <div>
-        <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 4px;">Compilador de Código Cuántico</h2>
-        <p style="font-size: 13px; color: var(--muted);">Haz clic para minar bloques de código y expandir tu arquitectura.</p>
+      <div style="text-align:center;">
+        <h2 style="font-size: 22px; font-weight: 900; margin-bottom: 2px;">Compilador Cuántico</h2>
+        <p style="font-size: 13px; color: var(--muted);">Presiona el botón o teclea para minar bloques de software.</p>
       </div>
 
-      <button id="clicker" class="clicker-btn" onclick="mineClick()">
-        ⚡ COMPILAR (+<span id="click-rate">1</span> LOC)
+      <!-- Main Clicker Button -->
+      <button id="clicker" class="clicker-btn" onclick="mineClick(event)">
+        <span>⚡ COMPILAR CÓDIGO</span>
+        <span class="clicker-sub">+<span id="click-rate">1</span> LOC / Clic</span>
       </button>
 
       <!-- Terminal Output -->
-      <div class="terminal" id="terminal">
-        <div>[SYSTEM] SwissDev Tycoon v2.0 Engine initialized.</div>
-        <div>[SYSTEM] Conectado a la red descentralizada. ¡Empieza a compilar!</div>
+      <div class="terminal-wrapper">
+        <div class="terminal-header">
+          <span>TERMINAL DE PRODUCCIÓN (v8.4.2)</span>
+          <span id="term-status" style="color:#10b981;">● RUNNING</span>
+        </div>
+        <div class="terminal" id="terminal">
+          <div>[SYSTEM] SwissDev Tycoon v3.0 Engine ready.</div>
+          <div>[SYSTEM] Servidor en la nube conectado. ¡Empieza a compilar!</div>
+        </div>
       </div>
     </main>
 
-    <!-- RIGHT: Upgrades & Monetization -->
+    <!-- RIGHT: Upgrades, Tech Tree & VIP Passes -->
     <aside class="panel">
-      <h3 style="font-size: 16px; font-weight: 800; color: #34d399;">🛠️ Infraestructura & Upgrades</h3>
-
-      <div class="upgrade-card">
-        <div>
-          <div style="font-weight:700; font-size:13px;">🤖 Junior AI Bot</div>
-          <div style="font-size:11px; color:#64748b;">+2 LOC/s · Posees: <span id="u1-cnt">0</span></div>
-        </div>
-        <button class="btn-buy" onclick="buyUnit(1, 20)">Comprar (<span id="u1-cost">20</span> LOC)</button>
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchUpgradeTab('bots')">🤖 Agentes & Bots</button>
+        <button class="tab-btn" onclick="switchUpgradeTab('cloud')">🌐 Infraestructura</button>
       </div>
 
-      <div class="upgrade-card">
-        <div>
-          <div style="font-weight:700; font-size:13px;">🚀 DevOps Pipeline</div>
-          <div style="font-size:11px; color:#64748b;">+12 LOC/s · Posees: <span id="u2-cnt">0</span></div>
+      <!-- UPGRADES: BOTS TAB -->
+      <div id="tab-bots" class="upgrade-list">
+        <div class="upgrade-card">
+          <div class="upgrade-info">
+            <div class="upgrade-title">🤖 Junior AI Copilot</div>
+            <div class="upgrade-desc">+2 LOC/s · Posees: <span id="u1-cnt">0</span></div>
+          </div>
+          <button id="btn-u1" class="btn-buy" onclick="buyUnit(1, 20)">Comprar (<span id="u1-cost">20</span>)</button>
         </div>
-        <button class="btn-buy" onclick="buyUnit(2, 120)">Comprar (<span id="u2-cost">120</span> LOC)</button>
+
+        <div class="upgrade-card">
+          <div class="upgrade-info">
+            <div class="upgrade-title">🚀 DevOps Pipeline Bot</div>
+            <div class="upgrade-desc">+15 LOC/s · Posees: <span id="u2-cnt">0</span></div>
+          </div>
+          <button id="btn-u2" class="btn-buy" onclick="buyUnit(2, 120)">Comprar (<span id="u2-cost">120</span>)</button>
+        </div>
+
+        <div class="upgrade-card">
+          <div class="upgrade-info">
+            <div class="upgrade-title">🧠 AutoGPT Senior Agent</div>
+            <div class="upgrade-desc">+90 LOC/s · Posees: <span id="u3-cnt">0</span></div>
+          </div>
+          <button id="btn-u3" class="btn-buy" onclick="buyUnit(3, 750)">Comprar (<span id="u3-cost">750</span>)</button>
+        </div>
       </div>
 
-      <div class="upgrade-card">
-        <div>
-          <div style="font-weight:700; font-size:13px;">🌐 AWS Server Cluster</div>
-          <div style="font-size:11px; color:#64748b;">+80 LOC/s · Posees: <span id="u3-cnt">0</span></div>
+      <!-- UPGRADES: CLOUD TAB -->
+      <div id="tab-cloud" class="upgrade-list" style="display:none;">
+        <div class="upgrade-card">
+          <div class="upgrade-info">
+            <div class="upgrade-title">🌐 AWS Edge Cluster</div>
+            <div class="upgrade-desc">+350 LOC/s · Posees: <span id="u4-cnt">0</span></div>
+          </div>
+          <button id="btn-u4" class="btn-buy" onclick="buyUnit(4, 3000)">Comprar (<span id="u4-cost">3000</span>)</button>
         </div>
-        <button class="btn-buy" onclick="buyUnit(3, 800)">Comprar (<span id="u3-cost">800</span> LOC)</button>
-      </div>
 
-      <div class="upgrade-card">
-        <div>
-          <div style="font-weight:700; font-size:13px;">🔮 Computador Cuántico</div>
-          <div style="font-size:11px; color:#64748b;">+500 LOC/s · Posees: <span id="u4-cnt">0</span></div>
+        <div class="upgrade-card">
+          <div class="upgrade-info">
+            <div class="upgrade-title">🔮 Mainframe Cuántico</div>
+            <div class="upgrade-desc">+2,000 LOC/s · Posees: <span id="u5-cnt">0</span></div>
+          </div>
+          <button id="btn-u5" class="btn-buy" onclick="buyUnit(5, 15000)">Comprar (<span id="u5-cost">15000</span>)</button>
         </div>
-        <button class="btn-buy" onclick="buyUnit(4, 5000)">Comprar (<span id="u4-cost">5000</span> LOC)</button>
       </div>
 
       <!-- Rewarded Sponsor Ad -->
-      <div style="background:#020617; border:1px solid #10b981; border-radius:8px; padding:12px; text-align:center;">
+      <div style="background:#020617; border:1px solid #10b981; border-radius:10px; padding:12px; text-align:center;">
         <div style="font-size:12px; font-weight:800; color:#34d399;">📺 Anuncio Patrocinado Recompensado</div>
-        <div style="font-size:11px; color:#94a3b8; margin:4px 0 8px;">Mira un anuncio de 5 seg y recibe <strong>+2,500 LOC</strong> al instante.</div>
-        <button id="btn-ad" onclick="watchAd()" style="background:#059669; color:#fff; border:none; padding:8px 14px; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer; width:100%;">
+        <div style="font-size:11px; color:#94a3b8; margin:3px 0 8px;">Mira un anuncio de 5 seg y recibe <strong>+2,500 LOC</strong> al instante.</div>
+        <button id="btn-ad" onclick="watchAd()" style="background:#059669; color:#fff; border:none; padding:8px 14px; border-radius:6px; font-size:12px; font-weight:800; cursor:pointer; width:100%;">
           Ver Anuncio (+2,500 LOC)
         </button>
       </div>
 
-      <!-- VIP Bizum Pass -->
+      <!-- VIP Bizum Developer Pass -->
       <div class="vip-box">
-        <div style="font-size:13px; font-weight:800; color:#c084fc;">⚡ VIP Developer Pass (x10 Multiplier)</div>
-        <div style="font-size:11px; color:#cbd5e1; margin-top:4px;">Desbloquea multiplicador permanente x10 en todos los clics y bots.</div>
-        <div style="font-size:14px; font-weight:800; color:#38bdf8; margin:8px 0;">4.99 € por Bizum al 622 48 64 21</div>
-        <button class="btn-bizum" onclick="alert('Envía tu Bizum de 4.99 € al 622 48 64 21 con concepto: VIP HACKER. Tu cuenta se activará inmediatamente.')">
-          📱 Comprar Pase VIP (4.99 €)
+        <div class="vip-title">⚡ VIP Developer Pass (x10 Multiplier)</div>
+        <div style="font-size:11px; color:#cbd5e1; margin-top:2px;">Desbloquea multiplicador permanente x10 y escudo anti-DDoS.</div>
+        <div class="vip-price">4.99 € por Bizum al 622 48 64 21</div>
+        <button class="btn-bizum" onclick="openVIPModal()">
+          📱 Activar VIP con Bizum (4.99 €)
         </button>
       </div>
 
@@ -343,22 +516,61 @@
 
   </div>
 
+  <!-- Footer -->
   <footer>
-    <p>© 2026 CyberDev Tycoon & SwissDev Tools Pro. Todos los derechos reservados. Desarrollado de forma autónoma. Contacto: paraalgoservira2000@gmail.com</p>
+    <p>© 2026 CyberDev Tycoon 2026. Desarrollado de forma 100% autónoma. Contacto: paraalgoservira2000@gmail.com | SwissDev Tools Pro</p>
   </footer>
 
   <script>
-    // Game Audio Synthesizer (Zero External Dependencies)
+    // Matrix Rain Canvas Animation
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const chars = '0101010101ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&*';
+    const fontSize = 14;
+    let columns = Math.floor(canvas.width / fontSize);
+    let drops = Array(columns).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(3, 7, 18, 0.08)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = `${fontSize}px 'JetBrains Mono'`;
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    setInterval(drawMatrix, 40);
+
+    // Audio Engine (Web Audio API Synthesizer)
+    let audioEnabled = true;
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    function playBeep(freq = 440, type = 'sine', duration = 0.08) {
+    function toggleAudio() {
+      audioEnabled = !audioEnabled;
+      document.getElementById('audio-toggle').innerText = audioEnabled ? '🔊 Sonido: ON' : '🔇 Sonido: OFF';
+    }
+
+    function playTone(freq, type = 'sine', duration = 0.06, vol = 0.05) {
+      if (!audioEnabled) return;
       try {
         if (audioCtx.state === 'suspended') audioCtx.resume();
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = type;
-        osc.frequency.value = freq;
-        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start();
@@ -366,7 +578,7 @@
       } catch(e) {}
     }
 
-    // State
+    // Game State
     let state = {
       loc: 0,
       cash: 0,
@@ -374,8 +586,9 @@
       multiplier: 1,
       u1: 0, u1Cost: 20,
       u2: 0, u2Cost: 120,
-      u3: 0, u3Cost: 800,
-      u4: 0, u4Cost: 5000,
+      u3: 0, u3Cost: 750,
+      u4: 0, u4Cost: 3000,
+      u5: 0, u5Cost: 15000,
       underAttack: false
     };
 
@@ -390,7 +603,7 @@
     }
 
     function getPassiveRate() {
-      return (state.u1 * 2 + state.u2 * 12 + state.u3 * 80 + state.u4 * 500) * state.multiplier;
+      return (state.u1 * 2 + state.u2 * 15 + state.u3 * 90 + state.u4 * 350 + state.u5 * 2000) * state.multiplier;
     }
 
     function updateUI() {
@@ -399,76 +612,125 @@
       document.getElementById('stat-loc-sec').innerText = rate.toLocaleString();
       document.getElementById('stat-cash').innerText = state.cash.toFixed(2) + ' €';
       document.getElementById('click-rate').innerText = (state.clickPower * state.multiplier).toLocaleString();
-      document.getElementById('user-rank-score').innerText = Math.floor(state.loc).toLocaleString() + ' LOC';
+      document.getElementById('user-score').innerText = Math.floor(state.loc).toLocaleString() + ' LOC';
 
-      // Tier check
+      // Funding round & tier
       const tierEl = document.getElementById('stat-tier');
       const progEl = document.getElementById('stat-progress');
-      if (state.loc > 100000) { tierEl.innerText = "Tech Unicorn 🦄"; progEl.innerText = "Nivel 5 de 5 (MAX)"; }
-      else if (state.loc > 25000) { tierEl.innerText = "ScaleUp SaaS"; progEl.innerText = "Nivel 4 de 5"; }
-      else if (state.loc > 5000) { tierEl.innerText = "Startup Semilla"; progEl.innerText = "Nivel 3 de 5"; }
-      else if (state.loc > 500) { tierEl.innerText = "Dev Studio"; progEl.innerText = "Nivel 2 de 5"; }
-      else { tierEl.innerText = "Garage Dev"; progEl.innerText = "Nivel 1 de 5"; }
+      const roundEl = document.getElementById('funding-round');
 
-      // Upgrade elements
+      if (state.loc > 500000) { tierEl.innerText = "Tech Unicorn 🦄"; progEl.innerText = "Nivel 5 de 5 (MAX)"; roundEl.innerText = "IPO Pública"; }
+      else if (state.loc > 100000) { tierEl.innerText = "ScaleUp Global"; progEl.innerText = "Nivel 4 de 5"; roundEl.innerText = "Serie B (Venture)"; }
+      else if (state.loc > 20000) { tierEl.innerText = "Startup Crecimiento"; progEl.innerText = "Nivel 3 de 5"; roundEl.innerText = "Serie A"; }
+      else if (state.loc > 2000) { tierEl.innerText = "Dev Studio"; progEl.innerText = "Nivel 2 de 5"; roundEl.innerText = "Ronda Seed"; }
+      else { tierEl.innerText = "Garage Dev"; progEl.innerText = "Nivel 1 de 5"; roundEl.innerText = "Pre-Seed"; }
+
+      // Upgrade buttons state
       document.getElementById('u1-cnt').innerText = state.u1;
       document.getElementById('u1-cost').innerText = state.u1Cost;
+      document.getElementById('btn-u1').disabled = state.loc < state.u1Cost;
+
       document.getElementById('u2-cnt').innerText = state.u2;
       document.getElementById('u2-cost').innerText = state.u2Cost;
+      document.getElementById('btn-u2').disabled = state.loc < state.u2Cost;
+
       document.getElementById('u3-cnt').innerText = state.u3;
       document.getElementById('u3-cost').innerText = state.u3Cost;
+      document.getElementById('btn-u3').disabled = state.loc < state.u3Cost;
+
       document.getElementById('u4-cnt').innerText = state.u4;
       document.getElementById('u4-cost').innerText = state.u4Cost;
+      document.getElementById('btn-u4').disabled = state.loc < state.u4Cost;
+
+      document.getElementById('u5-cnt').innerText = state.u5;
+      document.getElementById('u5-cost').innerText = state.u5Cost;
+      document.getElementById('btn-u5').disabled = state.loc < state.u5Cost;
     }
 
-    function mineClick() {
-      playBeep(587.33, 'triangle', 0.05); // D5
+    function createFloatingText(x, y, text) {
+      const el = document.createElement('div');
+      el.className = 'floating-text';
+      el.innerText = text;
+      el.style.left = `${x}px`;
+      el.style.top = `${y}px`;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 800);
+    }
+
+    function mineClick(e) {
+      playTone(520 + Math.random() * 200, 'triangle', 0.05, 0.04);
       const gain = state.clickPower * state.multiplier;
       state.loc += gain;
       state.cash += gain * 0.02;
-      
-      const logs = [
-        "git commit -m 'feat: quantum auth middleware'",
-        "Compilando kernel de alto rendimiento...",
-        "Optimizado pipeline de microservicios...",
-        "Desplegando cluster en Kubernetes..."
+
+      if (e && e.clientX) {
+        createFloatingText(e.clientX - 20, e.clientY - 30, `+${gain} LOC`);
+      }
+
+      const snippets = [
+        "const neuralNet = new QuantumModel();",
+        "await db.query('SELECT * FROM bounties');",
+        "deployKubernetesPod('us-east-1');",
+        "patchVulnerabilityCVE_2026();"
       ];
-      if (Math.random() < 0.3) {
-        logMsg(logs[Math.floor(Math.random() * logs.length)] + ` (+${gain} LOC)`);
+      if (Math.random() < 0.25) {
+        logMsg(snippets[Math.floor(Math.random() * snippets.length)]);
       }
       updateUI();
     }
 
-    function buyUnit(tier, baseCost) {
+    // Keyboard typing compiles code too!
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      mineClick(null);
+    });
+
+    function buyUnit(tier, cost) {
       if (tier === 1 && state.loc >= state.u1Cost) {
         state.loc -= state.u1Cost;
         state.u1++;
-        state.u1Cost = Math.floor(state.u1Cost * 1.3);
-        playBeep(880, 'sine', 0.1);
-        logMsg(`🤖 Junior AI Bot contratado. Total: ${state.u1}`);
+        state.u1Cost = Math.floor(state.u1Cost * 1.25);
+        playTone(650, 'sine', 0.1);
+        logMsg(`🤖 Junior AI Copilot contratado. Total: ${state.u1}`);
       } else if (tier === 2 && state.loc >= state.u2Cost) {
         state.loc -= state.u2Cost;
         state.u2++;
-        state.u2Cost = Math.floor(state.u2Cost * 1.35);
-        playBeep(1046.5, 'sine', 0.1);
-        logMsg(`🚀 DevOps Pipeline desplegado. Total: ${state.u2}`);
+        state.u2Cost = Math.floor(state.u2Cost * 1.3);
+        playTone(800, 'sine', 0.1);
+        logMsg(`🚀 DevOps Pipeline Bot desplegado. Total: ${state.u2}`);
       } else if (tier === 3 && state.loc >= state.u3Cost) {
         state.loc -= state.u3Cost;
         state.u3++;
-        state.u3Cost = Math.floor(state.u3Cost * 1.4);
-        playBeep(1318.5, 'sine', 0.12);
-        logMsg(`🌐 AWS Server Cluster activado. Total: ${state.u3}`);
+        state.u3Cost = Math.floor(state.u3Cost * 1.35);
+        playTone(1000, 'sine', 0.12);
+        logMsg(`🧠 AutoGPT Senior Agent activado. Total: ${state.u3}`);
       } else if (tier === 4 && state.loc >= state.u4Cost) {
         state.loc -= state.u4Cost;
         state.u4++;
-        state.u4Cost = Math.floor(state.u4Cost * 1.45);
-        playBeep(1760, 'sine', 0.15);
-        logMsg(`🔮 Computador Cuántico en línea. Total: ${state.u4}`);
-      } else {
-        playBeep(220, 'sawtooth', 0.1);
-        alert('¡No tienes suficientes LOC!');
+        state.u4Cost = Math.floor(state.u4Cost * 1.4);
+        playTone(1200, 'sine', 0.15);
+        logMsg(`🌐 AWS Edge Cluster conectado. Total: ${state.u4}`);
+      } else if (tier === 5 && state.loc >= state.u5Cost) {
+        state.loc -= state.u5Cost;
+        state.u5++;
+        state.u5Cost = Math.floor(state.u5Cost * 1.45);
+        playTone(1500, 'sine', 0.2);
+        logMsg(`🔮 Mainframe Cuántico sincronizado. Total: ${state.u5}`);
       }
       updateUI();
+    }
+
+    function switchUpgradeTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      if (tab === 'bots') {
+        document.getElementById('tab-bots').style.display = 'flex';
+        document.getElementById('tab-cloud').style.display = 'none';
+        event.target.classList.add('active');
+      } else {
+        document.getElementById('tab-bots').style.display = 'none';
+        document.getElementById('tab-cloud').style.display = 'flex';
+        event.target.classList.add('active');
+      }
     }
 
     function defendDDoS() {
@@ -476,9 +738,9 @@
         state.underAttack = false;
         document.getElementById('ddos-alert').style.display = 'none';
         state.cash += 50.00;
-        state.loc += 1500;
-        playBeep(1567.98, 'square', 0.2);
-        logMsg('🛡️ ¡CIBERATAQUE MITIGADO! Recompensa de +50.00 € y +1,500 LOC acreditada.');
+        state.loc += 2000;
+        playTone(1400, 'square', 0.25, 0.08);
+        logMsg('🛡️ ¡CIBERATAQUE MITIGADO! Recompensa de +50.00 € y +2,000 LOC acreditada.');
         updateUI();
       }
     }
@@ -499,14 +761,18 @@
           btn.innerText = "Ver Anuncio (+2,500 LOC)";
           state.loc += 2500;
           state.cash += 15.00;
-          playBeep(1174.66, 'sine', 0.2);
+          playTone(1100, 'sine', 0.2);
           logMsg("✅ ¡Recompensa de patrocinador entregada (+2,500 LOC y +15.00 €)!");
           updateUI();
         }
       }, 1000);
     }
 
-    // Passive loop
+    function openVIPModal() {
+      alert('⚡ VIP DEVELOPER PASS (x10 Multiplicador Permanente)\n\nEnvía 4.99 € por Bizum al número: 622 48 64 21\nConcepto: VIP HACKER\n\nTu cuenta se activará inmediatamente en la red.');
+    }
+
+    // Passive Accumulator Loop
     setInterval(() => {
       const rate = getPassiveRate();
       if (rate > 0) {
@@ -514,12 +780,12 @@
         state.cash += rate * 0.01;
         updateUI();
       }
-      // Random attack trigger (4% chance every sec if LOC > 300)
-      if (!state.underAttack && Math.random() < 0.04 && state.loc > 300) {
+      // Random attack trigger (4% chance every second if LOC > 500)
+      if (!state.underAttack && Math.random() < 0.04 && state.loc > 500) {
         state.underAttack = true;
         document.getElementById('ddos-alert').style.display = 'block';
-        playBeep(300, 'sawtooth', 0.3);
-        logMsg('⚠️ ¡ALERTA! Intrusión de fuerza bruta detectada en la red.');
+        playTone(280, 'sawtooth', 0.3, 0.06);
+        logMsg('⚠️ ¡ALERTA! Intrusión de fuerza bruta DDoS en curso.');
       }
     }, 1000);
 
