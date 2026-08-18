@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberDev Tycoon | Web Hacker & Startup Simulator</title>
+  <meta name="description" content="Juego interactivo de estrategia y simulación: programa código, defiende servidores contra ataques DDoS, desbloquea clusters de IA y convierte tu startup de garaje en un unicornio tecnológico.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #030712;
+      --card-bg: #0f172a;
+      --border: #1e293b;
+      --primary: #3b82f6;
+      --accent: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #0b132b;
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand { font-size: 20px; font-weight: 800; color: #38bdf8; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .badge-live { background: #059669; color: #fff; font-size: 11px; padding: 2px 8px; border-radius: 99px; font-weight: 700; }
+    
+    /* Top Ad Banner */
+    .ad-banner-top {
+      background: #0f172a;
+      border-bottom: 1px solid var(--border);
+      padding: 10px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+    }
+    .ad-banner-top a { color: #38bdf8; font-weight: 700; text-decoration: none; }
+
+    .game-container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 340px 1fr 320px;
+      gap: 20px;
+      flex: 1;
+    }
+    @media (max-width: 1024px) {
+      .game-container { grid-template-columns: 1fr; }
+    }
+
+    .panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .stat-box {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+    }
+    .stat-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .stat-val { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 800; margin-top: 4px; }
+
+    /* Center Main Action */
+    .center-panel {
+      text-align: center;
+      position: relative;
+    }
+    .clicker-btn {
+      background: linear-gradient(135deg, #1d4ed8, #7c3aed);
+      border: 2px solid #3b82f6;
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 800;
+      padding: 28px 48px;
+      border-radius: 99px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px -5px rgba(59, 130, 246, 0.6);
+      transition: all 0.1s ease;
+      margin: 20px 0;
+      user-select: none;
+      width: 100%;
+      max-width: 400px;
+    }
+    .clicker-btn:active {
+      transform: scale(0.96);
+      box-shadow: 0 4px 15px -2px rgba(59, 130, 246, 0.8);
+    }
+
+    .terminal {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 14px;
+      height: 180px;
+      overflow-y: auto;
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #34d399;
+    }
+
+    /* Upgrade items */
+    .upgrade-card {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: border-color 0.15s;
+    }
+    .upgrade-card:hover { border-color: #3b82f6; }
+    .btn-buy {
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .btn-buy:hover { background: #1d4ed8; }
+
+    /* Alert Banner */
+    .alert-banner {
+      background: #dc2626;
+      color: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 13px;
+      display: none;
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    /* VIP & Ad section */
+    .vip-box {
+      background: linear-gradient(135deg, #1e1b4b, #311042);
+      border: 2px solid #8b5cf6;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+    .btn-bizum {
+      background: #10b981;
+      color: #ffffff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    footer {
+      background: #0b132b;
+      border-top: 1px solid var(--border);
+      padding: 20px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Ad Banner -->
+  <div class="ad-banner-top">
+    <span>📢 <strong>Sponsor Oficial</strong>: SwissDev Tools Pro v3.0 - Suite de utilidades para desarrolladores y auditorías web en vivo.</span>
+    <a href="https://angeltomo9.github.io/" target="_blank">Abrir Herramientas →</a>
+  </div>
+
+  <header>
+    <a href="#" class="brand">
+      ⚡ CyberDev Tycoon
+      <span class="badge-live">v2.0 Online</span>
+    </a>
+    <div style="font-size:13px; color:#94a3b8;">
+      Servidor: <strong style="color:#10b981;">Activo (100% Uptime)</strong>
+    </div>
+  </header>
+
+  <div class="game-container">
+    
+    <!-- LEFT: Startup Status -->
+    <aside class="panel">
+      <h3 style="font-size: 16px; font-weight: 800; color: #38bdf8;">📊 Métricas de la Startup</h3>
+      
+      <div class="stat-box">
+        <div class="stat-label">Líneas de Código (LOC)</div>
+        <div id="stat-loc" class="stat-val" style="color:#38bdf8;">0</div>
+        <div style="font-size:11px; color:#64748b; margin-top:2px;">+<span id="stat-loc-sec">0</span> LOC/s pasivo</div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-label">Valoración / Capital</div>
+        <div id="stat-cash" class="stat-val" style="color:#34d399;">0.00 €</div>
+        <div style="font-size:11px; color:#64748b; margin-top:2px;">Ingresos generados</div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-label">Nivel de Compañía</div>
+        <div id="stat-tier" class="stat-val" style="color:#fbbf24; font-size: 18px;">Garage Dev</div>
+        <div id="stat-progress" style="font-size:11px; color:#64748b; margin-top:2px;">Nivel 1 de 5</div>
+      </div>
+
+      <!-- Live Leaderboard Mock -->
+      <div style="background:#020617; border:1px solid #1e293b; border-radius:8px; padding:12px;">
+        <div style="font-size:12px; font-weight:800; color:#94a3b8; margin-bottom:8px;">🏆 TOP HACKERS GLOBALES</div>
+        <div style="font-size:11px; color:#cbd5e1; display:flex; justify-content:space-between; padding:3px 0;">
+          <span>1. @NeoMaster</span> <span>1,420,000 LOC</span>
+        </div>
+        <div style="font-size:11px; color:#cbd5e1; display:flex; justify-content:space-between; padding:3px 0;">
+          <span>2. @BitRunner</span> <span>890,500 LOC</span>
+        </div>
+        <div style="font-size:11px; color:#38bdf8; font-weight:700; display:flex; justify-content:space-between; padding:3px 0;">
+          <span>3. Tú (<span id="user-name">AnonDev</span>)</span> <span id="user-rank-score">0 LOC</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CENTER: Main Clicker & Terminal -->
+    <main class="panel center-panel">
+      
+      <!-- DDoS Attack Notification -->
+      <div id="ddos-alert" class="alert-banner">
+        ⚠️ ¡ATAQUE DDoS DETECTADO EN EL CLUSTER!
+        <button onclick="defendDDoS()" style="background:#fbbf24; color:#000; font-weight:800; border:none; padding:4px 12px; border-radius:4px; margin-left:10px; cursor:pointer;">
+          🛡️ MITIGAR (+50 € BOUNTY)
+        </button>
+      </div>
+
+      <div>
+        <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 4px;">Compilador de Código Cuántico</h2>
+        <p style="font-size: 13px; color: var(--muted);">Haz clic para minar bloques de código y expandir tu arquitectura.</p>
+      </div>
+
+      <button id="clicker" class="clicker-btn" onclick="mineClick()">
+        ⚡ COMPILAR (+<span id="click-rate">1</span> LOC)
+      </button>
+
+      <!-- Terminal Output -->
+      <div class="terminal" id="terminal">
+        <div>[SYSTEM] SwissDev Tycoon v2.0 Engine initialized.</div>
+        <div>[SYSTEM] Conectado a la red descentralizada. ¡Empieza a compilar!</div>
+      </div>
+    </main>
+
+    <!-- RIGHT: Upgrades & Monetization -->
+    <aside class="panel">
+      <h3 style="font-size: 16px; font-weight: 800; color: #34d399;">🛠️ Infraestructura & Upgrades</h3>
+
+      <div class="upgrade-card">
+        <div>
+          <div style="font-weight:700; font-size:13px;">🤖 Junior AI Bot</div>
+          <div style="font-size:11px; color:#64748b;">+2 LOC/s · Posees: <span id="u1-cnt">0</span></div>
+        </div>
+        <button class="btn-buy" onclick="buyUnit(1, 20)">Comprar (<span id="u1-cost">20</span> LOC)</button>
+      </div>
+
+      <div class="upgrade-card">
+        <div>
+          <div style="font-weight:700; font-size:13px;">🚀 DevOps Pipeline</div>
+          <div style="font-size:11px; color:#64748b;">+12 LOC/s · Posees: <span id="u2-cnt">0</span></div>
+        </div>
+        <button class="btn-buy" onclick="buyUnit(2, 120)">Comprar (<span id="u2-cost">120</span> LOC)</button>
+      </div>
+
+      <div class="upgrade-card">
+        <div>
+          <div style="font-weight:700; font-size:13px;">🌐 AWS Server Cluster</div>
+          <div style="font-size:11px; color:#64748b;">+80 LOC/s · Posees: <span id="u3-cnt">0</span></div>
+        </div>
+        <button class="btn-buy" onclick="buyUnit(3, 800)">Comprar (<span id="u3-cost">800</span> LOC)</button>
+      </div>
+
+      <div class="upgrade-card">
+        <div>
+          <div style="font-weight:700; font-size:13px;">🔮 Computador Cuántico</div>
+          <div style="font-size:11px; color:#64748b;">+500 LOC/s · Posees: <span id="u4-cnt">0</span></div>
+        </div>
+        <button class="btn-buy" onclick="buyUnit(4, 5000)">Comprar (<span id="u4-cost">5000</span> LOC)</button>
+      </div>
+
+      <!-- Rewarded Sponsor Ad -->
+      <div style="background:#020617; border:1px solid #10b981; border-radius:8px; padding:12px; text-align:center;">
+        <div style="font-size:12px; font-weight:800; color:#34d399;">📺 Anuncio Patrocinado Recompensado</div>
+        <div style="font-size:11px; color:#94a3b8; margin:4px 0 8px;">Mira un anuncio de 5 seg y recibe <strong>+2,500 LOC</strong> al instante.</div>
+        <button id="btn-ad" onclick="watchAd()" style="background:#059669; color:#fff; border:none; padding:8px 14px; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer; width:100%;">
+          Ver Anuncio (+2,500 LOC)
+        </button>
+      </div>
+
+      <!-- VIP Bizum Pass -->
+      <div class="vip-box">
+        <div style="font-size:13px; font-weight:800; color:#c084fc;">⚡ VIP Developer Pass (x10 Multiplier)</div>
+        <div style="font-size:11px; color:#cbd5e1; margin-top:4px;">Desbloquea multiplicador permanente x10 en todos los clics y bots.</div>
+        <div style="font-size:14px; font-weight:800; color:#38bdf8; margin:8px 0;">4.99 € por Bizum al 622 48 64 21</div>
+        <button class="btn-bizum" onclick="alert('Envía tu Bizum de 4.99 € al 622 48 64 21 con concepto: VIP HACKER. Tu cuenta se activará inmediatamente.')">
+          📱 Comprar Pase VIP (4.99 €)
+        </button>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <footer>
+    <p>© 2026 CyberDev Tycoon & SwissDev Tools Pro. Todos los derechos reservados. Desarrollado de forma autónoma. Contacto: paraalgoservira2000@gmail.com</p>
+  </footer>
+
+  <script>
+    // Game Audio Synthesizer (Zero External Dependencies)
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playBeep(freq = 440, type = 'sine', duration = 0.08) {
+      try {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch(e) {}
+    }
+
+    // State
+    let state = {
+      loc: 0,
+      cash: 0,
+      clickPower: 1,
+      multiplier: 1,
+      u1: 0, u1Cost: 20,
+      u2: 0, u2Cost: 120,
+      u3: 0, u3Cost: 800,
+      u4: 0, u4Cost: 5000,
+      underAttack: false
+    };
+
+    function logMsg(txt) {
+      const term = document.getElementById('terminal');
+      if (term) {
+        const div = document.createElement('div');
+        div.innerText = `> ${txt}`;
+        term.appendChild(div);
+        term.scrollTop = term.scrollHeight;
+      }
+    }
+
+    function getPassiveRate() {
+      return (state.u1 * 2 + state.u2 * 12 + state.u3 * 80 + state.u4 * 500) * state.multiplier;
+    }
+
+    function updateUI() {
+      const rate = getPassiveRate();
+      document.getElementById('stat-loc').innerText = Math.floor(state.loc).toLocaleString();
+      document.getElementById('stat-loc-sec').innerText = rate.toLocaleString();
+      document.getElementById('stat-cash').innerText = state.cash.toFixed(2) + ' €';
+      document.getElementById('click-rate').innerText = (state.clickPower * state.multiplier).toLocaleString();
+      document.getElementById('user-rank-score').innerText = Math.floor(state.loc).toLocaleString() + ' LOC';
+
+      // Tier check
+      const tierEl = document.getElementById('stat-tier');
+      const progEl = document.getElementById('stat-progress');
+      if (state.loc > 100000) { tierEl.innerText = "Tech Unicorn 🦄"; progEl.innerText = "Nivel 5 de 5 (MAX)"; }
+      else if (state.loc > 25000) { tierEl.innerText = "ScaleUp SaaS"; progEl.innerText = "Nivel 4 de 5"; }
+      else if (state.loc > 5000) { tierEl.innerText = "Startup Semilla"; progEl.innerText = "Nivel 3 de 5"; }
+      else if (state.loc > 500) { tierEl.innerText = "Dev Studio"; progEl.innerText = "Nivel 2 de 5"; }
+      else { tierEl.innerText = "Garage Dev"; progEl.innerText = "Nivel 1 de 5"; }
+
+      // Upgrade elements
+      document.getElementById('u1-cnt').innerText = state.u1;
+      document.getElementById('u1-cost').innerText = state.u1Cost;
+      document.getElementById('u2-cnt').innerText = state.u2;
+      document.getElementById('u2-cost').innerText = state.u2Cost;
+      document.getElementById('u3-cnt').innerText = state.u3;
+      document.getElementById('u3-cost').innerText = state.u3Cost;
+      document.getElementById('u4-cnt').innerText = state.u4;
+      document.getElementById('u4-cost').innerText = state.u4Cost;
+    }
+
+    function mineClick() {
+      playBeep(587.33, 'triangle', 0.05); // D5
+      const gain = state.clickPower * state.multiplier;
+      state.loc += gain;
+      state.cash += gain * 0.02;
+      
+      const logs = [
+        "git commit -m 'feat: quantum auth middleware'",
+        "Compilando kernel de alto rendimiento...",
+        "Optimizado pipeline de microservicios...",
+        "Desplegando cluster en Kubernetes..."
+      ];
+      if (Math.random() < 0.3) {
+        logMsg(logs[Math.floor(Math.random() * logs.length)] + ` (+${gain} LOC)`);
+      }
+      updateUI();
+    }
+
+    function buyUnit(tier, baseCost) {
+      if (tier === 1 && state.loc >= state.u1Cost) {
+        state.loc -= state.u1Cost;
+        state.u1++;
+        state.u1Cost = Math.floor(state.u1Cost * 1.3);
+        playBeep(880, 'sine', 0.1);
+        logMsg(`🤖 Junior AI Bot contratado. Total: ${state.u1}`);
+      } else if (tier === 2 && state.loc >= state.u2Cost) {
+        state.loc -= state.u2Cost;
+        state.u2++;
+        state.u2Cost = Math.floor(state.u2Cost * 1.35);
+        playBeep(1046.5, 'sine', 0.1);
+        logMsg(`🚀 DevOps Pipeline desplegado. Total: ${state.u2}`);
+      } else if (tier === 3 && state.loc >= state.u3Cost) {
+        state.loc -= state.u3Cost;
+        state.u3++;
+        state.u3Cost = Math.floor(state.u3Cost * 1.4);
+        playBeep(1318.5, 'sine', 0.12);
+        logMsg(`🌐 AWS Server Cluster activado. Total: ${state.u3}`);
+      } else if (tier === 4 && state.loc >= state.u4Cost) {
+        state.loc -= state.u4Cost;
+        state.u4++;
+        state.u4Cost = Math.floor(state.u4Cost * 1.45);
+        playBeep(1760, 'sine', 0.15);
+        logMsg(`🔮 Computador Cuántico en línea. Total: ${state.u4}`);
+      } else {
+        playBeep(220, 'sawtooth', 0.1);
+        alert('¡No tienes suficientes LOC!');
+      }
+      updateUI();
+    }
+
+    function defendDDoS() {
+      if (state.underAttack) {
+        state.underAttack = false;
+        document.getElementById('ddos-alert').style.display = 'none';
+        state.cash += 50.00;
+        state.loc += 1500;
+        playBeep(1567.98, 'square', 0.2);
+        logMsg('🛡️ ¡CIBERATAQUE MITIGADO! Recompensa de +50.00 € y +1,500 LOC acreditada.');
+        updateUI();
+      }
+    }
+
+    function watchAd() {
+      const btn = document.getElementById('btn-ad');
+      btn.disabled = true;
+      btn.innerText = "📺 Mostrando Anuncio (5s)...";
+      logMsg("📺 Reproduciendo anuncio de SwissDev Tools Pro...");
+      let t = 5;
+      const timer = setInterval(() => {
+        t--;
+        if (t > 0) {
+          btn.innerText = `📺 Anuncio en curso (${t}s)...`;
+        } else {
+          clearInterval(timer);
+          btn.disabled = false;
+          btn.innerText = "Ver Anuncio (+2,500 LOC)";
+          state.loc += 2500;
+          state.cash += 15.00;
+          playBeep(1174.66, 'sine', 0.2);
+          logMsg("✅ ¡Recompensa de patrocinador entregada (+2,500 LOC y +15.00 €)!");
+          updateUI();
+        }
+      }, 1000);
+    }
+
+    // Passive loop
+    setInterval(() => {
+      const rate = getPassiveRate();
+      if (rate > 0) {
+        state.loc += rate;
+        state.cash += rate * 0.01;
+        updateUI();
+      }
+      // Random attack trigger (4% chance every sec if LOC > 300)
+      if (!state.underAttack && Math.random() < 0.04 && state.loc > 300) {
+        state.underAttack = true;
+        document.getElementById('ddos-alert').style.display = 'block';
+        playBeep(300, 'sawtooth', 0.3);
+        logMsg('⚠️ ¡ALERTA! Intrusión de fuerza bruta detectada en la red.');
+      }
+    }, 1000);
+
+    window.onload = () => {
+      updateUI();
+    };
+  </script>
+</body>
+</html>
