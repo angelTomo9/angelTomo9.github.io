@@ -46,11 +46,11 @@
       opacity: 0.15;
     }
 
-    /* Scanlines effect (toggleable) */
+    /* Scanlines effect */
     .scanlines {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 255, 0, 0.03));
       background-size: 100% 3px, 3px 100%;
       pointer-events: none;
       z-index: 99;
@@ -70,6 +70,10 @@
     .brand { font-size: 22px; font-weight: 900; color: #38bdf8; display: flex; align-items: center; gap: 8px; text-decoration: none; letter-spacing: -0.5px; }
     .brand span { color: #f8fafc; }
     .badge-live { background: #059669; color: #fff; font-size: 11px; padding: 2px 10px; border-radius: 99px; font-weight: 800; }
+
+    .header-actions { display: flex; gap: 10px; align-items: center; }
+    .sound-btn { background: #1e293b; border: 1px solid var(--border); color: #fff; border-radius: 8px; padding: 6px 12px; cursor: pointer; font-size: 13px; font-weight: 700; }
+    .sound-btn:hover { background: #334155; }
 
     /* Top Sponsor Ad Bar */
     .ad-banner-top {
@@ -148,381 +152,389 @@
       border-radius: 99px;
       cursor: pointer;
       box-shadow: 0 0 30px var(--primary-glow);
-      transition: transform 0.08s ease, box-shadow 0.08s ease;
-      margin: 14px 0;
+      transition: all 0.1s ease;
       user-select: none;
-      width: 100%;
-      max-width: 420px;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 4px;
+      margin: 20px 0;
+      position: relative;
     }
     .clicker-btn:active {
-      transform: scale(0.95);
+      transform: scale(0.96);
       box-shadow: 0 0 15px var(--primary-glow);
     }
-    .clicker-sub { font-size: 11px; font-weight: 700; color: #bfdbfe; text-transform: uppercase; letter-spacing: 0.05em; }
+    .clicker-sub {
+      font-size: 11px;
+      opacity: 0.8;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-    /* Terminal */
-    .terminal-wrapper {
-      width: 100%;
+    .terminal-window {
       background: #020617;
       border: 1px solid #1e293b;
       border-radius: 10px;
-      overflow: hidden;
-      margin-top: 10px;
-    }
-    .terminal-header {
-      background: #0f172a;
-      padding: 8px 12px;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--muted);
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px solid #1e293b;
-    }
-    .terminal {
+      width: 100%;
+      height: 180px;
       padding: 12px;
-      height: 160px;
-      overflow-y: auto;
-      text-align: left;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 11.5px;
-      color: #34d399;
-      line-height: 1.5;
+      font-size: 12px;
+      color: #38bdf8;
+      text-align: left;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
-    /* Floating particles on click */
     .floating-text {
-      position: absolute;
+      position: fixed;
       font-family: 'JetBrains Mono', monospace;
       font-weight: 800;
+      font-size: 18px;
       color: #38bdf8;
       pointer-events: none;
-      animation: floatUp 0.8s forwards;
-      font-size: 14px;
-      text-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
-      z-index: 100;
+      animation: floatUp 0.8s ease-out forwards;
+      z-index: 1000;
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
     }
     @keyframes floatUp {
       0% { opacity: 1; transform: translateY(0) scale(1); }
-      100% { opacity: 0; transform: translateY(-50px) scale(1.2); }
+      100% { opacity: 0; transform: translateY(-60px) scale(1.3); }
     }
 
-    /* Upgrade and Tech Tree tabs */
-    .tab-bar {
-      display: flex;
-      gap: 6px;
-      background: #020617;
-      padding: 4px;
-      border-radius: 8px;
-      border: 1px solid #1e293b;
-    }
-    .tab-btn {
-      flex: 1;
-      background: transparent;
-      border: none;
-      color: var(--muted);
-      padding: 8px;
-      font-size: 12px;
-      font-weight: 700;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .tab-btn.active {
-      background: #1e293b;
-      color: #38bdf8;
-    }
-
-    .upgrade-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      max-height: 380px;
-      overflow-y: auto;
-    }
-    .upgrade-card {
-      background: rgba(2, 6, 23, 0.7);
+    /* Upgrades List */
+    .upgrade-list { display: flex; flex-direction: column; gap: 10px; }
+    .upgrade-item {
+      background: rgba(2, 6, 23, 0.6);
       border: 1px solid #1e293b;
       border-radius: 8px;
       padding: 10px 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      transition: all 0.2s;
+    }
+    .upgrade-item:hover { border-color: #3b82f6; background: rgba(15, 23, 42, 0.9); }
+    .upgrade-info h4 { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+    .upgrade-info p { font-size: 11px; color: var(--muted); }
+    .upgrade-buy-btn {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #38bdf8;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
       transition: all 0.15s;
     }
-    .upgrade-card:hover { border-color: #38bdf8; }
-    .upgrade-info { text-align: left; }
-    .upgrade-title { font-size: 13px; font-weight: 700; color: #f8fafc; }
-    .upgrade-desc { font-size: 11px; color: var(--muted); }
-    .btn-buy {
+    .upgrade-buy-btn:hover:not(:disabled) {
       background: #2563eb;
-      color: #ffffff;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-weight: 800;
-      font-size: 12px;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-    .btn-buy:hover { background: #1d4ed8; }
-    .btn-buy:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
-
-    /* Alert Banner */
-    .alert-banner {
-      background: linear-gradient(135deg, #dc2626, #991b1b);
-      border: 2px solid #f87171;
       color: #fff;
+      border-color: #60a5fa;
+    }
+    .upgrade-buy-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Tabs */
+    .tab-header { display: flex; gap: 8px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .tab-btn { background: none; border: none; color: var(--muted); font-weight: 700; font-size: 13px; cursor: pointer; padding: 4px 8px; border-radius: 6px; }
+    .tab-btn.active { color: #38bdf8; background: rgba(56, 189, 248, 0.1); }
+
+    /* DDoS Alert Banner */
+    .ddos-alert {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(185, 28, 28, 0.3));
+      border: 1px solid #ef4444;
       padding: 12px 16px;
       border-radius: 10px;
-      font-weight: 800;
-      font-size: 13px;
       display: none;
-      animation: pulse 1s infinite;
-      margin-bottom: 12px;
-      width: 100%;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.9; transform: scale(0.99); }
-    }
-
-    /* VIP Developer Pass */
-    .vip-box {
-      background: linear-gradient(135deg, #1e1b4b, #2e1065);
-      border: 2px solid #a855f7;
-      border-radius: 12px;
-      padding: 14px;
+      animation: pulseAlert 1s infinite alternate;
       text-align: center;
-      box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+      margin-bottom: 12px;
     }
-    .vip-title { font-size: 14px; font-weight: 900; color: #c084fc; text-transform: uppercase; }
-    .vip-price { font-size: 16px; font-weight: 900; color: #38bdf8; margin: 4px 0; }
-    .btn-bizum {
-      background: #10b981;
-      color: #ffffff;
+    @keyframes pulseAlert {
+      0% { box-shadow: 0 0 10px rgba(239, 68, 68, 0.4); }
+      100% { box-shadow: 0 0 25px rgba(239, 68, 68, 0.8); }
+    }
+    .defend-btn {
+      background: #ef4444;
       border: none;
-      padding: 10px 14px;
-      border-radius: 8px;
+      color: #fff;
       font-weight: 800;
-      font-size: 13px;
+      padding: 8px 16px;
+      border-radius: 6px;
       cursor: pointer;
-      width: 100%;
-      margin-top: 6px;
-      transition: background 0.15s;
+      margin-top: 8px;
+      font-size: 12px;
     }
-    .btn-bizum:hover { background: #059669; }
 
-    footer {
-      background: rgba(11, 19, 43, 0.9);
-      border-top: 1px solid var(--border);
+    /* VIP Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      justify-content: center;
+      align-items: center;
       padding: 16px;
+    }
+    .modal-box {
+      background: #0f172a;
+      border: 1px solid #3b82f6;
+      box-shadow: 0 0 40px rgba(59, 130, 246, 0.5);
+      border-radius: 14px;
+      max-width: 480px;
+      width: 100%;
+      padding: 24px;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 14px; right: 14px;
+      background: #1e293b;
+      border: none;
+      color: #fff;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(11, 19, 43, 0.95);
+      border-top: 1px solid var(--border);
+      padding: 16px 24px;
       text-align: center;
       font-size: 12px;
       color: var(--muted);
-      margin-top: auto;
       position: relative;
       z-index: 10;
+      margin-top: auto;
     }
   </style>
 </head>
 <body>
-
-  <!-- Canvas for Matrix background -->
-  <canvas id="bg-canvas"></canvas>
   <div class="scanlines"></div>
+  <canvas id="bg-canvas"></canvas>
 
-  <!-- Top Ad Banner -->
-  <div class="ad-banner-top">
-    <span>📢 <strong>Sponsor Oficial</strong>: SwissDev Tools Pro v3.0 | Suite de Auditoría Web en Vivo, QR & Utilidades B2B.</span>
-    <a href="https://angeltomo9.github.io/" target="_blank">Abrir Herramientas →</a>
-  </div>
-
-  <!-- Header -->
   <header>
-    <a href="#" class="brand">
-      ⚡ CyberDev <span>Tycoon 2026</span>
-      <span class="badge-live">v3.0 DEFINITIVE</span>
+    <a href="../" class="brand">
+      ⚡ <span>CyberDev</span> Tycoon <span style="font-size: 12px; color: #10b981; margin-left: 6px;">2026 EDITION</span>
     </a>
-    <div style="display:flex; gap:10px; align-items:center;">
-      <button onclick="toggleAudio()" id="audio-toggle" style="background:#1e293b; border:1px solid #334155; color:#94a3b8; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer;">
-        🔊 Sonido: ON
-      </button>
-      <div style="font-size:12px; color:#10b981; font-weight:700;">
-        🟢 Uptime 100%
-      </div>
+    <div class="header-actions">
+      <button class="sound-btn" onclick="toggleSound()" id="sound-toggle">🔊 Audio: ON</button>
+      <span class="badge-live">ONLINE ENGINE</span>
     </div>
   </header>
 
-  <!-- Game Layout -->
-  <div class="game-container">
-    
-    <!-- LEFT: Metrics & Startup Valuation -->
-    <aside class="panel">
-      <h3 style="font-size: 15px; font-weight: 800; color: #38bdf8; display:flex; align-items:center; gap:6px;">
-        📊 Métricas de la Startup
-      </h3>
-
-      <div class="stat-card">
-        <div class="stat-label">Líneas de Código (LOC)</div>
-        <div id="stat-loc" class="stat-val" style="color:#38bdf8;">0</div>
-        <div style="font-size:11px; color:#64748b; margin-top:2px;">+<span id="stat-loc-sec">0</span> LOC/s pasivo</div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-label">Valoración / Capital</div>
-        <div id="stat-cash" class="stat-val" style="color:#34d399;">0.00 €</div>
-        <div style="font-size:11px; color:#64748b; margin-top:2px;">Ronda: <span id="funding-round" style="color:#fbbf24; font-weight:700;">Garage Seed</span></div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-label">Nivel de Compañía</div>
-        <div id="stat-tier" class="stat-val" style="color:#fbbf24; font-size: 18px;">Garage Dev</div>
-        <div id="stat-progress" style="font-size:11px; color:#64748b; margin-top:2px;">Nivel 1 de 5</div>
-      </div>
-
-      <!-- Live Leaderboard -->
-      <div style="background:#020617; border:1px solid #1e293b; border-radius:8px; padding:10px;">
-        <div style="font-size:11px; font-weight:800; color:#94a3b8; margin-bottom:6px; text-transform:uppercase;">🏆 TOP HACKERS GLOBALES</div>
-        <div style="font-size:11px; color:#cbd5e1; display:flex; justify-content:space-between; padding:2px 0;">
-          <span>1. 👑 @CyberSatoshi</span> <span style="font-family:'JetBrains Mono';">2,500,000 LOC</span>
-        </div>
-        <div style="font-size:11px; color:#cbd5e1; display:flex; justify-content:space-between; padding:2px 0;">
-          <span>2. 🚀 @AdaLovelace99</span> <span style="font-family:'JetBrains Mono';">1,120,400 LOC</span>
-        </div>
-        <div style="font-size:11px; color:#38bdf8; font-weight:800; display:flex; justify-content:space-between; padding:2px 0;">
-          <span>3. ⚡ Tú (<span id="player-alias">Hacker_1</span>)</span> <span id="user-score" style="font-family:'JetBrains Mono';">0 LOC</span>
-        </div>
-      </div>
-
-      <!-- Sound & Settings -->
-      <div style="font-size:11px; color:#64748b; text-align:center;">
-        Consejo: Puedes presionar cualquier tecla para compilar rápido.
-      </div>
-    </aside>
-
-    <!-- CENTER: Main Coding Core & Terminal -->
-    <main class="panel center-panel">
-      
-      <!-- DDoS Attack Notification Banner -->
-      <div id="ddos-alert" class="alert-banner">
-        ⚠️ ¡ATAQUE DDoS MASIVO DETECTADO! 
-        <button onclick="defendDDoS()" style="background:#fbbf24; color:#000; font-weight:900; border:none; padding:6px 14px; border-radius:6px; margin-left:10px; cursor:pointer;">
-          🛡️ MITIGAR (+50 € BOUNTY)
-        </button>
-      </div>
-
-      <div style="text-align:center;">
-        <h2 style="font-size: 22px; font-weight: 900; margin-bottom: 2px;">Compilador Cuántico</h2>
-        <p style="font-size: 13px; color: var(--muted);">Presiona el botón o teclea para minar bloques de software.</p>
-      </div>
-
-      <!-- Main Clicker Button -->
-      <button id="clicker" class="clicker-btn" onclick="mineClick(event)">
-        <span>⚡ COMPILAR CÓDIGO</span>
-        <span class="clicker-sub">+<span id="click-rate">1</span> LOC / Clic</span>
-      </button>
-
-      <!-- Terminal Output -->
-      <div class="terminal-wrapper">
-        <div class="terminal-header">
-          <span>TERMINAL DE PRODUCCIÓN (v8.4.2)</span>
-          <span id="term-status" style="color:#10b981;">● RUNNING</span>
-        </div>
-        <div class="terminal" id="terminal">
-          <div>[SYSTEM] SwissDev Tycoon v3.0 Engine ready.</div>
-          <div>[SYSTEM] Servidor en la nube conectado. ¡Empieza a compilar!</div>
-        </div>
-      </div>
-    </main>
-
-    <!-- RIGHT: Upgrades, Tech Tree & VIP Passes -->
-    <aside class="panel">
-      <div class="tab-bar">
-        <button class="tab-btn active" onclick="switchUpgradeTab('bots')">🤖 Agentes & Bots</button>
-        <button class="tab-btn" onclick="switchUpgradeTab('cloud')">🌐 Infraestructura</button>
-      </div>
-
-      <!-- UPGRADES: BOTS TAB -->
-      <div id="tab-bots" class="upgrade-list">
-        <div class="upgrade-card">
-          <div class="upgrade-info">
-            <div class="upgrade-title">🤖 Junior AI Copilot</div>
-            <div class="upgrade-desc">+2 LOC/s · Posees: <span id="u1-cnt">0</span></div>
-          </div>
-          <button id="btn-u1" class="btn-buy" onclick="buyUnit(1, 20)">Comprar (<span id="u1-cost">20</span>)</button>
-        </div>
-
-        <div class="upgrade-card">
-          <div class="upgrade-info">
-            <div class="upgrade-title">🚀 DevOps Pipeline Bot</div>
-            <div class="upgrade-desc">+15 LOC/s · Posees: <span id="u2-cnt">0</span></div>
-          </div>
-          <button id="btn-u2" class="btn-buy" onclick="buyUnit(2, 120)">Comprar (<span id="u2-cost">120</span>)</button>
-        </div>
-
-        <div class="upgrade-card">
-          <div class="upgrade-info">
-            <div class="upgrade-title">🧠 AutoGPT Senior Agent</div>
-            <div class="upgrade-desc">+90 LOC/s · Posees: <span id="u3-cnt">0</span></div>
-          </div>
-          <button id="btn-u3" class="btn-buy" onclick="buyUnit(3, 750)">Comprar (<span id="u3-cost">750</span>)</button>
-        </div>
-      </div>
-
-      <!-- UPGRADES: CLOUD TAB -->
-      <div id="tab-cloud" class="upgrade-list" style="display:none;">
-        <div class="upgrade-card">
-          <div class="upgrade-info">
-            <div class="upgrade-title">🌐 AWS Edge Cluster</div>
-            <div class="upgrade-desc">+350 LOC/s · Posees: <span id="u4-cnt">0</span></div>
-          </div>
-          <button id="btn-u4" class="btn-buy" onclick="buyUnit(4, 3000)">Comprar (<span id="u4-cost">3000</span>)</button>
-        </div>
-
-        <div class="upgrade-card">
-          <div class="upgrade-info">
-            <div class="upgrade-title">🔮 Mainframe Cuántico</div>
-            <div class="upgrade-desc">+2,000 LOC/s · Posees: <span id="u5-cnt">0</span></div>
-          </div>
-          <button id="btn-u5" class="btn-buy" onclick="buyUnit(5, 15000)">Comprar (<span id="u5-cost">15000</span>)</button>
-        </div>
-      </div>
-
-      <!-- Rewarded Sponsor Ad -->
-      <div style="background:#020617; border:1px solid #10b981; border-radius:10px; padding:12px; text-align:center;">
-        <div style="font-size:12px; font-weight:800; color:#34d399;">📺 Anuncio Patrocinado Recompensado</div>
-        <div style="font-size:11px; color:#94a3b8; margin:3px 0 8px;">Mira un anuncio de 5 seg y recibe <strong>+2,500 LOC</strong> al instante.</div>
-        <button id="btn-ad" onclick="watchAd()" style="background:#059669; color:#fff; border:none; padding:8px 14px; border-radius:6px; font-size:12px; font-weight:800; cursor:pointer; width:100%;">
-          Ver Anuncio (+2,500 LOC)
-        </button>
-      </div>
-
-      <!-- VIP Bizum Developer Pass -->
-      <div class="vip-box">
-        <div class="vip-title">⚡ VIP Developer Pass (x10 Multiplier)</div>
-        <div style="font-size:11px; color:#cbd5e1; margin-top:2px;">Desbloquea multiplicador permanente x10 y escudo anti-DDoS.</div>
-        <div class="vip-price">4.99 € por Bizum al 622 48 64 21</div>
-        <button class="btn-bizum" onclick="openVIPModal()">
-          📱 Activar VIP con Bizum (4.99 €)
-        </button>
-      </div>
-
-    </aside>
-
+  <div class="ad-banner-top">
+    <span>💡 <strong>Potencia tu Startup:</strong> ¿Necesitas una auditoría técnica o landing automatizada?</span>
+    <a href="../#servicios">Ver Servicios B2B desde 29 € &rarr;</a>
   </div>
 
-  <!-- Footer -->
+  <div class="game-container">
+    <!-- Left Column: Metrics & Security -->
+    <div class="panel">
+      <h3 style="font-size: 15px; border-bottom: 1px solid var(--border); padding-bottom: 6px;">📊 Métricas de la Startup</h3>
+      
+      <div class="stat-card">
+        <div class="stat-label">Líneas de Código (LOC)</div>
+        <div class="stat-val" style="color: #38bdf8;" id="stat-loc">0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">LOC por Segundo (Auto)</div>
+        <div class="stat-val" style="color: #10b981;" id="stat-loc-sec">0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Valoración Estimada</div>
+        <div class="stat-val" style="color: #f59e0b;" id="stat-cash">0.00 €</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Nivel de Startup</div>
+        <div class="stat-val" style="font-size: 16px; color: #c084fc;" id="stat-tier">Garage Dev 🛠️</div>
+        <div style="font-size: 11px; color: var(--muted); margin-top: 4px;" id="stat-progress">Nivel 1 de 5</div>
+      </div>
+
+      <!-- DDoS Alert Box -->
+      <div class="ddos-alert" id="ddos-alert">
+        <div style="font-size: 13px; font-weight: 800; color: #f87171;">🚨 ¡ATAQUE DDOS DETECTADO!</div>
+        <div style="font-size: 11px; color: #fca5a5; margin-top: 2px;">El tráfico ilegítimo está drenando tu servidor.</div>
+        <button class="defend-btn" onclick="defendDDoS()">Activar Firewall Cloudflare (+50 €)</button>
+      </div>
+
+      <!-- Quick Redeem Code -->
+      <div style="background: rgba(2, 6, 23, 0.7); border: 1px solid var(--border); border-radius: 8px; padding: 10px;">
+        <div style="font-size: 11px; font-weight: 700; margin-bottom: 6px; color: #38bdf8;">🎁 Canjear Código Promocional:</div>
+        <div style="display: flex; gap: 6px;">
+          <input type="text" id="promo-code" placeholder="STARTUP2026" style="background: #020617; border: 1px solid #334155; color: #fff; padding: 6px 10px; border-radius: 6px; font-size: 12px; flex: 1; outline: none;">
+          <button onclick="redeemPromo()" style="background: #2563eb; border: none; color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">Canjear</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center Column: Interactive Workstation -->
+    <div class="panel center-panel">
+      <div style="font-size: 12px; color: var(--muted); font-weight: 700;">ESTACIÓN DE DESARROLLO CUÁNTICO</div>
+      
+      <button class="clicker-btn" id="clicker" onclick="mineClick(event)">
+        <span>⚡ COMPILAR CÓDIGO</span>
+        <span class="clicker-sub">+<span id="click-rate">1</span> LOC / Click</span>
+      </button>
+
+      <div style="font-size: 11px; color: var(--muted); margin-bottom: 8px;">
+        ⌨️ <em>Tip: Presiona cualquier tecla del teclado para codificar a hiper-velocidad.</em>
+      </div>
+
+      <div class="terminal-window" id="terminal">
+        <div style="color: #64748b;">// [SYSTEM BOOT] CyberDev Kernel v2.4 initialized...</div>
+        <div style="color: #64748b;">// [READY] Presiona 'Compilar' o escribe en el teclado para generar valor.</div>
+      </div>
+    </div>
+
+    <!-- Right Column: Upgrades & Store -->
+    <div class="panel">
+      <div class="tab-header">
+        <button class="tab-btn active" onclick="switchUpgradeTab('bots')">🤖 Agentes & Bots</button>
+        <button class="tab-btn" onclick="switchUpgradeTab('cloud')">☁️ Cloud & Servidores</button>
+      </div>
+
+      <!-- Tab: Bots -->
+      <div class="upgrade-list" id="tab-bots">
+        <div class="upgrade-item">
+          <div class="upgrade-info">
+            <h4>Junior AI Copilot</h4>
+            <p>+2 LOC/s | Tienes: <span id="u1-cnt">0</span></p>
+          </div>
+          <button class="upgrade-buy-btn" id="btn-u1" onclick="buyUnit(1, 15)">Comprar (<span id="u1-cost">15</span> LOC)</button>
+        </div>
+
+        <div class="upgrade-item">
+          <div class="upgrade-info">
+            <h4>DevOps Pipeline Bot</h4>
+            <p>+15 LOC/s | Tienes: <span id="u2-cnt">0</span></p>
+          </div>
+          <button class="upgrade-buy-btn" id="btn-u2" onclick="buyUnit(2, 100)">Comprar (<span id="u2-cost">100</span> LOC)</button>
+        </div>
+
+        <div class="upgrade-item">
+          <div class="upgrade-info">
+            <h4>AutoGPT Senior Agent</h4>
+            <p>+90 LOC/s | Tienes: <span id="u3-cnt">0</span></p>
+          </div>
+          <button class="upgrade-buy-btn" id="btn-u3" onclick="buyUnit(3, 750)">Comprar (<span id="u3-cost">750</span> LOC)</button>
+        </div>
+      </div>
+
+      <!-- Tab: Cloud -->
+      <div class="upgrade-list" id="tab-cloud" style="display: none;">
+        <div class="upgrade-item">
+          <div class="upgrade-info">
+            <h4>AWS Edge Cluster</h4>
+            <p>+350 LOC/s | Tienes: <span id="u4-cnt">0</span></p>
+          </div>
+          <button class="upgrade-buy-btn" id="btn-u4" onclick="buyUnit(4, 3500)">Comprar (<span id="u4-cost">3500</span> LOC)</button>
+        </div>
+
+        <div class="upgrade-item">
+          <div class="upgrade-info">
+            <h4>Mainframe Cuántico</h4>
+            <p>+2,000 LOC/s | Tienes: <span id="u5-cnt">0</span></p>
+          </div>
+          <button class="upgrade-buy-btn" id="btn-u5" onclick="buyUnit(5, 20000)">Comprar (<span id="u5-cost">20000</span> LOC)</button>
+        </div>
+      </div>
+
+      <!-- VIP Monetization / Booster Button -->
+      <div style="margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px;">
+        <button onclick="openVIPModal()" style="background: linear-gradient(135deg, #f59e0b, #d97706); border: 1px solid #fbbf24; color: #000; font-weight: 900; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 13px; box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);">
+          ⭐ VIP BOOSTER PASS (x10 PERMANENTE)
+        </button>
+
+        <button onclick="watchAd()" id="btn-ad" style="background: #1e293b; border: 1px solid #334155; color: #38bdf8; font-weight: 700; padding: 8px; border-radius: 8px; cursor: pointer; font-size: 12px;">
+          📺 Ver Anuncio Patrocinado (+2,500 LOC)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIP Checkout Modal -->
+  <div class="modal-overlay" id="vip-modal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeVIPModal()">&times;</button>
+      <h3 style="font-size: 18px; color: #fbbf24; margin-bottom: 8px;">⚡ VIP DEVELOPER PASS 2026</h3>
+      <p style="font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 16px;">
+        Desbloquea el multiplicador global **x10 permanente** y acceso exclusivo al clúster de supercomputación.
+      </p>
+
+      <div style="background: #020617; border: 1px solid #1e293b; border-radius: 8px; padding: 14px; margin-bottom: 14px;">
+        <div style="font-size: 12px; font-weight: 800; color: #38bdf8; margin-bottom: 6px;">MÉTODO 1: BIZUM INSTANTÁNEO (4,99 €)</div>
+        <div style="font-size: 13px; color: #fff;">Número: <strong style="color: #10b981; font-family: monospace; font-size: 15px;">622 48 64 21</strong></div>
+        <div style="font-size: 11px; color: var(--muted); margin-top: 2px;">Concepto: <code>VIP HACKER</code></div>
+      </div>
+
+      <div style="background: #020617; border: 1px solid #1e293b; border-radius: 8px; padding: 14px; margin-bottom: 16px;">
+        <div style="font-size: 12px; font-weight: 800; color: #38bdf8; margin-bottom: 6px;">MÉTODO 2: CRYPTO (Base / Polygon / ETH)</div>
+        <div style="font-size: 11px; color: var(--muted); word-break: break-all; font-family: monospace;">0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2</div>
+      </div>
+
+      <button onclick="activateDemoVIP()" style="background: #2563eb; border: none; color: #fff; font-weight: 800; width: 100%; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 13px;">
+        ✅ Ya he enviado el pago (Verificar)
+      </button>
+    </div>
+  </div>
+
   <footer>
-    <p>© 2026 CyberDev Tycoon 2026. Desarrollado de forma 100% autónoma. Contacto: paraalgoservira2000@gmail.com | SwissDev Tools Pro</p>
+    CyberDev Tycoon &copy; 2026 &bull; Motorizado por IA y Soluciones Tecnológicas &bull; <a href="../" style="color: #38bdf8; text-decoration: none;">Ir al Inicio</a>
   </footer>
 
   <script>
-    // Matrix Rain Canvas Animation
+    // Audio Context Setup
+    let audioCtx = null;
+    let soundEnabled = true;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('sound-toggle').innerText = soundEnabled ? "🔊 Audio: ON" : "🔇 Audio: OFF";
+    }
+
+    function playTone(freq, type = 'sine', duration = 0.1, gainVal = 0.05) {
+      if (!soundEnabled) return;
+      try {
+        initAudio();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    // Matrix Background Effect
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     function resizeCanvas() {
@@ -532,51 +544,24 @@
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    const chars = '0101010101ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&*';
+    const chars = "01010101010101100101010101110101ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%^&*";
     const fontSize = 14;
     let columns = Math.floor(canvas.width / fontSize);
     let drops = Array(columns).fill(1);
 
     function drawMatrix() {
-      ctx.fillStyle = 'rgba(3, 7, 18, 0.08)';
+      ctx.fillStyle = "rgba(3, 7, 18, 0.08)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#38bdf8';
-      ctx.font = `${fontSize}px 'JetBrains Mono'`;
+      ctx.fillStyle = "#38bdf8";
+      ctx.font = fontSize + "px monospace";
       for (let i = 0; i < drops.length; i++) {
-        const text = chars[Math.floor(Math.random() * chars.length)];
+        const text = chars.charAt(Math.floor(Math.random() * chars.length));
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
         drops[i]++;
       }
     }
-    setInterval(drawMatrix, 40);
-
-    // Audio Engine (Web Audio API Synthesizer)
-    let audioEnabled = true;
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    function toggleAudio() {
-      audioEnabled = !audioEnabled;
-      document.getElementById('audio-toggle').innerText = audioEnabled ? '🔊 Sonido: ON' : '🔇 Sonido: OFF';
-    }
-
-    function playTone(freq, type = 'sine', duration = 0.06, vol = 0.05) {
-      if (!audioEnabled) return;
-      try {
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + duration);
-      } catch(e) {}
-    }
+    setInterval(drawMatrix, 33);
 
     // Game State
     let state = {
@@ -584,19 +569,34 @@
       cash: 0,
       clickPower: 1,
       multiplier: 1,
-      u1: 0, u1Cost: 20,
-      u2: 0, u2Cost: 120,
+      u1: 0, u1Cost: 15,
+      u2: 0, u2Cost: 100,
       u3: 0, u3Cost: 750,
-      u4: 0, u4Cost: 3000,
-      u5: 0, u5Cost: 15000,
+      u4: 0, u4Cost: 3500,
+      u5: 0, u5Cost: 20000,
       underAttack: false
     };
 
-    function logMsg(txt) {
+    // Load Save Game
+    try {
+      const saved = localStorage.getItem('cyberdev_save_v2');
+      if (saved) {
+        state = Object.assign(state, JSON.parse(saved));
+      }
+    } catch (e) {}
+
+    function saveGame() {
+      try {
+        localStorage.setItem('cyberdev_save_v2', JSON.stringify(state));
+      } catch (e) {}
+    }
+    setInterval(saveGame, 5000);
+
+    function logMsg(msg) {
       const term = document.getElementById('terminal');
       if (term) {
         const div = document.createElement('div');
-        div.innerText = `> ${txt}`;
+        div.innerText = `> ${msg}`;
         term.appendChild(div);
         term.scrollTop = term.scrollHeight;
       }
@@ -612,20 +612,18 @@
       document.getElementById('stat-loc-sec').innerText = rate.toLocaleString();
       document.getElementById('stat-cash').innerText = state.cash.toFixed(2) + ' €';
       document.getElementById('click-rate').innerText = (state.clickPower * state.multiplier).toLocaleString();
-      document.getElementById('user-score').innerText = Math.floor(state.loc).toLocaleString() + ' LOC';
 
-      // Funding round & tier
+      // Tier Calculation
       const tierEl = document.getElementById('stat-tier');
       const progEl = document.getElementById('stat-progress');
-      const roundEl = document.getElementById('funding-round');
 
-      if (state.loc > 500000) { tierEl.innerText = "Tech Unicorn 🦄"; progEl.innerText = "Nivel 5 de 5 (MAX)"; roundEl.innerText = "IPO Pública"; }
-      else if (state.loc > 100000) { tierEl.innerText = "ScaleUp Global"; progEl.innerText = "Nivel 4 de 5"; roundEl.innerText = "Serie B (Venture)"; }
-      else if (state.loc > 20000) { tierEl.innerText = "Startup Crecimiento"; progEl.innerText = "Nivel 3 de 5"; roundEl.innerText = "Serie A"; }
-      else if (state.loc > 2000) { tierEl.innerText = "Dev Studio"; progEl.innerText = "Nivel 2 de 5"; roundEl.innerText = "Ronda Seed"; }
-      else { tierEl.innerText = "Garage Dev"; progEl.innerText = "Nivel 1 de 5"; roundEl.innerText = "Pre-Seed"; }
+      if (state.loc > 500000) { tierEl.innerText = "Tech Unicorn 🦄"; progEl.innerText = "Nivel 5 de 5 (MAX)"; }
+      else if (state.loc > 100000) { tierEl.innerText = "ScaleUp Global 🌍"; progEl.innerText = "Nivel 4 de 5"; }
+      else if (state.loc > 20000) { tierEl.innerText = "Startup Serie A 🚀"; progEl.innerText = "Nivel 3 de 5"; }
+      else if (state.loc > 2000) { tierEl.innerText = "Dev Studio 💻"; progEl.innerText = "Nivel 2 de 5"; }
+      else { tierEl.innerText = "Garage Dev 🛠️"; progEl.innerText = "Nivel 1 de 5"; }
 
-      // Upgrade buttons state
+      // Upgrade states
       document.getElementById('u1-cnt').innerText = state.u1;
       document.getElementById('u1-cost').innerText = state.u1Cost;
       document.getElementById('btn-u1').disabled = state.loc < state.u1Cost;
@@ -671,7 +669,9 @@
         "const neuralNet = new QuantumModel();",
         "await db.query('SELECT * FROM bounties');",
         "deployKubernetesPod('us-east-1');",
-        "patchVulnerabilityCVE_2026();"
+        "patchVulnerabilityCVE_2026();",
+        "optimizeAsyncPipeline();",
+        "mintProofOfWorkReward();"
       ];
       if (Math.random() < 0.25) {
         logMsg(snippets[Math.floor(Math.random() * snippets.length)]);
@@ -679,7 +679,6 @@
       updateUI();
     }
 
-    // Keyboard typing compiles code too!
     window.addEventListener('keydown', (e) => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
       mineClick(null);
@@ -768,8 +767,30 @@
       }, 1000);
     }
 
+    function redeemPromo() {
+      const code = document.getElementById('promo-code').value.trim().toUpperCase();
+      if (code === 'STARTUP2026' || code === 'HACKER_PRO' || code === 'BIZUM_VIP') {
+        state.loc += 5000;
+        state.cash += 25.00;
+        state.multiplier = Math.max(state.multiplier, 2);
+        playTone(1200, 'sine', 0.3);
+        logMsg(`🎉 ¡Código ${code} canjeado con éxito! +5,000 LOC, +25.00 € y Multiplicador x2.`);
+        alert(`¡Código ${code} canjeado! Has recibido +5,000 LOC y multiplicador x2.`);
+        updateUI();
+      } else {
+        alert('Código no válido o expirado.');
+      }
+    }
+
     function openVIPModal() {
-      alert('⚡ VIP DEVELOPER PASS (x10 Multiplicador Permanente)\n\nEnvía 4.99 € por Bizum al número: 622 48 64 21\nConcepto: VIP HACKER\n\nTu cuenta se activará inmediatamente en la red.');
+      document.getElementById('vip-modal').style.display = 'flex';
+    }
+    function closeVIPModal() {
+      document.getElementById('vip-modal').style.display = 'none';
+    }
+    function activateDemoVIP() {
+      alert('Solicitud de activación recibida. Si ya realizaste el Bizum de 4.99 € al 622 48 64 21, tu VIP Pass x10 se validará en unos instantes.');
+      closeVIPModal();
     }
 
     // Passive Accumulator Loop
@@ -780,7 +801,7 @@
         state.cash += rate * 0.01;
         updateUI();
       }
-      // Random attack trigger (4% chance every second if LOC > 500)
+      // Random attack trigger
       if (!state.underAttack && Math.random() < 0.04 && state.loc > 500) {
         state.underAttack = true;
         document.getElementById('ddos-alert').style.display = 'block';
