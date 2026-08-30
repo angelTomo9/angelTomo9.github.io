@@ -55,6 +55,13 @@ const loginForm = document.getElementById('loginForm');
 const loginPinInput = document.getElementById('loginPinInput');
 const loginError = document.getElementById('loginError');
 
+const keyModal = document.getElementById('keyModal');
+const btnOpenKeyHeader = document.getElementById('btnOpenKeyHeader');
+const btnCloseKeyModal = document.getElementById('btnCloseKeyModal');
+const apiKeyInput = document.getElementById('apiKeyInput');
+const btnSaveApiKey = document.getElementById('btnSaveApiKey');
+const keyStatusMsg = document.getElementById('keyStatusMsg');
+
 const drawerOverlay = document.getElementById('drawerOverlay');
 const drawerSidebar = document.getElementById('drawerSidebar');
 const btnOpenDrawer = document.getElementById('btnOpenDrawer');
@@ -106,6 +113,60 @@ loginForm.addEventListener('submit', (e) => {
     loginError.classList.remove('hidden');
   }
 });
+
+// Key Modal Controls
+function openKeyModal() {
+  apiKeyInput.value = state.apiKey || '';
+  keyStatusMsg.textContent = state.apiKey ? '✓ Clave guardada en este dispositivo.' : '';
+  keyStatusMsg.className = 'text-xs ' + (state.apiKey ? 'text-emerald-400' : 'text-slate-400');
+  keyModal.classList.remove('hidden');
+}
+
+function closeKeyModal() {
+  keyModal.classList.add('hidden');
+}
+
+if (btnOpenKeyHeader) btnOpenKeyHeader.addEventListener('click', openKeyModal);
+if (btnCloseKeyModal) btnCloseKeyModal.addEventListener('click', closeKeyModal);
+
+if (btnSaveApiKey) {
+  btnSaveApiKey.addEventListener('click', async () => {
+    const enteredKey = apiKeyInput.value.trim();
+    if (!enteredKey) {
+      keyStatusMsg.textContent = 'Introduce una clave válida.';
+      keyStatusMsg.className = 'text-xs text-rose-400';
+      return;
+    }
+
+    btnSaveApiKey.disabled = true;
+    keyStatusMsg.textContent = 'Comprobando clave con Google...';
+    keyStatusMsg.className = 'text-xs text-indigo-400';
+
+    try {
+      const testRes = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + encodeURIComponent(enteredKey), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: 'Hola' }] }] })
+      });
+
+      if (!testRes.ok) {
+        const err = await testRes.json();
+        throw new Error(err.error?.message || 'Clave no válida');
+      }
+
+      state.apiKey = enteredKey;
+      localStorage.setItem('ag_gemini_key', enteredKey);
+      keyStatusMsg.textContent = '✅ ¡Clave correcta y guardada!';
+      keyStatusMsg.className = 'text-xs text-emerald-400 font-bold';
+      setTimeout(() => closeKeyModal(), 1200);
+    } catch (err) {
+      keyStatusMsg.textContent = '❌ Error: ' + err.message;
+      keyStatusMsg.className = 'text-xs text-rose-400';
+    } finally {
+      btnSaveApiKey.disabled = false;
+    }
+  });
+}
 
 // Drawer Controls
 function openDrawer() {
@@ -360,51 +421,96 @@ function appendMessageElement(role, content, timestamp, images) {
   return msgEl;
 }
 
-async function generateAIResponse(chat, promptText, attachedImages) {
-  let apiKey = state.apiKey;
-  if (!apiKey) {
-    const inputKey = prompt('Introduce tu clave gratuita de Google AI Studio (Gemini) para chatear:');
-    if (inputKey) {
-      state.apiKey = inputKey.trim();
-      localStorage.setItem('ag_gemini_key', state.apiKey);
-      apiKey = state.apiKey;
+// Prepare alternating contents for Gemini API (user -> model -> user -> model)
+function prepareGeminiContents(history, currentPrompt, attachedImages) {
+  const contents = [];
+  let lastRole = null;
+
+  const recentMessages = (history || []).slice(-10);
+  for (const msg of recentMessages) {
+    if (!msg.content || typeof msg.content !== 'string') continue;
+    const role = (msg.role === 'model' || msg.role === 'assistant') ? 'model' : 'user';
+    const text = msg.content.trim();
+    if (!text) continue;
+
+    if (role === lastRole) {
+      contents[contents.length - 1].parts[0].text += '
+
+' + text;
     } else {
-      return '⚠️ Clave de API requerida para responder desde GitHub Pages. Consíguela gratis en https://aistudio.google.com/app/apikey';
+      contents.push({
+        role: role,
+        parts: [{ text: text }]
+      });
+      lastRole = role;
     }
   }
 
-  const contents = [];
-  (chat.messages || []).slice(-8).forEach(m => {
-    contents.push({
-      role: m.role === 'user' ? 'user' : 'model',
-      parts: [{ text: m.content || '' }]
-    });
-  });
-
-  const parts = [{ text: promptText }];
-  attachedImages.forEach(img => {
-    const base64Data = img.data.replace(/^data:image\/\w+;base64,/, '');
-    parts.push({
-      inlineData: { mimeType: 'image/jpeg', data: base64Data }
-    });
-  });
-
-  contents.push({ role: 'user', parts });
-
-  const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + apiKey;
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ contents })
-  });
-
-  if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.error?.message || 'Error en Gemini API');
+  const currentParts = [];
+  if (currentPrompt && currentPrompt.trim()) {
+    currentParts.push({ text: currentPrompt.trim() });
   }
 
-  const data = await res.json();
-  return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sin respuesta';
+  if (Array.isArray(attachedImages)) {
+    attachedImages.forEach(img => {
+      if (!img.data) return;
+      const mimeMatch = img.data.match(/^data:(image/\w+);base64,/);
+      const mimeType = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+      const base64Data = img.data.replace(/^data:image/\w+;base64,/, '');
+      currentParts.push({
+        inlineData: { mimeType: mimeType, data: base64Data }
+      });
+    });
+  }
+
+  if (currentParts.length === 0) {
+    currentParts.push({ text: 'Hola' });
+  }
+
+  if (lastRole === 'user') {
+    contents[contents.length - 1].parts.push(...currentParts);
+  } else {
+    contents.push({ role: 'user', parts: currentParts });
+  }
+
+  return contents;
+}
+
+async function generateAIResponse(chat, promptText, attachedImages) {
+  let apiKey = (state.apiKey || '').trim();
+  if (!apiKey) {
+    openKeyModal();
+    throw new Error('Debes introducir tu clave gratuita de Google AI Studio (Gemini). Pulsa en el icono de la llave (🔑) arriba.');
+  }
+
+  const contents = prepareGeminiContents(chat.messages, promptText, attachedImages);
+
+  const models = ['gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-1.5-pro'];
+  let lastError = null;
+
+  for (const model of models) {
+    try {
+      const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + encodeURIComponent(apiKey);
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents })
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error?.message || ('HTTP ' + res.status));
+      }
+
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (text) return text;
+    } catch (err) {
+      lastError = err;
+      console.warn('Model ' + model + ' error:', err.message);
+    }
+  }
+
+  throw new Error('Error en Gemini API: ' + (lastError?.message || 'Revisa tu clave en el icono 🔑'));
 }
 
 chatForm.addEventListener('submit', async (e) => {
@@ -461,7 +567,7 @@ chatForm.addEventListener('submit', async (e) => {
     saveData();
   } catch (err) {
     messagesList.removeChild(aiPlaceholder);
-    appendMessageElement('model', '❌ **Error:** ' + err.message);
+    appendMessageElement('model', '❌ **' + err.message + '**\n\n*Haz clic en el botón de la llave (🔑) arriba a la derecha para verificar o cambiar tu clave.*');
   } finally {
     state.isStreaming = false;
     btnSendMessage.disabled = false;

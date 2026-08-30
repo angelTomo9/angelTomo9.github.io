@@ -215,9 +215,12 @@ pre {
       </div>
     </div>
 
-    <!-- Right header action: + New Chat -->
+    <!-- Right header actions: Key 🔑 + New Chat -->
     <div class="flex items-center gap-2">
-      <button id="btnNewChatHeader" class="h-10 px-3.5 rounded-xl bg-indigo-600 active:bg-indigo-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-indigo-600/30">
+      <button id="btnOpenKeyHeader" class="h-10 w-10 rounded-xl bg-slate-800 active:bg-slate-700 text-indigo-400 border border-slate-700 flex items-center justify-center shrink-0" title="Configurar API Key">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></svg>
+      </button>
+      <button id="btnNewChatHeader" class="h-10 px-3 rounded-xl bg-indigo-600 active:bg-indigo-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-indigo-600/30">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
         <span>Nuevo</span>
       </button>
@@ -331,9 +334,9 @@ pre {
     <!-- Drawer Footer -->
     <div class="p-3 border-t border-slate-800 bg-[#0f172a] flex items-center justify-between text-xs text-slate-400">
       <span>GitHub Pages</span>
-      <span class="text-emerald-400 flex items-center gap-1 font-bold text-[11px]">
-        <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Conectado
-      </span>
+      <button onclick="openKeyModal()" class="text-indigo-400 font-bold text-[11px] hover:underline flex items-center gap-1">
+        🔑 Cambiar Clave API
+      </button>
     </div>
   </aside>
 
@@ -360,6 +363,38 @@ pre {
           Entrar y Recordar
         </button>
       </form>
+    </div>
+  </div>
+
+  <!-- MODAL: API KEY CONFIGURATION -->
+  <div id="keyModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-[#0f172a] border border-slate-800 rounded-3xl w-full max-w-sm p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center text-sm font-bold">🔑</div>
+          <h3 class="font-bold text-white text-base">Clave de Gemini (IA)</h3>
+        </div>
+        <button id="btnCloseKeyModal" class="text-slate-400 hover:text-white p-1 rounded-lg bg-slate-800">✕</button>
+      </div>
+      
+      <p class="text-xs text-slate-400 leading-relaxed">
+        Para que el chat y las fotos respondan desde GitHub Pages, pega tu clave gratuita de <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-indigo-400 underline font-semibold">Google AI Studio</a>.
+      </p>
+
+      <input
+        id="apiKeyInput"
+        type="password"
+        placeholder="AIzaSy..."
+        class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-3 text-xs text-slate-100 font-mono outline-none focus:border-indigo-500"
+      />
+
+      <div id="keyStatusMsg" class="text-xs min-h-[16px]"></div>
+
+      <div class="flex justify-end gap-2 pt-1">
+        <button id="btnSaveApiKey" class="w-full py-3 bg-indigo-600 active:bg-indigo-700 text-white font-bold rounded-xl text-xs shadow-md shadow-indigo-600/30">
+          Probar y Guardar
+        </button>
+      </div>
     </div>
   </div>
 
@@ -421,6 +456,13 @@ const loginForm = document.getElementById('loginForm');
 const loginPinInput = document.getElementById('loginPinInput');
 const loginError = document.getElementById('loginError');
 
+const keyModal = document.getElementById('keyModal');
+const btnOpenKeyHeader = document.getElementById('btnOpenKeyHeader');
+const btnCloseKeyModal = document.getElementById('btnCloseKeyModal');
+const apiKeyInput = document.getElementById('apiKeyInput');
+const btnSaveApiKey = document.getElementById('btnSaveApiKey');
+const keyStatusMsg = document.getElementById('keyStatusMsg');
+
 const drawerOverlay = document.getElementById('drawerOverlay');
 const drawerSidebar = document.getElementById('drawerSidebar');
 const btnOpenDrawer = document.getElementById('btnOpenDrawer');
@@ -472,6 +514,60 @@ loginForm.addEventListener('submit', (e) => {
     loginError.classList.remove('hidden');
   }
 });
+
+// Key Modal Controls
+function openKeyModal() {
+  apiKeyInput.value = state.apiKey || '';
+  keyStatusMsg.textContent = state.apiKey ? '✓ Clave guardada en este dispositivo.' : '';
+  keyStatusMsg.className = 'text-xs ' + (state.apiKey ? 'text-emerald-400' : 'text-slate-400');
+  keyModal.classList.remove('hidden');
+}
+
+function closeKeyModal() {
+  keyModal.classList.add('hidden');
+}
+
+if (btnOpenKeyHeader) btnOpenKeyHeader.addEventListener('click', openKeyModal);
+if (btnCloseKeyModal) btnCloseKeyModal.addEventListener('click', closeKeyModal);
+
+if (btnSaveApiKey) {
+  btnSaveApiKey.addEventListener('click', async () => {
+    const enteredKey = apiKeyInput.value.trim();
+    if (!enteredKey) {
+      keyStatusMsg.textContent = 'Introduce una clave válida.';
+      keyStatusMsg.className = 'text-xs text-rose-400';
+      return;
+    }
+
+    btnSaveApiKey.disabled = true;
+    keyStatusMsg.textContent = 'Comprobando clave con Google...';
+    keyStatusMsg.className = 'text-xs text-indigo-400';
+
+    try {
+      const testRes = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + encodeURIComponent(enteredKey), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: 'Hola' }] }] })
+      });
+
+      if (!testRes.ok) {
+        const err = await testRes.json();
+        throw new Error(err.error?.message || 'Clave no válida');
+      }
+
+      state.apiKey = enteredKey;
+      localStorage.setItem('ag_gemini_key', enteredKey);
+      keyStatusMsg.textContent = '✅ ¡Clave correcta y guardada!';
+      keyStatusMsg.className = 'text-xs text-emerald-400 font-bold';
+      setTimeout(() => closeKeyModal(), 1200);
+    } catch (err) {
+      keyStatusMsg.textContent = '❌ Error: ' + err.message;
+      keyStatusMsg.className = 'text-xs text-rose-400';
+    } finally {
+      btnSaveApiKey.disabled = false;
+    }
+  });
+}
 
 // Drawer Controls
 function openDrawer() {
@@ -726,51 +822,96 @@ function appendMessageElement(role, content, timestamp, images) {
   return msgEl;
 }
 
-async function generateAIResponse(chat, promptText, attachedImages) {
-  let apiKey = state.apiKey;
-  if (!apiKey) {
-    const inputKey = prompt('Introduce tu clave gratuita de Google AI Studio (Gemini) para chatear:');
-    if (inputKey) {
-      state.apiKey = inputKey.trim();
-      localStorage.setItem('ag_gemini_key', state.apiKey);
-      apiKey = state.apiKey;
+// Prepare alternating contents for Gemini API (user -> model -> user -> model)
+function prepareGeminiContents(history, currentPrompt, attachedImages) {
+  const contents = [];
+  let lastRole = null;
+
+  const recentMessages = (history || []).slice(-10);
+  for (const msg of recentMessages) {
+    if (!msg.content || typeof msg.content !== 'string') continue;
+    const role = (msg.role === 'model' || msg.role === 'assistant') ? 'model' : 'user';
+    const text = msg.content.trim();
+    if (!text) continue;
+
+    if (role === lastRole) {
+      contents[contents.length - 1].parts[0].text += '
+
+' + text;
     } else {
-      return '⚠️ Clave de API requerida para responder desde GitHub Pages. Consíguela gratis en https://aistudio.google.com/app/apikey';
+      contents.push({
+        role: role,
+        parts: [{ text: text }]
+      });
+      lastRole = role;
     }
   }
 
-  const contents = [];
-  (chat.messages || []).slice(-8).forEach(m => {
-    contents.push({
-      role: m.role === 'user' ? 'user' : 'model',
-      parts: [{ text: m.content || '' }]
-    });
-  });
-
-  const parts = [{ text: promptText }];
-  attachedImages.forEach(img => {
-    const base64Data = img.data.replace(/^data:image\/\w+;base64,/, '');
-    parts.push({
-      inlineData: { mimeType: 'image/jpeg', data: base64Data }
-    });
-  });
-
-  contents.push({ role: 'user', parts });
-
-  const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + apiKey;
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ contents })
-  });
-
-  if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.error?.message || 'Error en Gemini API');
+  const currentParts = [];
+  if (currentPrompt && currentPrompt.trim()) {
+    currentParts.push({ text: currentPrompt.trim() });
   }
 
-  const data = await res.json();
-  return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sin respuesta';
+  if (Array.isArray(attachedImages)) {
+    attachedImages.forEach(img => {
+      if (!img.data) return;
+      const mimeMatch = img.data.match(/^data:(image/\w+);base64,/);
+      const mimeType = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+      const base64Data = img.data.replace(/^data:image/\w+;base64,/, '');
+      currentParts.push({
+        inlineData: { mimeType: mimeType, data: base64Data }
+      });
+    });
+  }
+
+  if (currentParts.length === 0) {
+    currentParts.push({ text: 'Hola' });
+  }
+
+  if (lastRole === 'user') {
+    contents[contents.length - 1].parts.push(...currentParts);
+  } else {
+    contents.push({ role: 'user', parts: currentParts });
+  }
+
+  return contents;
+}
+
+async function generateAIResponse(chat, promptText, attachedImages) {
+  let apiKey = (state.apiKey || '').trim();
+  if (!apiKey) {
+    openKeyModal();
+    throw new Error('Debes introducir tu clave gratuita de Google AI Studio (Gemini). Pulsa en el icono de la llave (🔑) arriba.');
+  }
+
+  const contents = prepareGeminiContents(chat.messages, promptText, attachedImages);
+
+  const models = ['gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-1.5-pro'];
+  let lastError = null;
+
+  for (const model of models) {
+    try {
+      const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + encodeURIComponent(apiKey);
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents })
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error?.message || ('HTTP ' + res.status));
+      }
+
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (text) return text;
+    } catch (err) {
+      lastError = err;
+      console.warn('Model ' + model + ' error:', err.message);
+    }
+  }
+
+  throw new Error('Error en Gemini API: ' + (lastError?.message || 'Revisa tu clave en el icono 🔑'));
 }
 
 chatForm.addEventListener('submit', async (e) => {
@@ -827,7 +968,7 @@ chatForm.addEventListener('submit', async (e) => {
     saveData();
   } catch (err) {
     messagesList.removeChild(aiPlaceholder);
-    appendMessageElement('model', '❌ **Error:** ' + err.message);
+    appendMessageElement('model', '❌ **' + err.message + '**\n\n*Haz clic en el botón de la llave (🔑) arriba a la derecha para verificar o cambiar tu clave.*');
   } finally {
     state.isStreaming = false;
     btnSendMessage.disabled = false;
