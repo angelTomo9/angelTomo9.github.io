@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Antigravity Mobile</title>
+  
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github-dark-dimmed.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+  
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="bg-[#0b0f17] text-slate-100 flex flex-col h-screen w-screen overflow-hidden select-none">
+
+  <!-- TOP HEADER -->
+  <header class="flex-none h-14 bg-[#0f172a] border-b border-slate-800/90 flex items-center justify-between px-3 z-20">
+    <div class="flex items-center gap-2 overflow-hidden">
+      <!-- Hamburger Menu Button -->
+      <button id="btnOpenDrawer" class="h-10 w-10 rounded-xl bg-slate-800 active:bg-slate-700 text-slate-100 flex items-center justify-center shrink-0" aria-label="Menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+      </button>
+
+      <!-- Active Chat and Project Header Info -->
+      <div id="headerTitleArea" class="flex flex-col truncate cursor-pointer pl-1">
+        <div class="flex items-center gap-1.5">
+          <span id="headerProjectName" class="text-[11px] font-bold text-indigo-400 truncate max-w-[140px]">Todos los proyectos</span>
+          <span class="text-slate-600 text-xs">•</span>
+          <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
+        </div>
+        <span id="headerChatTitle" class="text-sm font-bold text-slate-100 truncate max-w-[190px]">Cargando...</span>
+      </div>
+    </div>
+
+    <!-- Right header action: + New Chat -->
+    <div class="flex items-center gap-2">
+      <button id="btnNewChatHeader" class="h-10 px-3.5 rounded-xl bg-indigo-600 active:bg-indigo-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-indigo-600/30">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+        <span>Nuevo</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- CHAT MESSAGES SCROLL CONTAINER -->
+  <main id="chatScrollContainer" class="flex-1 overflow-y-auto px-3 py-4 space-y-4 select-text">
+    <div id="messagesList" class="max-w-3xl mx-auto space-y-4 pb-4">
+      <!-- Dynamic messages will be rendered here -->
+    </div>
+  </main>
+
+  <!-- BOTTOM INPUT BAR (Safe Area Padded) -->
+  <footer class="flex-none bg-[#0f172a] border-t border-slate-800/90 px-3 pt-2.5 pb-7 safe-bottom z-30">
+    
+    <!-- Image Previews Container -->
+    <div id="imagePreviewContainer" class="max-w-3xl mx-auto mb-2 flex items-center gap-2 overflow-x-auto hidden"></div>
+
+    <form id="chatForm" class="max-w-3xl mx-auto flex items-end gap-2">
+      
+      <!-- Hidden File Input -->
+      <input type="file" id="imageFileInput" accept="image/*" class="hidden">
+
+      <!-- Attach / Camera Button -->
+      <button
+        id="btnAttachImage"
+        type="button"
+        class="h-11 w-11 rounded-2xl bg-slate-800 hover:bg-slate-700 active:bg-slate-600 text-indigo-400 flex items-center justify-center shrink-0 border border-slate-700"
+        aria-label="Adjuntar imagen"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+      </button>
+
+      <!-- Text Input Area -->
+      <div class="flex-1 bg-slate-800/90 border border-slate-700 rounded-2xl p-1.5 focus-within:border-indigo-500">
+        <textarea
+          id="messageInput"
+          rows="1"
+          placeholder="Escribe a Antigravity..."
+          class="w-full bg-transparent text-slate-100 text-sm placeholder-slate-400 px-2 py-1 outline-none resize-none max-h-32 leading-relaxed"
+          style="min-height: 26px;"
+        ></textarea>
+      </div>
+
+      <!-- SEND BUTTON (Prominent, High Contrast, Always Visible) -->
+      <button
+        id="btnSendMessage"
+        type="submit"
+        class="h-11 w-11 rounded-2xl bg-indigo-600 active:bg-indigo-700 text-white flex items-center justify-center shrink-0 shadow-lg shadow-indigo-600/30"
+        aria-label="Enviar mensaje"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+      </button>
+    </form>
+  </footer>
+
+  <!-- LEFT DRAWER (PROJECTS & CHATS SWITCHER) -->
+  <div id="drawerOverlay" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 hidden opacity-0 drawer-backdrop"></div>
+  <aside id="drawerSidebar" class="fixed top-0 bottom-0 left-0 w-84 max-w-[88vw] bg-[#0c121e] border-r border-slate-800 z-50 flex flex-col -translate-x-full drawer-panel shadow-2xl">
+    
+    <!-- Drawer Header -->
+    <div class="h-14 border-b border-slate-800 flex items-center justify-between px-4 bg-[#0f172a]">
+      <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-xs">AG</div>
+        <span class="font-bold text-slate-100 text-sm">Proyectos y Chats</span>
+      </div>
+      <button id="btnCloseDrawer" class="p-2 text-slate-400 hover:text-white rounded-lg bg-slate-800">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Project Selector Section -->
+    <div class="p-3 border-b border-slate-800 bg-[#090d16]/80">
+      <div class="flex items-center justify-between mb-1.5">
+        <label class="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1">
+          📁 Seleccionar Proyecto
+        </label>
+        <button id="btnNewProject" class="text-xs text-indigo-400 hover:text-indigo-300 font-bold">
+          + Nuevo
+        </button>
+      </div>
+      <select id="projectSelect" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-100 outline-none focus:border-indigo-500">
+        <!-- Dynamic Projects List -->
+      </select>
+    </div>
+
+    <!-- Search box -->
+    <div class="p-2.5 border-b border-slate-800 bg-[#090d16]/40">
+      <div class="flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="chatSearchInput" type="text" placeholder="Buscar conversación..." class="w-full bg-transparent text-slate-100 placeholder-slate-500 outline-none">
+      </div>
+    </div>
+
+    <!-- Chats List Header -->
+    <div class="px-3 pt-3 pb-1.5 flex items-center justify-between">
+      <span id="chatListHeaderLabel" class="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+        Conversaciones
+      </span>
+      <button id="btnNewChatDrawer" class="text-xs text-indigo-400 hover:text-indigo-300 font-bold">
+        + Nueva
+      </button>
+    </div>
+
+    <!-- Chats Scrollable List -->
+    <div id="chatsListContainer" class="flex-1 overflow-y-auto px-2 space-y-1.5 pb-6">
+      <!-- Dynamic Chats rendered here -->
+    </div>
+
+    <!-- Drawer Footer -->
+    <div class="p-3 border-t border-slate-800 bg-[#0f172a] flex items-center justify-between text-xs text-slate-400">
+      <span>Conexión activa con PC</span>
+      <span class="text-emerald-400 flex items-center gap-1 font-bold text-[11px]">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Conectado
+      </span>
+    </div>
+  </aside>
+
+  <!-- MODAL: LOGIN / PIN PROMPT -->
+  <div id="loginModal" class="fixed inset-0 bg-[#0b0f17] z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-[#0f172a] border border-slate-800 rounded-2xl w-full max-w-sm p-6 text-center space-y-4 shadow-2xl">
+      <div class="w-12 h-12 rounded-2xl bg-indigo-600/20 text-indigo-400 mx-auto flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div>
+        <h2 class="text-lg font-bold text-white">Antigravity Mobile</h2>
+        <p class="text-xs text-slate-400 mt-1">Introduce el PIN de acceso</p>
+      </div>
+      <form id="loginForm" class="space-y-3">
+        <input
+          id="loginPinInput"
+          type="password"
+          inputmode="numeric"
+          placeholder="PIN (1234)"
+          class="w-full text-center tracking-widest text-lg font-mono bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-indigo-500"
+          autofocus
+        />
+        <div id="loginError" class="text-xs text-rose-400 hidden">PIN incorrecto</div>
+        <button type="submit" class="w-full py-3 bg-indigo-600 active:bg-indigo-700 text-white font-bold rounded-xl text-sm shadow-lg shadow-indigo-600/30">
+          Entrar
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

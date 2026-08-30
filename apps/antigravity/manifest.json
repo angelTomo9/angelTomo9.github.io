@@ -1,0 +1,16 @@
+﻿{
+  "name": "Antigravity Mobile",
+  "short_name": "Antigravity",
+  "description": "Tu asistente y entorno de desarrollo en el móvil",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%236366f1'/><path d='M30 70 L50 25 L70 70 L50 55 Z' fill='white'/></svg>",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
