@@ -63,6 +63,7 @@ const loginError = document.getElementById('loginError');
 
 const connectionBadge = document.getElementById('connectionBadge');
 const connectionText = document.getElementById('connectionText');
+const btnSyncHeader = document.getElementById('btnSyncHeader');
 
 const drawerOverlay = document.getElementById('drawerOverlay');
 const drawerSidebar = document.getElementById('drawerSidebar');
@@ -134,7 +135,6 @@ function updateConnectionUI(online) {
 function initBridge() {
   updateConnectionUI(false);
 
-  // Connect to secure WebSocket MQTT broker
   state.mqttClient = mqtt.connect(BROKER_WSS, {
     reconnectPeriod: 2500,
     keepalive: 30
@@ -144,7 +144,6 @@ function initBridge() {
     console.log('✅ Conectado al bus de mensajes WSS en la nube');
     state.mqttClient.subscribe(TOPIC_FROM_PC, (err) => {
       if (!err) {
-        // Request initial live data from PC
         requestPCData();
       }
     });
@@ -165,7 +164,16 @@ function initBridge() {
     updateConnectionUI(isAlive);
   }, 3000);
 
-  // Load fallback cached data if available
+  // Auto-reload on page visibility change (when mobile user comes back to browser tab)
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      requestPCData();
+      if (state.currentChatId) {
+        loadChatFromPC(state.currentChatId);
+      }
+    }
+  });
+
   loadCachedData();
 }
 
@@ -286,6 +294,21 @@ headerTitleArea.addEventListener('click', openDrawer);
 btnCloseDrawer.addEventListener('click', closeDrawer);
 drawerOverlay.addEventListener('click', closeDrawer);
 
+// Sync Button in Header
+if (btnSyncHeader) {
+  btnSyncHeader.addEventListener('click', () => {
+    const icon = btnSyncHeader.querySelector('svg');
+    if (icon) icon.classList.add('animate-spin');
+    requestPCData();
+    if (state.currentChatId) {
+      loadChatFromPC(state.currentChatId);
+    }
+    setTimeout(() => {
+      if (icon) icon.classList.remove('animate-spin');
+    }, 1000);
+  });
+}
+
 // Image attachment
 btnAttachImage.addEventListener('click', () => imageFileInput.click());
 imageFileInput.addEventListener('change', (e) => {
@@ -405,7 +428,10 @@ function loadChatFromPC(chatId) {
     if (chatMeta.projectName) headerProjectName.textContent = chatMeta.projectName;
   }
 
-  messagesList.innerHTML = '<div class="text-center py-16 text-slate-500 space-y-2"><div class="w-8 h-8 rounded-full border-2 border-indigo-500 border-t-transparent animate-spin mx-auto"></div><p class="text-xs text-slate-400">Sincronizando con Antigravity...</p></div>';
+  // Only show placeholder spinner if chat area is currently empty
+  if (messagesList.children.length === 0) {
+    messagesList.innerHTML = '<div class="text-center py-16 text-slate-500 space-y-2"><div class="w-8 h-8 rounded-full border-2 border-indigo-500 border-t-transparent animate-spin mx-auto"></div><p class="text-xs text-slate-400">Sincronizando con Antigravity...</p></div>';
+  }
 
   sendToPC({
     action: 'get_chat',
