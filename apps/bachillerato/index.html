@@ -2,279 +2,368 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Centro de Mando Académico — Ángel Moreno Gutiérrez</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Centro de Mando 1º Bachillerato — Ángel Moreno</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Top Navigation & Stats Bar -->
-  <header class="top-bar">
-    <div class="brand">
-      <span class="badge-status live">MODO VIGILANTE ACTIVO</span>
-      <h1>🎓 Centro de Mando 1º Bachillerato</h1>
-      <p class="subtitle">Ángel Moreno Gutiérrez | IES La Rioja (CT) ➔ Meta: <strong>Ingeniería Informática / IA (≥ 9.5)</strong></p>
-    </div>
+  <!-- Floating Ambient Glows -->
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
 
-    <div class="user-stats">
-      <div class="stat-card xp-card">
-        <span class="stat-label">PUNTOS DE DISCIPLINA</span>
-        <div class="stat-value" id="totalPoints">25 <span class="unit">XP</span></div>
-        <div class="progress-bar-wrap">
-          <div class="progress-bar" id="xpProgressBar" style="width: 25%;"></div>
+  <div class="app-wrapper">
+
+    <!-- Top Navigation & Stats Bar -->
+    <header class="top-bar glass">
+      <div class="brand">
+        <div class="brand-badge-row">
+          <span class="pulse-indicator"></span>
+          <span class="badge-status">SISTEMA ACTIVO • 1º BACHILLERATO D</span>
         </div>
-        <span class="level-label" id="currentLevel">Nivel 1: Aspirante a Ingeniero</span>
+        <h1>Centro de Mando Académico</h1>
+        <p class="subtitle">Ángel Moreno Gutiérrez | IES La Rioja ➔ Meta: <strong>Ingeniería Informática / IA (≥ 9.5)</strong></p>
       </div>
 
-      <div class="stat-card streak-card">
-        <span class="stat-label">RACHA DE DIAS</span>
-        <div class="stat-value" id="streakDays">🔥 2 <span class="unit">DÍAS</span></div>
-        <span class="streak-sub">Sin saltarse el plan</span>
-      </div>
-    </div>
-  </header>
-
-  <!-- Main Container -->
-  <main class="dashboard-grid">
-
-    <!-- Left Column: Mother Coach Panel & Countdown -->
-    <aside class="sidebar">
-      
-      <!-- Strict Mother Card -->
-      <div class="card mother-card">
-        <div class="mother-header">
-          <div class="mother-avatar">👩‍🏫⚡</div>
-          <div>
-            <h3>Modo Mamá Estricta</h3>
-            <span class="mother-status">Tolerancia Cero con la Procrastinación</span>
+      <div class="user-stats">
+        <div class="stat-card xp-card glass">
+          <div class="stat-card-header">
+            <span class="stat-label">DISCIPLINA & XP</span>
+            <span class="xp-pill" id="xpGainAlert">+25 XP HOY</span>
+          </div>
+          <div class="stat-value" id="totalPoints">50 <span class="unit">XP</span></div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar" id="xpProgressBar" style="width: 42%;"></div>
+          </div>
+          <div class="level-row">
+            <span class="level-label" id="currentLevel">Nivel 2: Arquitecto de Algoritmos</span>
+            <span class="next-level-label">120 XP</span>
           </div>
         </div>
-        <div class="mother-quote" id="motherMessage">
-          «¡Muy bien mandando la agenda a las 15:12! Hoy tienes la tarde apretada: Pádel a las 17:00 e Inglés C1 a las 19:00. Tu ventana de oro es de 15:45 a 16:45 para dejar zanjados los ejercicios de Mates (Ficha ej. 11). ¡Ni se te ocurra marcharte al pádel sin haber liquidado Mates! Y por cierto: a 4ª hora tenías Física y Química y no has puesto nada en la agenda... ¿otra vez el profesor sustituto sin mandar nada?»
+
+        <div class="stat-card streak-card glass">
+          <span class="stat-label">RACHA DE DIAS</span>
+          <div class="stat-value" id="streakDays">🔥 3 <span class="unit">DÍAS</span></div>
+          <span class="streak-sub">Sin saltarse el plan diario</span>
         </div>
-        <div class="punishment-box" id="punishmentBox">
-          <span class="punishment-badge">⚠️ OBJETIVO INNEGOCIABLE ANTES DEL PÁDEL</span>
-          <p>A las 16:45 tienes que salir hacia el pádel con los ejercicios de la <strong>Ficha 11 de Mates terminados</strong>. Si te vas sin hacerlos, pierdes -15 XP.</p>
-        </div>
       </div>
+    </header>
 
-      <!-- Exam Countdowns -->
-      <div class="card countdown-card">
-        <h3>⏳ Cuenta Atrás de Exámenes Oficiales</h3>
-        <ul class="countdown-list">
-          <li class="countdown-item urgent">
-            <div class="exam-info">
-              <span class="subject-tag lengua">Lengua Castellana</span>
-              <strong>Examen 1: Comentario de Texto</strong>
-              <small>Págs. 27-35 dossier (Tema, Tesis, Funciones)</small>
-            </div>
-            <div class="days-badge">~19 DÍAS</div>
-          </li>
-          <li class="countdown-item urgent">
-            <div class="exam-info">
-              <span class="subject-tag filo">Filosofía</span>
-              <strong>Examen 1: Temas 1 y 2</strong>
-              <small>Origen, mito al logos, arché, ramas</small>
-            </div>
-            <div class="days-badge">22 DÍAS</div>
-          </li>
-          <li class="countdown-item">
-            <div class="exam-info">
-              <span class="subject-tag ingles">Inglés EOI</span>
-              <strong>Examen 1: Unit 1</strong>
-              <small>Sports vocabulary, reading, grammar B2/C1</small>
-            </div>
-            <div class="days-badge">30 DÍAS</div>
-          </li>
-          <li class="countdown-item">
-            <div class="exam-info">
-              <span class="subject-tag lengua">Lengua Castellana</span>
-              <strong>Examen 2: Literatura & Lectura</strong>
-              <small>27 oct literatura / 29 oct Cantar de Mio Cid</small>
-            </div>
-            <div class="days-badge">41 DÍAS</div>
-          </li>
-          <li class="countdown-item">
-            <div class="exam-info">
-              <span class="subject-tag filo">Filosofía</span>
-              <strong>Examen 2: Temas 3 y 4</strong>
-              <small>Antropología y dimensión humana</small>
-            </div>
-            <div class="days-badge">61 DÍAS</div>
-          </li>
-        </ul>
-      </div>
+    <!-- Navigation Tabs for Mobile & Desktop -->
+    <nav class="nav-tabs glass">
+      <button class="tab-btn active" onclick="switchTab('tab-hoy')">📋 Misiones de Hoy</button>
+      <button class="tab-btn" onclick="switchTab('tab-examenes')">⏳ Calendario & Exámenes</button>
+      <button class="tab-btn" onclick="switchTab('tab-apuntes')">📁 Biblioteca de Apuntes</button>
+      <button class="tab-btn" onclick="switchTab('tab-mama')">👩‍🏫 Modo Mamá Estricta</button>
+    </nav>
 
-      <!-- VDI & Links -->
-      <div class="card links-card">
-        <h3>🔗 Accesos Escolares Directos</h3>
-        <a href="https://vdisecundariagw.larioja.edu.es/portal/webclient/#/home" target="_blank" class="link-btn vdi-btn">
-          🖥️ Abrir Escritorio Virtual VDI (La Rioja)
-        </a>
-      </div>
+    <!-- Main Grid -->
+    <main class="dashboard-grid">
 
-    </aside>
+      <!-- Left Column: Mother Coach & Quick Check-ins -->
+      <aside class="sidebar">
 
-    <!-- Center Column: Daily Missions & Points History -->
-    <section class="main-content">
-
-      <!-- Today Missions Checklist -->
-      <div class="card mission-card">
-        <div class="card-header-flex">
-          <div>
-            <h2>📋 Misiones del Día (Miércoles 16 Septiembre)</h2>
-            <p>Día dinámico: Pádel + Inglés C1. Cumple la ventana de estudio para subir de nivel.</p>
+        <!-- Strict Mother Card -->
+        <div class="card mother-card glass">
+          <div class="mother-header">
+            <div class="mother-avatar">👩‍🏫⚡</div>
+            <div>
+              <h3>Modo Mamá Estricta</h3>
+              <span class="mother-status">Vigilancia Continua • Tolerancia Cero</span>
+            </div>
           </div>
-          <button class="btn-primary" onclick="checkAllDailyDone()">Completar Tarde</button>
+          <div class="mother-quote" id="motherMessage">
+            «¡Excelente trabajo hoy! Has dejado Mates resuelto y el inglés de Destination C1 liquidado antes de ir a dormir. Has alcanzado 50 XP y subes a <strong>Nivel 2 (Arquitecto de Algoritmos)</strong>. ¡Ahora a la cama a descansar que mañana te quiero al 100%!»
+          </div>
+          <div class="punishment-box" id="punishmentBox">
+            <span class="punishment-badge">⚠️ RECORDATORIO INNEGOCIABLE</span>
+            <p>Mañana cuando salgas de clase, foto de la agenda a las 14:30. ¡Y en FQ no te quedes atrás aunque el profesor sea flojo!</p>
+          </div>
         </div>
 
         <!-- Live Action Check-in Buttons -->
-        <div class="quick-checkins">
-          <span class="checkin-label">⚡ REGISTRO DE EVENTOS EN DIRECTO (CON HORA EXACTA):</span>
+        <div class="card glass">
+          <h3>⚡ Registro Rápido en Directo</h3>
+          <p class="section-sub">Marca con un toque cada acción y quedará registrada con hora exacta:</p>
           <div class="checkin-buttons">
-            <button class="btn-checkin" onclick="logEvent('🎾 Salida al Pádel (17:00)', 15)">🎾 Salida al Pádel</button>
-            <button class="btn-checkin" onclick="logEvent('🇬🇧 En clase de Inglés C1 (19:00)', 15)">🇬🇧 En Inglés C1</button>
-            <button class="btn-checkin" onclick="logEvent('📐 Mates Ficha 11 terminada', 20)">📐 Ficha 11 Mates Hecha</button>
-            <button class="btn-checkin" onclick="logEvent('💻 Tarea TIC / Vocabulario Teams completado', 15)">💻 TIC & Vocab Teams</button>
-            <button class="btn-checkin" onclick="logEvent('🍽️ Sentado a cenar en familia', 0)">🍽️ Cenando con la familia</button>
-            <button class="btn-checkin" onclick="logEvent('🛏️ En la cama sin móvil (a dormir)', 10)">🛏️ A la cama (22:00)</button>
+            <button class="btn-checkin" onclick="logEvent('📐 Mates Ficha 11 terminada', 15)">📐 Mates Terminado</button>
+            <button class="btn-checkin" onclick="logEvent('🇬🇧 Destination C1 terminado', 15)">🇬🇧 Destination C1 Hecho</button>
+            <button class="btn-checkin" onclick="logEvent('🎒 Mochila lista para mañana', 5)">🎒 Mochila Lista</button>
+            <button class="btn-checkin" onclick="logEvent('🛏️ En la cama a dormir', 10)">🛏️ A la Cama (22:00)</button>
+            <button class="btn-checkin" onclick="logEvent('🚿 Ducha completada', 5)">🚿 Ducha Lista</button>
+            <button class="btn-checkin" onclick="logEvent('🍽️ Cenando con la familia', 0)">🍽️ Cena Familiar</button>
+          </div>
+
+          <div class="audit-log-box">
+            <h4>📜 Historial de Eventos Registrados:</h4>
+            <ul id="auditLogList" class="audit-log-list">
+              <!-- Rendered via app.js -->
+            </ul>
           </div>
         </div>
 
-        <!-- Live Audit Log -->
-        <div class="audit-log-box">
-          <h4>📜 Registro Cronológico de Ángel (Hoy):</h4>
-          <ul id="auditLogList" class="audit-log-list">
-            <!-- Dynamic entries from app.js -->
-          </ul>
-        </div>
-
-        <ul class="mission-list" id="missionList">
-          <li class="mission-item pending" id="mission-mates">
-            <input type="checkbox" id="check-mates" onchange="toggleTask('check-mates', 'mission-mates', 20)">
-            <div class="mission-text">
-              <strong>Matemáticas I: Ficha 1 (Ej. 11 primera columna) y cuaderno</strong>
-              <span>Operaciones combinadas con potencias y exponentes enteros/negativos.</span>
-            </div>
-            <span class="xp-gain">+20 XP</span>
-          </li>
-          <li class="mission-item pending" id="mission-padel">
-            <input type="checkbox" id="check-padel" onchange="toggleTask('check-padel', 'mission-padel', 15)">
-            <div class="mission-text">
-              <strong>Pádel: Partido / Entrenamiento a las 17:00</strong>
-              <span>Desconexión física, agilidad y quema de energía.</span>
-            </div>
-            <span class="xp-gain">+15 XP</span>
-          </li>
-          <li class="mission-item pending" id="mission-c1">
-            <input type="checkbox" id="check-c1" onchange="toggleTask('check-c1', 'mission-c1', 15)">
-            <div class="mission-text">
-              <strong>Extraescolar Inglés C1: Clase de 19:00 a 20:00</strong>
-              <span>Asistencia activa y participación con Ana.</span>
-            </div>
-            <span class="xp-gain">+15 XP</span>
-          </li>
-          <li class="mission-item pending" id="mission-teams">
-            <input type="checkbox" id="check-teams" onchange="toggleTask('check-teams', 'mission-teams', 10)">
-            <div class="mission-text">
-              <strong>Inglés EOI: Vocabulario en Teams</strong>
-              <span>Revisar la tarea/términos asignados en Teams.</span>
-            </div>
-            <span class="xp-gain">+10 XP</span>
-          </li>
-          <li class="mission-item pending" id="mission-tic">
-            <input type="checkbox" id="check-tic" onchange="toggleTask('check-tic', 'mission-tic', 10)">
-            <div class="mission-text">
-              <strong>TIC: Avanzar trabajo de Word / Procesador de textos</strong>
-              <span>Completar la práctica que te han mandado hoy.</span>
-            </div>
-            <span class="xp-gain">+10 XP</span>
-          </li>
-          <li class="mission-item pending" id="mission-tec-rep">
-            <input type="checkbox" id="check-tec-rep" onchange="toggleTask('check-tec-rep', 'mission-tec-rep', 5)">
-            <div class="mission-text">
-              <strong>Tecnología: Repaso general de la sesión de hoy</strong>
-              <span>Afianzar los conceptos vistos en clase.</span>
-            </div>
-            <span class="xp-gain">+5 XP</span>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Pending Homework for Next Days -->
-      <div class="card homework-card">
-        <h3>📅 Próximas Entregas y Deberes Fichados</h3>
-        <div class="homework-table-wrapper">
-          <table class="homework-table">
-            <thead>
-              <tr>
-                <th>Asignatura</th>
-                <th>Tarea / Ejercicios</th>
-                <th>Fecha Límite</th>
-                <th>Prioridad</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span class="subject-tag ingles">Inglés CAE (Fátima)</span></td>
-                <td><strong>Destination C1/C2:</strong> Ejercicios C y D (Pág. 9)</td>
-                <td>Lunes 21 Septiembre</td>
-                <td><span class="prio-tag medium">Media</span></td>
-              </tr>
-              <tr>
-                <td><span class="subject-tag lengua">Lengua Dossier</span></td>
-                <td>Págs. 28 a 32 (Funciones y Modalidades Textuales)</td>
-                <td>Miércoles 16 Septiembre</td>
-                <td><span class="prio-tag high">Alta</span></td>
-              </tr>
-              <tr>
-                <td><span class="subject-tag filo">Filosofía</span></td>
-                <td>Lectura inicial: <em>El mundo de Sofía</em></td>
-                <td>Trimestre</td>
-                <td><span class="prio-tag low">Continua</span></td>
-              </tr>
-              <tr>
-                <td><span class="subject-tag" style="background: rgba(148, 163, 184, 0.2); color: #cbd5e1;">Personal</span></td>
-                <td><strong>Limpiar galería del móvil</strong> (liberar espacio y ordenar)</td>
-                <td>Fin de semana</td>
-                <td><span class="prio-tag low">Baja</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Quick Access to Clean Transcriptions -->
-      <div class="card notes-card">
-        <h3>📁 Apuntes Digitalizados en Limpio (Acceso Rápido)</h3>
-        <div class="notes-grid">
-          <a href="apuntes/Tema01_Numeros_Reales.md" class="note-pill">
-            📐 <strong>Matemáticas I:</strong> Tema 1 (Reales, Inecuaciones y Radicales)
-          </a>
-          <a href="apuntes/Ficha_Tema01_Ej11_Columna1.md" class="note-pill">
-            📝 <strong>Mates Ejercicio 11:</strong> Resolución paso a paso Ficha
-          </a>
-          <a href="apuntes/Tema01_Comentario_Pag27_32.md" class="note-pill">
-            📖 <strong>Lengua:</strong> Dossier Págs. 27-32 (Tema, Tesis, Funciones)
-          </a>
-          <a href="apuntes/Exposicion_Energia_Termica_Pag19.md" class="note-pill">
-            ⚙️ <strong>Tecnología:</strong> Guión Exposición Pág. 19 Energía Térmica
-          </a>
-          <a href="apuntes/Tema01_Que_es_la_Filosofia.md" class="note-pill">
-            🏛️ <strong>Filosofía:</strong> Tema 1 (Mito al Logos, Arché, Physis)
-          </a>
-          <a href="apuntes/Unit01_Game_On.md" class="note-pill">
-            🇬🇧 <strong>Inglés EOI:</strong> Unit 1 (Sports & B2/C1 Skills)
+        <!-- VDI & Links -->
+        <div class="card links-card glass">
+          <h3>🔗 Accesos Escolares Directos</h3>
+          <a href="https://vdisecundariagw.larioja.edu.es/portal/webclient/#/home" target="_blank" class="link-btn vdi-btn">
+            🖥️ Abrir Escritorio Virtual VDI (La Rioja)
           </a>
         </div>
-      </div>
 
-    </section>
+      </aside>
 
-  </main>
+      <!-- Center / Right Column: Tabbed Content -->
+      <section class="main-content">
+
+        <!-- TAB 1: Misiones de Hoy -->
+        <div class="tab-pane active" id="tab-hoy">
+
+          <!-- Mission Card -->
+          <div class="card mission-card glass">
+            <div class="card-header-flex">
+              <div>
+                <h2>📋 Misiones del Día (Miércoles 16 Septiembre)</h2>
+                <p class="section-sub">Día completado: Pádel + Mates + Destination C1. ¡Puntos acumulados!</p>
+              </div>
+              <button class="btn-primary" onclick="checkAllDailyDone()">Completar Todo</button>
+            </div>
+
+            <ul class="mission-list" id="missionList">
+              <li class="mission-item done">
+                <input type="checkbox" checked disabled>
+                <div class="mission-text">
+                  <strong>Matemáticas I: Ficha 1 (Ej. 11 primera columna)</strong>
+                  <span>Operaciones con potencias y exponentes negativos resueltas en el cuaderno.</span>
+                </div>
+                <span class="xp-gain">+15 XP</span>
+              </li>
+              <li class="mission-item done">
+                <input type="checkbox" checked disabled>
+                <div class="mission-text">
+                  <strong>Inglés Extraescolar (CAE): Destination C1 (Pág. 9 C y D)</strong>
+                  <span>Ejercicios de Fátima completados con días de antelación.</span>
+                </div>
+                <span class="xp-gain">+15 XP</span>
+              </li>
+              <li class="mission-item done">
+                <input type="checkbox" checked disabled>
+                <div class="mission-text">
+                  <strong>Pádel: Entrenamiento de 17:00</strong>
+                  <span>Entrenamiento físico cumplido.</span>
+                </div>
+                <span class="xp-gain">+15 XP</span>
+              </li>
+              <li class="mission-item pending" id="mission-tic-word">
+                <input type="checkbox" id="check-tic-word" onchange="toggleTask('check-tic-word', 'mission-tic-word', 15)">
+                <div class="mission-text">
+                  <strong>TIC: Trabajo en Word sobre C.A. River Ebro (Normas APA 7)</strong>
+                  <span>Estructura completa de 7 apartados y 10 diapositivas ya diseñada.</span>
+                </div>
+                <span class="xp-gain">+15 XP</span>
+              </li>
+              <li class="mission-item pending" id="mission-teams-vocab">
+                <input type="checkbox" id="check-teams-vocab" onchange="toggleTask('check-teams-vocab', 'mission-teams-vocab', 10)">
+                <div class="mission-text">
+                  <strong>Inglés EOI: Vocabulario en Teams</strong>
+                  <span>Revisar la tarea asignada por Alejandra Calavia.</span>
+                </div>
+                <span class="xp-gain">+10 XP</span>
+              </li>
+              <li class="mission-item pending" id="mission-sleep">
+                <input type="checkbox" id="check-sleep" onchange="toggleTask('check-sleep', 'mission-sleep', 10)">
+                <div class="mission-text">
+                  <strong>Descanso de Campeón: Móvil fuera y 8 horas de sueño</strong>
+                  <span>Dormir bien es la base del rendimiento de un futuro ingeniero.</span>
+                </div>
+                <span class="xp-gain">+10 XP</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Pending Homework for Next Days -->
+          <div class="card homework-card glass">
+            <h3>📅 Tareas y Deberes en Curso</h3>
+            <div class="homework-table-wrapper">
+              <table class="homework-table">
+                <thead>
+                  <tr>
+                    <th>Asignatura</th>
+                    <th>Tarea / Ejercicios</th>
+                    <th>Fecha Límite</th>
+                    <th>Prioridad</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="subject-tag lengua">Lengua Dossier</span></td>
+                    <td>Págs. 28 a 32 (Funciones del lenguaje y modalidades)</td>
+                    <td>Próximos días</td>
+                    <td><span class="prio-tag high">Alta</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="subject-tag tec">TIC / Programación</span></td>
+                    <td>Memoria Word C.A. River Ebro (Normas APA 7)</td>
+                    <td>Próxima clase</td>
+                    <td><span class="prio-tag medium">Media</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="subject-tag filo">Filosofía</span></td>
+                    <td>Lectura inicial: <em>El mundo de Sofía</em></td>
+                    <td>Trimestre</td>
+                    <td><span class="prio-tag low">Continua</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="subject-tag personal">Personal</span></td>
+                    <td><strong>Limpiar galería del móvil</strong> (liberar espacio y ordenar)</td>
+                    <td>Fin de semana</td>
+                    <td><span class="prio-tag low">Baja</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- TAB 2: Calendario & Exámenes -->
+        <div class="tab-pane" id="tab-examenes">
+          <div class="card countdown-card glass">
+            <h2>⏳ Calendario Oficial de Exámenes (1º Trimestre)</h2>
+            <p class="section-sub">Fechas fijadas en el instituto. Prepárate con tiempo y sin agobios.</p>
+            <ul class="countdown-list">
+              <li class="countdown-item urgent">
+                <div class="exam-info">
+                  <span class="subject-tag lengua">Lengua Castellana</span>
+                  <strong>Examen 1: Comentario de Texto Crítico</strong>
+                  <small>Págs. 27-35 dossier (Tema, Tesis, Funciones de Jakobson, Argumentos)</small>
+                </div>
+                <div class="days-badge">~19 DÍAS (5 OCT)</div>
+              </li>
+              <li class="countdown-item urgent">
+                <div class="exam-info">
+                  <span class="subject-tag filo">Filosofía</span>
+                  <strong>Examen 1: Temas 1 y 2</strong>
+                  <small>El saber filosófico, del mito al logos, arché de la physis, ramas</small>
+                </div>
+                <div class="days-badge">22 DÍAS (8 OCT)</div>
+              </li>
+              <li class="countdown-item">
+                <div class="exam-info">
+                  <span class="subject-tag ingles">Inglés EOI</span>
+                  <strong>Examen 1: Unit 1</strong>
+                  <small>Sports vocabulary, reading comprehension, grammar B2/C1</small>
+                </div>
+                <div class="days-badge">30 DÍAS (16 OCT)</div>
+              </li>
+              <li class="countdown-item">
+                <div class="exam-info">
+                  <span class="subject-tag lengua">Lengua Castellana</span>
+                  <strong>Examen 2: Literatura Española</strong>
+                  <small>Edad Media (Mester de juglaría, clerecía, Romancero, Celestina)</small>
+                </div>
+                <div class="days-badge">41 DÍAS (27 OCT)</div>
+              </li>
+              <li class="countdown-item">
+                <div class="exam-info">
+                  <span class="subject-tag lengua">Lengua Castellana</span>
+                  <strong>Control de Lectura: Cantar de Mio Cid</strong>
+                  <small>Págs. 15-192 de la edición escolar + revisión de cuaderno</small>
+                </div>
+                <div class="days-badge">43 DÍAS (29 OCT)</div>
+              </li>
+              <li class="countdown-item">
+                <div class="exam-info">
+                  <span class="subject-tag filo">Filosofía</span>
+                  <strong>Examen 2: Temas 3 y 4</strong>
+                  <small>Metafísica, antropología y la condición humana</small>
+                </div>
+                <div class="days-badge">61 DÍAS (16 NOV)</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- TAB 3: Biblioteca de Apuntes -->
+        <div class="tab-pane" id="tab-apuntes">
+          <div class="card notes-card glass">
+            <h2>📁 Biblioteca de Apuntes Digitalizados</h2>
+            <p class="section-sub">Tus apuntes del cuaderno y libros pasados a limpio con fórmulas LaTeX y esquemas:</p>
+            <div class="notes-grid">
+              <a href="apuntes/Tema01_Numeros_Reales.md" class="note-pill">
+                <div class="note-icon">📐</div>
+                <div>
+                  <strong>Matemáticas I</strong>
+                  <span>Tema 1: Reales, Inecuaciones y Radicales</span>
+                </div>
+              </a>
+              <a href="apuntes/Ficha_Tema01_Ej11_Columna1.md" class="note-pill">
+                <div class="note-icon">📝</div>
+                <div>
+                  <strong>Matemáticas I (Ejercicios)</strong>
+                  <span>Resolución paso a paso Ficha Ej. 11 Columna 1</span>
+                </div>
+              </a>
+              <a href="apuntes/Estructura_Word_River_Ebro_APA7.md" class="note-pill">
+                <div class="note-icon">💻</div>
+                <div>
+                  <strong>TIC / Trabajo Word</strong>
+                  <span>Memoria C.A. River Ebro (Normas APA 7ª Edición)</span>
+                </div>
+              </a>
+              <a href="apuntes/Tema01_Comentario_Pag27_32.md" class="note-pill">
+                <div class="note-icon">📖</div>
+                <div>
+                  <strong>Lengua Castellana</strong>
+                  <span>Dossier Págs. 27-32: Tema, Tesis y Funciones</span>
+                </div>
+              </a>
+              <a href="apuntes/Exposicion_Energia_Termica_Pag19.md" class="note-pill">
+                <div class="note-icon">⚙️</div>
+                <div>
+                  <strong>Tecnología e Ingeniería</strong>
+                  <span>Guión Exposición: Pág. 19 Energía Térmica</span>
+                </div>
+              </a>
+              <a href="apuntes/Tema01_Que_es_la_Filosofia.md" class="note-pill">
+                <div class="note-icon">🏛️</div>
+                <div>
+                  <strong>Filosofía</strong>
+                  <span>Tema 1: Del Mito al Logos, Arché y Physis</span>
+                </div>
+              </a>
+              <a href="apuntes/Unit01_Game_On.md" class="note-pill">
+                <div class="note-icon">🇬🇧</div>
+                <div>
+                  <strong>Inglés EOI</strong>
+                  <span>Unit 1: Game On (Sports, Skills & Vocabulary)</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: Modo Mamá -->
+        <div class="tab-pane" id="tab-mama">
+          <div class="card mother-card glass">
+            <h2>👩‍🏫 El Decálogo Innegociable de Mamá</h2>
+            <ul class="rules-list">
+              <li><strong>1. El móvil fuera de la mesa:</strong> A las 15:55 el teléfono se enchufa en otra habitación. Si no hay fricción física, hay TikTok.</li>
+              <li><strong>2. Foto de la agenda en el bus (14:30):</strong> Me la mandas antes de comer y a las 16:00 tienes tu plan en pantalla sin esperar.</li>
+              <li><strong>3. La cena con tu familia es intocable:</strong> Hasta las 21:40 estás con tus padres hablando y cenando tranquilo. Cero pantallas en la mesa.</li>
+              <li><strong>4. Si un profesor es malo, nosotros somos el doble de buenos:</strong> En Física y Química nos apoyamos en Editex y no regalamos ni una décima.</li>
+              <li><strong>5. Deportes sagrados:</strong> El Real Madrid, Carlos Alcaraz, Rafa Jódar y la F1 no se tocan. Tiempo de desconexión garantizado.</li>
+            </ul>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
 
   <script src="app.js"></script>
 </body>

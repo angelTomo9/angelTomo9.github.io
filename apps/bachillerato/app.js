@@ -1,6 +1,20 @@
 // Estado inicial y recuperación de LocalStorage
-let currentPoints = parseInt(localStorage.getItem('angel_xp')) || 25;
-let streakDays = parseInt(localStorage.getItem('angel_streak')) || 2;
+let currentPoints = parseInt(localStorage.getItem('angel_xp')) || 50;
+let streakDays = parseInt(localStorage.getItem('angel_streak')) || 3;
+
+function switchTab(tabId) {
+  // Quitar active de todos los botones y paneles
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+  // Activar el seleccionado
+  const targetPane = document.getElementById(tabId);
+  if (targetPane) targetPane.classList.add('active');
+
+  // Activar el botón correspondiente
+  const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick')?.includes(tabId));
+  if (activeBtn) activeBtn.classList.add('active');
+}
 
 const levels = [
   { min: 0, max: 50, name: "Nivel 1: Aspirante a Ingeniero Informático" },
