@@ -76,11 +76,11 @@
             </div>
           </div>
           <div class="mother-quote" id="motherMessage">
-            «¡Excelente trabajo hoy! Has dejado Mates resuelto y el inglés de Destination C1 liquidado antes de ir a dormir. Has alcanzado 50 XP y subes a <strong>Nivel 2 (Arquitecto de Algoritmos)</strong>. ¡Ahora a la cama a descansar que mañana te quiero al 100%!»
+            «¡Impecable hoy! Has apuntado las 5 materias en la agenda sin un solo fallo (+20 XP ganados). Hoy toca sesión 3 de gimnasio y dejar cerrado lo de mañana viernes (Inglés pág 8, Filosofía págs 16-19, Lengua hojas y TIC River Ebro listo). ¡A por el Nivel 3!»
           </div>
           <div class="punishment-box" id="punishmentBox">
-            <span class="punishment-badge">⚠️ RECORDATORIO INNEGOCIABLE</span>
-            <p>Mañana cuando salgas de clase, foto de la agenda a las 14:30. ¡Y en FQ no te quedes atrás aunque el profesor sea flojo!</p>
+            <span class="punishment-badge">⚠️ OBJETIVO ANTES DEL GIMNASIO (18:30)</span>
+            <p>A las 18:30 tienes que salir hacia el gimnasio con <strong>Inglés EOI (pág 8) y Filosofía (págs 16-19) terminados</strong>. Si te vas sin hacerlos, penalización de -15 XP.</p>
           </div>
         </div>
 
@@ -89,12 +89,12 @@
           <h3>⚡ Registro Rápido en Directo</h3>
           <p class="section-sub">Marca con un toque cada acción y quedará registrada con hora exacta:</p>
           <div class="checkin-buttons">
-            <button class="btn-checkin" onclick="logEvent('📐 Mates Ficha 11 terminada', 15)">📐 Mates Terminado</button>
-            <button class="btn-checkin" onclick="logEvent('🇬🇧 Destination C1 terminado', 15)">🇬🇧 Destination C1 Hecho</button>
-            <button class="btn-checkin" onclick="logEvent('🎒 Mochila lista para mañana', 5)">🎒 Mochila Lista</button>
-            <button class="btn-checkin" onclick="logEvent('🛏️ En la cama a dormir', 10)">🛏️ A la Cama (22:00)</button>
-            <button class="btn-checkin" onclick="logEvent('🚿 Ducha completada', 5)">🚿 Ducha Lista</button>
+            <button class="btn-checkin" onclick="logEvent('🇬🇧 Inglés EOI Pág 8 terminado', 15)">🇬🇧 Inglés EOI Pág 8</button>
+            <button class="btn-checkin" onclick="logEvent('🏛️ Filosofía Págs 16-19 leídas', 15)">🏛️ Filosofía Págs 16-19</button>
+            <button class="btn-checkin" onclick="logEvent('📖 Lengua hojas revisadas', 10)">📖 Lengua Hojas</button>
+            <button class="btn-checkin" onclick="logEvent('🏋️ Salida al Gimnasio (18:30)', 15)">🏋️ Al Gimnasio</button>
             <button class="btn-checkin" onclick="logEvent('🍽️ Cenando con la familia', 0)">🍽️ Cena Familiar</button>
+            <button class="btn-checkin" onclick="logEvent('🛏️ En la cama a dormir', 10)">🛏️ A la Cama (22:00)</button>
           </div>
 
           <div class="audit-log-box">
@@ -125,8 +125,8 @@
           <div class="card mission-card glass">
             <div class="card-header-flex">
               <div>
-                <h2>📋 Misiones del Día (Miércoles 16 Septiembre)</h2>
-                <p class="section-sub">Día completado: Pádel + Mates + Destination C1. ¡Puntos acumulados!</p>
+                <h2>📋 Misiones del Día (Jueves 17 Septiembre)</h2>
+                <p class="section-sub">Día de Gimnasio + Cerrar lo de mañana viernes. ¡Suma puntos!</p>
               </div>
               <button class="btn-primary" onclick="checkAllDailyDone()">Completar Todo</button>
             </div>
@@ -135,50 +135,66 @@
               <li class="mission-item done">
                 <input type="checkbox" checked disabled>
                 <div class="mission-text">
-                  <strong>Matemáticas I: Ficha 1 (Ej. 11 primera columna)</strong>
-                  <span>Operaciones con potencias y exponentes negativos resueltas en el cuaderno.</span>
+                  <strong>Auditoría de Agenda: 100% de materias registradas</strong>
+                  <span>Física, Tecnología, Inglés, Lengua y Filosofía apuntadas a la primera.</span>
+                </div>
+                <span class="xp-gain">+20 XP</span>
+              </li>
+              <li class="mission-item pending" id="mission-ingles-p8">
+                <input type="checkbox" id="check-ingles-p8" onchange="toggleTask('check-ingles-p8', 'mission-ingles-p8', 15)">
+                <div class="mission-text">
+                  <strong>Inglés EOI: Pág. 8 ejercicios 2, 3, 4 y 5</strong>
+                  <span>Burlington Skills: vocabulario y comprensión de la unidad 1.</span>
                 </div>
                 <span class="xp-gain">+15 XP</span>
+              </li>
+              <li class="mission-item pending" id="mission-filo-p16">
+                <input type="checkbox" id="check-filo-p16" onchange="toggleTask('check-filo-p16', 'mission-filo-p16', 15)">
+                <div class="mission-text">
+                  <strong>Filosofía: Págs. 16 a 19 (Lectura y actividades)</strong>
+                  <span>Oxford GENiOX Pro: afianzar conceptos para el examen del 8 de octubre.</span>
+                </div>
+                <span class="xp-gain">+15 XP</span>
+              </li>
+              <li class="mission-item pending" id="mission-lengua-hojas">
+                <input type="checkbox" id="check-lengua-hojas" onchange="toggleTask('check-lengua-hojas', 'mission-lengua-hojas', 10)">
+                <div class="mission-text">
+                  <strong>Lengua Castellana: Hojas del dossier</strong>
+                  <span>Revisar ejercicios y textos prácticos mandados en clase.</span>
+                </div>
+                <span class="xp-gain">+10 XP</span>
               </li>
               <li class="mission-item done">
                 <input type="checkbox" checked disabled>
                 <div class="mission-text">
-                  <strong>Inglés Extraescolar (CAE): Destination C1 (Pág. 9 C y D)</strong>
-                  <span>Ejercicios de Fátima completados con días de antelación.</span>
+                  <strong>TIC: Memoria Word C.A. River Ebro (Normas APA 7)</strong>
+                  <span>Documento .rtf y guía completa ya generados en tu carpeta de proyectos.</span>
+                </div>
+                <span class="xp-gain">+20 XP</span>
+              </li>
+              <li class="mission-item pending" id="mission-gym-jueves">
+                <input type="checkbox" id="check-gym-jueves" onchange="toggleTask('check-gym-jueves', 'mission-gym-jueves', 15)">
+                <div class="mission-text">
+                  <strong>Gimnasio: Sesión 3 de la semana (18:30 - 20:00)</strong>
+                  <span>Entrenamiento de fuerza y desconexión física.</span>
                 </div>
                 <span class="xp-gain">+15 XP</span>
               </li>
-              <li class="mission-item done">
-                <input type="checkbox" checked disabled>
+              <li class="mission-item pending" id="mission-fisica-p56">
+                <input type="checkbox" id="check-fisica-p56" onchange="toggleTask('check-fisica-p56', 'mission-fisica-p56', 20)">
                 <div class="mission-text">
-                  <strong>Pádel: Entrenamiento de 17:00</strong>
-                  <span>Entrenamiento físico cumplido.</span>
+                  <strong>Física y Química: Pág. 56 nº 2 y Hoja Teams nº 1</strong>
+                  <span>Editex: primer boletín formal del nuevo profesor.</span>
+                </div>
+                <span class="xp-gain">+20 XP</span>
+              </li>
+              <li class="mission-item pending" id="mission-tec-ej14">
+                <input type="checkbox" id="check-tec-ej14" onchange="toggleTask('check-tec-ej14', 'mission-tec-ej14', 15)">
+                <div class="mission-text">
+                  <strong>Tecnología e Ingeniería: Ejercicios 1 al 14</strong>
+                  <span>Donostiarra: afianzar ejercicios del tema para el lunes.</span>
                 </div>
                 <span class="xp-gain">+15 XP</span>
-              </li>
-              <li class="mission-item pending" id="mission-tic-word">
-                <input type="checkbox" id="check-tic-word" onchange="toggleTask('check-tic-word', 'mission-tic-word', 15)">
-                <div class="mission-text">
-                  <strong>TIC: Trabajo en Word sobre C.A. River Ebro (Normas APA 7)</strong>
-                  <span>Estructura completa de 7 apartados y 10 diapositivas ya diseñada.</span>
-                </div>
-                <span class="xp-gain">+15 XP</span>
-              </li>
-              <li class="mission-item pending" id="mission-teams-vocab">
-                <input type="checkbox" id="check-teams-vocab" onchange="toggleTask('check-teams-vocab', 'mission-teams-vocab', 10)">
-                <div class="mission-text">
-                  <strong>Inglés EOI: Vocabulario en Teams</strong>
-                  <span>Revisar la tarea asignada por Alejandra Calavia.</span>
-                </div>
-                <span class="xp-gain">+10 XP</span>
-              </li>
-              <li class="mission-item pending" id="mission-sleep">
-                <input type="checkbox" id="check-sleep" onchange="toggleTask('check-sleep', 'mission-sleep', 10)">
-                <div class="mission-text">
-                  <strong>Descanso de Campeón: Móvil fuera y 8 horas de sueño</strong>
-                  <span>Dormir bien es la base del rendimiento de un futuro ingeniero.</span>
-                </div>
-                <span class="xp-gain">+10 XP</span>
               </li>
             </ul>
           </div>
@@ -198,20 +214,26 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><span class="subject-tag lengua">Lengua Dossier</span></td>
-                    <td>Págs. 28 a 32 (Funciones del lenguaje y modalidades)</td>
-                    <td>Próximos días</td>
-                    <td><span class="prio-tag high">Alta</span></td>
+                    <td><span class="subject-tag ingles">Inglés CAE (Ana)</span></td>
+                    <td><strong>Destination:</strong> Págs. 18-19 / <strong>Booster:</strong> Págs. 36-37</td>
+                    <td>Miércoles 23 Sept</td>
+                    <td><span class="prio-tag medium">Media</span></td>
                   </tr>
                   <tr>
-                    <td><span class="subject-tag tec">TIC / Programación</span></td>
-                    <td>Memoria Word C.A. River Ebro (Normas APA 7)</td>
-                    <td>Próxima clase</td>
+                    <td><span class="subject-tag" style="background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3);">Física Editex</span></td>
+                    <td>Pág. 56 nº 2 y Hoja Teams nº 1</td>
+                    <td>Lunes 21 Sept</td>
+                    <td><span class="prio-tag medium">Media</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="subject-tag tec">Tecnología</span></td>
+                    <td>Ejercicios 1 al 14 (*Donostiarra*)</td>
+                    <td>Lunes 21 Sept</td>
                     <td><span class="prio-tag medium">Media</span></td>
                   </tr>
                   <tr>
                     <td><span class="subject-tag filo">Filosofía</span></td>
-                    <td>Lectura inicial: <em>El mundo de Sofía</em></td>
+                    <td>Lectura: <em>El mundo de Sofía</em> (Jostein Gaarder)</td>
                     <td>Trimestre</td>
                     <td><span class="prio-tag low">Continua</span></td>
                   </tr>
