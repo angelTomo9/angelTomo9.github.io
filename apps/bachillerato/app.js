@@ -387,6 +387,18 @@ function fallbackCopy(text) {
   document.body.removeChild(textArea);
 }
 
+function copyLicenseCode(code) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(code).then(() => {
+      showToast(`📋 ¡Código ${code} copiado al portapapeles!`);
+    }).catch(() => {
+      fallbackCopy(code);
+    });
+  } else {
+    fallbackCopy(code);
+  }
+}
+
 // 11. REGISTRO Y AUDITORÍA
 function logEvent(actionName, xpValue) {
   const now = new Date();
