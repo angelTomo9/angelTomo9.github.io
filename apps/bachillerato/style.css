@@ -727,3 +727,99 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
 }
+
+/* ==========================================================================
+   OPTIMIZACIONES MÓVILES Y RESPONSIVAS (MOBILE-FIRST PARA TELÉFONO)
+   ========================================================================== */
+
+@media (max-width: 960px) {
+  body {
+    padding: 12px;
+  }
+
+  /* El contenido principal y las misiones se muestran PRIMERO en el móvil */
+  .dashboard-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main-content {
+    order: 1;
+  }
+
+  .sidebar {
+    order: 2;
+    margin-top: 10px;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px 20px;
+    gap: 16px;
+  }
+
+  .user-stats {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .stat-card {
+    min-width: 100%;
+  }
+
+  .nav-tabs {
+    padding: 6px;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab-btn {
+    padding: 8px 14px;
+    font-size: 0.82rem;
+  }
+
+  .tic-spotlight-card {
+    padding: 18px;
+  }
+
+  .tic-actions {
+    flex-direction: column;
+  }
+
+  .btn-action-primary,
+  .btn-action-secondary {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+  }
+
+  .card {
+    padding: 18px;
+    margin-bottom: 18px;
+  }
+
+  .mission-item {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .mission-item input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .urgent-banner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .urgent-banner button {
+    width: 100%;
+    margin-top: 8px;
+  }
+}
+

@@ -3,11 +3,244 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>Centro de Mando 1º Bachillerato — Ángel Moreno</title>
-  <link rel="stylesheet" href="style.css">
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20260917-1845">
+
+  <style>
+    /* Estilos Críticos y Mejoras Visuales Inmediatas */
+    .urgent-banner {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.18), rgba(245, 158, 11, 0.18));
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      animation: softGlow 3s infinite alternate ease-in-out;
+    }
+    @keyframes softGlow {
+      0% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.15); }
+      100% { box-shadow: 0 0 25px rgba(245, 158, 11, 0.3); }
+    }
+    .urgent-badge {
+      background: #ef4444;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .section-title-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 12px;
+    }
+    .tag-today { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.35); }
+    .tag-extra { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.35); }
+    .tag-weekend { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.35); }
+    .tag-project { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.35); }
+
+    /* Card de Proyecto TIC */
+    .tic-spotlight-card {
+      background: linear-gradient(145deg, rgba(17, 24, 39, 0.95), rgba(30, 41, 59, 0.9));
+      border: 2px solid rgba(56, 189, 248, 0.45);
+      box-shadow: 0 12px 35px -5px rgba(56, 189, 248, 0.2);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .tic-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .tic-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .badge-apa {
+      background: rgba(56, 189, 248, 0.2);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+    }
+    .badge-pptx {
+      background: rgba(249, 115, 22, 0.2);
+      color: #fb923c;
+      border: 1px solid rgba(249, 115, 22, 0.4);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+    }
+    .tic-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 16px 0;
+    }
+    .btn-action-primary {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-action-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    }
+    .btn-action-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #f8fafc;
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .btn-action-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: var(--accent-cyan);
+    }
+
+    /* Visor de Documento Simulado */
+    .document-viewer {
+      display: none;
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-top: 16px;
+      max-height: 500px;
+      overflow-y: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: #cbd5e1;
+    }
+    .document-viewer.open {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .paper-box {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid var(--accent-cyan);
+      margin-bottom: 16px;
+    }
+    .paper-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 8px;
+    }
+
+    /* Estilo de Misiones por Bloque */
+    .mission-group {
+      margin-bottom: 24px;
+    }
+    .mission-item.extraescolar {
+      border-left: 4px solid #c084fc;
+      background: rgba(168, 85, 247, 0.08);
+    }
+    .mission-item.personal {
+      border-left: 4px solid #f59e0b;
+      background: rgba(245, 158, 11, 0.08);
+    }
+    .mission-item.completed {
+      border-left: 4px solid #22c55e;
+      background: rgba(34, 197, 94, 0.08);
+    }
+    .subtask-list {
+      margin-top: 6px;
+      padding-left: 20px;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+    .subtask-list li {
+      margin-bottom: 3px;
+    }
+
+    /* FAQ Card para Word / PowerPoint */
+    .faq-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-top: 20px;
+    }
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+    .faq-item {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .faq-item h4 {
+      font-size: 0.92rem;
+      color: var(--accent-cyan);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .faq-item p {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+  </style>
 </head>
 <body>
 
@@ -22,7 +255,7 @@
       <div class="brand">
         <div class="brand-badge-row">
           <span class="pulse-indicator"></span>
-          <span class="badge-status">SISTEMA ACTIVO • 1º BACHILLERATO D</span>
+          <span class="badge-status">SISTEMA ACTIVO • 1º BACHILLERATO D (INGENIERÍA & IA)</span>
         </div>
         <h1>Centro de Mando Académico</h1>
         <p class="subtitle">Ángel Moreno Gutiérrez | IES La Rioja ➔ Meta: <strong>Ingeniería Informática / IA (≥ 9.5)</strong></p>
@@ -32,7 +265,7 @@
         <div class="stat-card xp-card glass">
           <div class="stat-card-header">
             <span class="stat-label">DISCIPLINA & XP</span>
-            <span class="xp-pill" id="xpGainAlert">+25 XP HOY</span>
+            <span class="xp-pill" id="xpGainAlert">+45 XP DISPONIBLES</span>
           </div>
           <div class="stat-value" id="totalPoints">50 <span class="unit">XP</span></div>
           <div class="progress-bar-wrap">
@@ -45,18 +278,33 @@
         </div>
 
         <div class="stat-card streak-card glass">
-          <span class="stat-label">RACHA DE DIAS</span>
+          <span class="stat-label">RACHA DE DÍAS</span>
           <div class="stat-value" id="streakDays">🔥 3 <span class="unit">DÍAS</span></div>
           <span class="streak-sub">Sin saltarse el plan diario</span>
         </div>
       </div>
     </header>
 
+    <!-- Urgent Context Banner -->
+    <div class="urgent-banner">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span class="urgent-badge">HORARIO SAGRADO</span>
+        <div>
+          <strong style="color: #fff; font-size: 0.95rem;">Jueves 17 Septiembre: Gimnasio (18:30 - 20:00) y Cena Familiar (21:40)</strong>
+          <p style="color: #fca5a5; font-size: 0.82rem; margin: 0;">Cierra Inglés EOI y Filosofía antes de salir. ¡Viernes por la tarde queda 100% libre!</p>
+        </div>
+      </div>
+      <button class="btn-checkin" style="background: rgba(239, 68, 68, 0.25); border-color: #ef4444;" onclick="logEvent('🏋️ Salida al Gimnasio (18:30)', 15)">
+        🏋️ Marcar Salida Gym
+      </button>
+    </div>
+
     <!-- Navigation Tabs for Mobile & Desktop -->
     <nav class="nav-tabs glass">
-      <button class="tab-btn active" onclick="switchTab('tab-hoy')">📋 Misiones de Hoy</button>
+      <button class="tab-btn active" onclick="switchTab('tab-hoy')">📋 Misiones & Deberes</button>
+      <button class="tab-btn" onclick="switchTab('tab-tic')">💻 Proyecto TIC (APA 7)</button>
       <button class="tab-btn" onclick="switchTab('tab-examenes')">⏳ Calendario & Exámenes</button>
-      <button class="tab-btn" onclick="switchTab('tab-apuntes')">📁 Biblioteca de Apuntes</button>
+      <button class="tab-btn" onclick="switchTab('tab-apuntes')">📁 Biblioteca & Descargas</button>
       <button class="tab-btn" onclick="switchTab('tab-mama')">👩‍🏫 Modo Mamá Estricta</button>
     </nav>
 
@@ -76,18 +324,18 @@
             </div>
           </div>
           <div class="mother-quote" id="motherMessage">
-            «¡Impecable hoy! Has apuntado las 5 materias en la agenda sin un solo fallo (+20 XP ganados). Hoy toca sesión 3 de gimnasio y dejar cerrado lo de mañana viernes (Inglés pág 8, Filosofía págs 16-19, Lengua hojas y TIC River Ebro listo). ¡A por el Nivel 3!»
+            «¡Ángel, ponte las pilas! Ya tienes registrada la tarea de Inglés CAE con Ana y la limpieza de galería. Y el trabajo de TIC sobre el River Ebro lo tienes aquí abajo completito en APA 7 listo para descargar y copiar. Termina Inglés EOI y Filosofía antes del gym. ¡A por el Nivel 3!»
           </div>
           <div class="punishment-box" id="punishmentBox">
-            <span class="punishment-badge">⚠️ OBJETIVO ANTES DEL GIMNASIO (18:30)</span>
-            <p>A las 18:30 tienes que salir hacia el gimnasio con <strong>Inglés EOI (pág 8) y Filosofía (págs 16-19) terminados</strong>. Si te vas sin hacerlos, penalización de -15 XP.</p>
+            <span class="punishment-badge">⚠️ OBJETIVO INMEDIATO</span>
+            <p>18:30 salida puntual al gimnasio con <strong>Inglés EOI (pág 8) y Filosofía (págs 16-19) terminados</strong>. Si te vas sin hacerlos, penalización de -15 XP.</p>
           </div>
         </div>
 
         <!-- Live Action Check-in Buttons -->
         <div class="card glass">
           <h3>⚡ Registro Rápido en Directo</h3>
-          <p class="section-sub">Marca con un toque cada acción y quedará registrada con hora exacta:</p>
+          <p class="section-sub">Marca con un toque cada acción para que quede sellada con hora exacta:</p>
           <div class="checkin-buttons">
             <button class="btn-checkin" onclick="logEvent('🇬🇧 Inglés EOI Pág 8 terminado', 15)">🇬🇧 Inglés EOI Pág 8</button>
             <button class="btn-checkin" onclick="logEvent('🏛️ Filosofía Págs 16-19 leídas', 15)">🏛️ Filosofía Págs 16-19</button>
@@ -118,21 +366,83 @@
       <!-- Center / Right Column: Tabbed Content -->
       <section class="main-content">
 
-        <!-- TAB 1: Misiones de Hoy -->
+        <!-- TAB 1: Misiones & Deberes -->
         <div class="tab-pane active" id="tab-hoy">
 
-          <!-- Mission Card -->
-          <div class="card mission-card glass">
+          <!-- SPOTLIGHT: PROYECTO TIC APA 7 (DIRECTO EN PORTADA) -->
+          <div class="tic-spotlight-card">
+            <div class="tic-header">
+              <div>
+                <span class="section-title-tag tag-project">💻 TRABAJO DESTACADO TIC (APA 7)</span>
+                <h2 style="font-size: 1.35rem; margin-top: 4px;">Club Atlético River Ebro: Estructura Word & PowerPoint</h2>
+                <p style="color: var(--text-secondary); font-size: 0.88rem;">Memoria de investigación según Normas APA 7ª Edición + Guión técnico de 10 diapositivas para PowerPoint.</p>
+                <div class="tic-badges">
+                  <span class="badge-apa">✓ Portada Estudiante APA 7</span>
+                  <span class="badge-apa">✓ 7 Secciones Oficiales</span>
+                  <span class="badge-pptx">✓ 10 Diapositivas PPT (Regla 6x6)</span>
+                  <span class="badge-apa">✓ Sangría Francesa en Referencias</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="tic-actions">
+              <a href="apuntes/Trabajo_River_Ebro_APA7.rtf" download="Trabajo_River_Ebro_APA7.rtf" class="btn-action-primary">
+                📥 Descargar Archivo Word (.RTF)
+              </a>
+              <button class="btn-action-secondary" onclick="copyTicContent()">
+                📋 Copiar Estructura Completa
+              </button>
+              <button class="btn-action-secondary" onclick="toggleTicViewer()">
+                👁️ <span id="toggleViewerText">Ver Documento Completo</span>
+              </button>
+            </div>
+
+            <!-- Visor Desplegable del Trabajo Completo -->
+            <div class="document-viewer" id="ticDocumentViewer">
+              <div class="paper-box">
+                <div class="paper-title">PORTADA OFICIAL SEGÚN APA 7 (Página 1):</div>
+                <pre style="white-space: pre-wrap; color: #93c5fd; margin: 0;">
+                                                                               1
+
+      Estructura y Planificación de la Presentación Institucional del
+                       Club Atlético River Ebro
+                Análisis Histórico, Deportivo y Social
+
+                      Ángel Moreno Gutiérrez
+         1º de Bachillerato D — Ciencias y Tecnología
+               IES La Rioja
+            Tecnologías de la Información y la Comunicación (TIC I)
+                            Profesor/a TEC 1
+                        23 de septiembre de 2026
+                </pre>
+              </div>
+
+              <div class="paper-box">
+                <div class="paper-title">SECCIONES PRINCIPALES DE LA MEMORIA EN WORD:</div>
+                <p><strong>1. Introducción y Justificación:</strong> Elección del C.A. River Ebro en Rincón de Soto, metodología FRF y objetivos comunicativos.</p>
+                <p><strong>2. Historia e Identidad Institucional:</strong> Fundación en 1932, heráldica del escudo franjirrojo e historia del Estadio San Miguel.</p>
+                <p><strong>3. Estructura Deportiva:</strong> Trayectoria en Tercera Federación (Grupo XVI) y filosofía formativa de la cantera.</p>
+                <p><strong>4. Dimensión Social:</strong> Afición de Rincón de Soto, patrocinio de la pera con D.O.P. y dinamización económica comarcal.</p>
+                <p><strong>5. Guión Técnico de 10 Diapositivas:</strong> D1 Portada, D2 Índice, D3 Orígenes 1932, D4 Identidad, D5 San Miguel, D6 Trayectoria, D7 Cantera, D8 Vínculo Social, D9 Futuro y D10 Conclusiones.</p>
+                <p><strong>6. Conclusiones:</strong> Síntesis analítica del impacto del club en La Rioja Baja.</p>
+                <p><strong>7. Referencias en Sangría Francesa:</strong> Federación Riojana de Fútbol (2025), Gobierno de La Rioja (2024), Pérez (2022) y Ayuntamiento de Rincón de Soto (2023).</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- BLOQUE 1: Misiones de Hoy (Jueves 17) -->
+          <div class="card mission-card glass mission-group">
             <div class="card-header-flex">
               <div>
-                <h2>📋 Misiones del Día (Jueves 17 Septiembre)</h2>
-                <p class="section-sub">Día de Gimnasio + Cerrar lo de mañana viernes. ¡Suma puntos!</p>
+                <span class="section-title-tag tag-today">⚡ HOY JUEVES 17 SEPTIEMBRE</span>
+                <h2>Misiones Críticas para Esta Tarde</h2>
+                <p class="section-sub">Déjalo hecho antes de salir al gimnasio. ¡Gana XP!</p>
               </div>
-              <button class="btn-primary" onclick="checkAllDailyDone()">Completar Todo</button>
+              <button class="btn-primary" onclick="checkAllDailyDone()">Marcar Bloque Hecho</button>
             </div>
 
             <ul class="mission-list" id="missionList">
-              <li class="mission-item done">
+              <li class="mission-item done completed">
                 <input type="checkbox" checked disabled>
                 <div class="mission-text">
                   <strong>Auditoría de Agenda: 100% de materias registradas</strong>
@@ -140,22 +450,25 @@
                 </div>
                 <span class="xp-gain">+20 XP</span>
               </li>
+
               <li class="mission-item pending" id="mission-ingles-p8">
                 <input type="checkbox" id="check-ingles-p8" onchange="toggleTask('check-ingles-p8', 'mission-ingles-p8', 15)">
                 <div class="mission-text">
-                  <strong>Inglés EOI: Pág. 8 ejercicios 2, 3, 4 y 5</strong>
-                  <span>Burlington Skills: vocabulario y comprensión de la unidad 1.</span>
+                  <strong>Inglés EOI (Instituto): Pág. 8 ejercicios 2, 3, 4 y 5</strong>
+                  <span>Burlington Skills: vocabulario deportivo y comprensión auditiva/lectora de Unit 1.</span>
                 </div>
                 <span class="xp-gain">+15 XP</span>
               </li>
+
               <li class="mission-item pending" id="mission-filo-p16">
                 <input type="checkbox" id="check-filo-p16" onchange="toggleTask('check-filo-p16', 'mission-filo-p16', 15)">
                 <div class="mission-text">
                   <strong>Filosofía: Págs. 16 a 19 (Lectura y actividades)</strong>
-                  <span>Oxford GENiOX Pro: afianzar conceptos para el examen del 8 de octubre.</span>
+                  <span>Oxford GENiOX Pro: afianzar presocráticos, arché y physis para el examen del 8 de octubre.</span>
                 </div>
                 <span class="xp-gain">+15 XP</span>
               </li>
+
               <li class="mission-item pending" id="mission-lengua-hojas">
                 <input type="checkbox" id="check-lengua-hojas" onchange="toggleTask('check-lengua-hojas', 'mission-lengua-hojas', 10)">
                 <div class="mission-text">
@@ -164,93 +477,216 @@
                 </div>
                 <span class="xp-gain">+10 XP</span>
               </li>
-              <li class="mission-item done">
-                <input type="checkbox" checked disabled>
-                <div class="mission-text">
-                  <strong>TIC: Memoria Word C.A. River Ebro (Normas APA 7)</strong>
-                  <span>Documento .rtf y guía completa ya generados en tu carpeta de proyectos.</span>
-                </div>
-                <span class="xp-gain">+20 XP</span>
-              </li>
+
               <li class="mission-item pending" id="mission-gym-jueves">
                 <input type="checkbox" id="check-gym-jueves" onchange="toggleTask('check-gym-jueves', 'mission-gym-jueves', 15)">
                 <div class="mission-text">
                   <strong>Gimnasio: Sesión 3 de la semana (18:30 - 20:00)</strong>
-                  <span>Entrenamiento de fuerza y desconexión física.</span>
-                </div>
-                <span class="xp-gain">+15 XP</span>
-              </li>
-              <li class="mission-item pending" id="mission-fisica-p56">
-                <input type="checkbox" id="check-fisica-p56" onchange="toggleTask('check-fisica-p56', 'mission-fisica-p56', 20)">
-                <div class="mission-text">
-                  <strong>Física y Química: Pág. 56 nº 2 y Hoja Teams nº 1</strong>
-                  <span>Editex: primer boletín formal del nuevo profesor.</span>
-                </div>
-                <span class="xp-gain">+20 XP</span>
-              </li>
-              <li class="mission-item pending" id="mission-tec-ej14">
-                <input type="checkbox" id="check-tec-ej14" onchange="toggleTask('check-tec-ej14', 'mission-tec-ej14', 15)">
-                <div class="mission-text">
-                  <strong>Tecnología e Ingeniería: Ejercicios 1 al 14</strong>
-                  <span>Donostiarra: afianzar ejercicios del tema para el lunes.</span>
+                  <span>Entrenamiento de fuerza y desconexión física obligatoria.</span>
                 </div>
                 <span class="xp-gain">+15 XP</span>
               </li>
             </ul>
           </div>
 
-          <!-- Pending Homework for Next Days -->
-          <div class="card homework-card glass">
-            <h3>📅 Tareas y Deberes en Curso</h3>
-            <div class="homework-table-wrapper">
-              <table class="homework-table">
-                <thead>
-                  <tr>
-                    <th>Asignatura</th>
-                    <th>Tarea / Ejercicios</th>
-                    <th>Fecha Límite</th>
-                    <th>Prioridad</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><span class="subject-tag ingles">Inglés CAE (Ana)</span></td>
-                    <td><strong>Destination:</strong> Págs. 18-19 / <strong>Booster:</strong> Págs. 36-37</td>
-                    <td>Miércoles 23 Sept</td>
-                    <td><span class="prio-tag medium">Media</span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="subject-tag" style="background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3);">Física Editex</span></td>
-                    <td>Pág. 56 nº 2 y Hoja Teams nº 1</td>
-                    <td>Lunes 21 Sept</td>
-                    <td><span class="prio-tag medium">Media</span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="subject-tag tec">Tecnología</span></td>
-                    <td>Ejercicios 1 al 14 (*Donostiarra*)</td>
-                    <td>Lunes 21 Sept</td>
-                    <td><span class="prio-tag medium">Media</span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="subject-tag filo">Filosofía</span></td>
-                    <td>Lectura: <em>El mundo de Sofía</em> (Jostein Gaarder)</td>
-                    <td>Trimestre</td>
-                    <td><span class="prio-tag low">Continua</span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="subject-tag personal">Personal</span></td>
-                    <td><strong>Limpiar galería del móvil</strong> (liberar espacio y ordenar)</td>
-                    <td>Fin de semana</td>
-                    <td><span class="prio-tag low">Baja</span></td>
-                  </tr>
-                </tbody>
-              </table>
+          <!-- BLOQUE 2: Extraescolar & Personal (¡NUEVAS TAREAS REQUERIDAS!) -->
+          <div class="card mission-card glass mission-group">
+            <div>
+              <span class="section-title-tag tag-extra">🇬🇧 EXTRAESCOLAR & PERSONAL</span>
+              <h2>Deberes de Academia y Organización Personal</h2>
+              <p class="section-sub">Tareas pendientes solicitadas directamente por Ángel:</p>
+            </div>
+
+            <ul class="mission-list" style="margin-top: 14px;">
+              <!-- Inglés Extraescolar Ana CAE -->
+              <li class="mission-item pending extraescolar" id="mission-ingles-cae">
+                <input type="checkbox" id="check-ingles-cae" onchange="toggleTask('check-ingles-cae', 'mission-ingles-cae', 25)">
+                <div class="mission-text">
+                  <strong>Inglés CAE (Profesora Ana - Extraescolar)</strong>
+                  <span>Deberes asignados para la próxima clase:</span>
+                  <ul class="subtask-list">
+                    <li>📘 <strong>Destination:</strong> Páginas 18 y 19 completas.</li>
+                    <li>📗 <strong>Booster:</strong> Páginas 36 y 37 (Reading & Comprehension).</li>
+                  </ul>
+                </div>
+                <span class="xp-gain" style="color: #c084fc;">+25 XP</span>
+              </li>
+
+              <!-- Limpieza de Galería -->
+              <li class="mission-item pending personal" id="mission-galeria">
+                <input type="checkbox" id="check-galeria" onchange="toggleTask('check-galeria', 'mission-galeria', 10)">
+                <div class="mission-text">
+                  <strong>📱 Limpieza y Organización de la Galería del Móvil</strong>
+                  <span>Borrar capturas antiguas, vídeos repetidos y organizar carpetas para liberar almacenamiento en el móvil antes del fin de semana.</span>
+                </div>
+                <span class="xp-gain" style="color: #f59e0b;">+10 XP</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- BLOQUE 3: Deberes para Fin de Semana / Lunes -->
+          <div class="card mission-card glass mission-group">
+            <div>
+              <span class="section-title-tag tag-weekend">📚 PARA EL FIN DE SEMANA / LUNES 21</span>
+              <h2>Materias Troncales en Curso</h2>
+              <p class="section-sub">Avanzar el sábado por la mañana para dejar el domingo de relax:</p>
+            </div>
+
+            <ul class="mission-list" style="margin-top: 14px;">
+              <li class="mission-item pending" id="mission-fisica-p56">
+                <input type="checkbox" id="check-fisica-p56" onchange="toggleTask('check-fisica-p56', 'mission-fisica-p56', 20)">
+                <div class="mission-text">
+                  <strong>Física y Química (Editex): Pág. 56 nº 2 y Hoja Teams nº 1</strong>
+                  <span>Cinemática y cálculo vectorial del nuevo profesor.</span>
+                </div>
+                <span class="xp-gain">+20 XP</span>
+              </li>
+
+              <li class="mission-item pending" id="mission-tec-ej14">
+                <input type="checkbox" id="check-tec-ej14" onchange="toggleTask('check-tec-ej14', 'mission-tec-ej14', 15)">
+                <div class="mission-text">
+                  <strong>Tecnología e Ingeniería (Donostiarra): Ejercicios 1 al 14</strong>
+                  <span>Repaso y consolidación de los conceptos energéticos.</span>
+                </div>
+                <span class="xp-gain">+15 XP</span>
+              </li>
+
+              <li class="mission-item pending" id="mission-filo-lectura">
+                <input type="checkbox" id="check-filo-lectura" onchange="toggleTask('check-filo-lectura', 'mission-filo-lectura', 10)">
+                <div class="mission-text">
+                  <strong>Filosofía: Lectura "El mundo de Sofía"</strong>
+                  <span>Avanzar lectura trimestral obligatoria (Jostein Gaarder).</span>
+                </div>
+                <span class="xp-gain">+10 XP</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- FAQ: Integración con Word y PowerPoint -->
+          <div class="faq-card glass">
+            <h3 style="font-size: 1.05rem; display: flex; align-items: center; gap: 8px;">
+              💡 ¿Cómo te ayudo con Word, PowerPoint y trabajos escolares?
+            </h3>
+            <div class="faq-grid">
+              <div class="faq-item">
+                <h4>📁 1. Archivos Nativos en tu PC</h4>
+                <p>Genero documentos <code>.docx</code>, <code>.pptx</code> y <code>.rtf</code> directamente en tu carpeta de proyectos (<code>d:\Angel\Clase1Bach\</code>). Al hacer doble clic se abren directamente en tu Microsoft Word o PowerPoint instalado.</p>
+              </div>
+              <div class="faq-item">
+                <h4>☁️ 2. Sincronización con OneDrive</h4>
+                <p>Si vinculas tu carpeta escolar de OneDrive al Explorador de Windows, puedo depositar y editar las presentaciones y memorias ahí. Word Online y Teams se actualizarán automáticamente sin contraseñas.</p>
+              </div>
+              <div class="faq-item">
+                <h4>📱 3. Descarga Directa al Móvil</h4>
+                <p>En esta web tienes botones de descarga directa para bajarte los archivos <code>.rtf</code> o <code>.docx</code> al móvil y abrirlos con la app de Word o enviártelos al correo con un toque.</p>
+              </div>
             </div>
           </div>
 
         </div>
 
-        <!-- TAB 2: Calendario & Exámenes -->
+        <!-- TAB 2: Proyecto TIC Dedicado -->
+        <div class="tab-pane" id="tab-tic">
+          <div class="card glass">
+            <h2>💻 Memoria Oficial TIC: Club Atlético River Ebro</h2>
+            <p class="section-sub">Estructura académica rigurosa en Formato APA 7ª Edición y guión de 10 diapositivas para PowerPoint.</p>
+
+            <div class="tic-actions" style="margin-top: 16px;">
+              <a href="apuntes/Trabajo_River_Ebro_APA7.rtf" download class="btn-action-primary">
+                📥 Descargar Documento Formateado (.RTF)
+              </a>
+              <button class="btn-action-secondary" onclick="copyTicContent()">
+                📋 Copiar Texto Completo
+              </button>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 20px; margin-top: 16px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.6;">
+              <h3 style="color: var(--accent-cyan); font-size: 1.1rem; margin-bottom: 12px;">📑 Estructura Detallada de las 10 Diapositivas PowerPoint:</h3>
+              <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <thead>
+                  <tr style="border-bottom: 1px solid var(--border); text-align: left;">
+                    <th style="padding: 8px;">Diapositiva</th>
+                    <th style="padding: 8px;">Título / Tema</th>
+                    <th style="padding: 8px;">Elementos Visuales</th>
+                    <th style="padding: 8px;">Directrices (Regla 6x6)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 8px; color: var(--accent-cyan);">D1</td>
+                    <td style="padding: 8px;">Portada Institucional</td>
+                    <td style="padding: 8px;">Escudo HD + Foto Estadio San Miguel</td>
+                    <td style="padding: 8px;">Título, autor, curso y fecha en rojo y blanco.</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 8px; color: var(--accent-cyan);">D2</td>
+                    <td style="padding: 8px;">Índice de Contenidos</td>
+                    <td style="padding: 8px;">Iconografía minimalista por bloques</td>
+                    <td style="padding: 8px;">4 bloques temáticos numerados.</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 8px; color: var(--accent-cyan);">D3</td>
+                    <td style="padding: 8px;">Orígenes y Fundación (1932)</td>
+                    <td style="padding: 8px;">Foto histórica blanco y negro de 1932</td>
+                    <td style="padding: 8px;">Línea de tiempo con 3 fechas clave.</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 8px; color: var(--accent-cyan);">D4</td>
+                    <td style="padding: 8px;">Identidad y Símbolos</td>
+                    <td style="padding: 8px;">Desglose del escudo y franja roja</td>
+                    <td style="padding: 8px;">Vínculo con el Ebro y River Plate.</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 8px; color: var(--accent-cyan);">D5</td>
+                    <td style="padding: 8px;">Estadio San Miguel</td>
+                    <td style="padding: 8px;">Vista aérea e infografía técnica</td>
+                    <td style="padding: 8px;">Aforo, dimensiones, reformas y césped.</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 8px; color: var(--accent-cyan);">D6</td>
+                    <td style="padding: 8px;">Tercera Federación (Gr. XVI)</td>
+                    <td style="padding: 8px;">Gráfico de barras de clasificaciones</td>
+                    <td style="padding: 8px;">Récords históricos, playoffs y permanencias.</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 8px; color: var(--accent-cyan);">D7</td>
+                    <td style="padding: 8px;">Cantera y Fútbol Base</td>
+                    <td style="padding: 8px;">Fotografías de equipos de base</td>
+                    <td style="padding: 8px;">Licencias federativas y valores formativos.</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 8px; color: var(--accent-cyan);">D8</td>
+                    <td style="padding: 8px;">Vínculo con Rincón de Soto</td>
+                    <td style="padding: 8px;">Grada de animación y Pera con D.O.P.</td>
+                    <td style="padding: 8px;">Motor social y embajador del municipio.</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 8px; color: var(--accent-cyan);">D9</td>
+                    <td style="padding: 8px;">Retos de Futuro</td>
+                    <td style="padding: 8px;">Esquema conceptual con 3 pilares</td>
+                    <td style="padding: 8px;">Digitalización, cantera y sostenibilidad.</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 8px; color: var(--accent-cyan);">D10</td>
+                    <td style="padding: 8px;">Conclusiones y Preguntas</td>
+                    <td style="padding: 8px;">Logo oficial + contacto institucional</td>
+                    <td style="padding: 8px;">2 frases sintéticas de cierre.</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <h3 style="color: var(--accent-cyan); font-size: 1.1rem; margin-bottom: 12px;">📚 Referencias Oficiales en Formato APA 7 (Sangría Francesa):</h3>
+              <div style="background: #111827; padding: 14px; border-radius: 8px; line-height: 1.7;">
+                <p style="padding-left: 24px; text-indent: -24px; margin-bottom: 10px;">Federación Riojana de Fútbol. (2025). <em>Clasificaciones oficiales y actas arbitrales: Grupo XVI Tercera Federación</em>. https://www.frfutbol.com</p>
+                <p style="padding-left: 24px; text-indent: -24px; margin-bottom: 10px;">Gobierno de La Rioja. (2024). <em>Registro de entidades deportivas de La Rioja: Club Atlético River Ebro (Exp. 1932/RE)</em>. Consejería de Deporte y Juventud.</p>
+                <p style="padding-left: 24px; text-indent: -24px; margin-bottom: 10px;">Pérez, M. (2022). <em>Noventa años de pasión franjirroja: Memoria gráfica del C.A. River Ebro (1932-2022)</em>. Editorial Riojana.</p>
+                <p style="padding-left: 24px; text-indent: -24px;">Rincón de Soto, Ayuntamiento de. (2023). <em>Instalaciones deportivas municipales: Estadio San Miguel</em>. Portal Municipal de Rincón de Soto. https://www.rincondesoto.org</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: Calendario & Exámenes -->
         <div class="tab-pane" id="tab-examenes">
           <div class="card countdown-card glass">
             <h2>⏳ Calendario Oficial de Exámenes (1º Trimestre)</h2>
@@ -268,7 +704,7 @@
                 <div class="exam-info">
                   <span class="subject-tag filo">Filosofía</span>
                   <strong>Examen 1: Temas 1 y 2</strong>
-                  <small>El saber filosófico, del mito al logos, arché de la physis, ramas</small>
+                  <small>El saber filosófico, del mito al logos, arché de la physis, presocráticos</small>
                 </div>
                 <div class="days-badge">22 DÍAS (8 OCT)</div>
               </li>
@@ -308,12 +744,19 @@
           </div>
         </div>
 
-        <!-- TAB 3: Biblioteca de Apuntes -->
+        <!-- TAB 4: Biblioteca de Apuntes -->
         <div class="tab-pane" id="tab-apuntes">
           <div class="card notes-card glass">
-            <h2>📁 Biblioteca de Apuntes Digitalizados</h2>
-            <p class="section-sub">Tus apuntes del cuaderno y libros pasados a limpio con fórmulas LaTeX y esquemas:</p>
+            <h2>📁 Biblioteca de Apuntes Digitalizados & Descargas</h2>
+            <p class="section-sub">Tus apuntes pasados a limpio con fórmulas, esquemas y descargables:</p>
             <div class="notes-grid">
+              <a href="apuntes/Trabajo_River_Ebro_APA7.rtf" download class="note-pill" style="border: 2px solid var(--accent-cyan); background: rgba(56, 189, 248, 0.1);">
+                <div class="note-icon">📥</div>
+                <div>
+                  <strong style="color: var(--accent-cyan);">Descargar Word TIC (.rtf)</strong>
+                  <span>Memoria C.A. River Ebro (Normas APA 7)</span>
+                </div>
+              </a>
               <a href="apuntes/Tema01_Numeros_Reales.md" class="note-pill">
                 <div class="note-icon">📐</div>
                 <div>
@@ -367,7 +810,7 @@
           </div>
         </div>
 
-        <!-- TAB 4: Modo Mamá -->
+        <!-- TAB 5: Modo Mamá -->
         <div class="tab-pane" id="tab-mama">
           <div class="card mother-card glass">
             <h2>👩‍🏫 El Decálogo Innegociable de Mamá</h2>
@@ -387,6 +830,6 @@
 
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=20260917-1845"></script>
 </body>
 </html>
