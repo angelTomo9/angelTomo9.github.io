@@ -27,6 +27,9 @@
         <div class="brand-badge-row">
           <span class="pulse-indicator"></span>
           <span class="badge-status">SISTEMA ACTIVO • 1º BACHILLERATO D (INGENIERÍA & IA)</span>
+          <button id="cloudSyncStatus" onclick="syncTasksWithCloud()" style="background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4); color: #4ade80; font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; font-weight: 700; padding: 3px 10px; border-radius: var(--radius-pill); cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+            🟢 En Línea con Antigravity
+          </button>
         </div>
         <h1>Centro de Mando Académico</h1>
         <p class="subtitle">Ángel Moreno Gutiérrez | IES La Rioja ➔ Meta: <strong>Ingeniería Informática / IA (≥ 9.5)</strong></p>
@@ -178,6 +181,27 @@
               <a href="https://notebooklm.google.com" target="_blank" class="btn-action-primary" style="background: linear-gradient(135deg, #a855f7, #7c3aed); padding: 8px 16px; font-size: 0.82rem;">
                 🚀 Abrir NotebookLM
               </a>
+            </div>
+
+            <!-- BANNER MEGA-DOSSIER INTEGRAL -->
+            <div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(168, 85, 247, 0.25)); border: 2px solid rgba(245, 158, 11, 0.5); border-radius: var(--radius-md); padding: 18px 22px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+              <div style="max-width: 680px;">
+                <span class="section-title-tag tag-project" style="background: #f59e0b; color: #000; font-weight: 800;">
+                  ⭐ RECOMENDADO: FUENTE MAESTRA INTEGRAL (TODO EN UNO)
+                </span>
+                <h3 style="font-size: 1.18rem; color: #fff; margin: 6px 0 4px;">Mega-Dossier 1º Bachillerato (Trimestre 1 Completo)</h3>
+                <p style="font-size: 0.85rem; color: #e2e8f0; margin: 0; line-height: 1.5;">
+                  Todo tu curso unificado en 1 solo archivo: Filosofía completa (Presocráticos), Lengua (Comentario 10/10), Matemáticas I (Formulario), TIC (APA 7) e Inglés C1. Sube este único archivo a NotebookLM y pídele podcasts, exámenes de prueba o resúmenes de cualquier asignatura.
+                </p>
+              </div>
+              <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <a href="apuntes/Mega_Dossier_Integral_1Bach_NotebookLM.md" download class="btn-action-primary" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; font-weight: 800; font-size: 0.85rem; padding: 10px 18px;">
+                  📥 Descargar Mega-Dossier
+                </a>
+                <button class="btn-action-secondary" style="font-size: 0.85rem; padding: 10px 16px;" onclick="copyDossierUrl('apuntes/Mega_Dossier_Integral_1Bach_NotebookLM.md', 'Mega-Dossier Integral')">
+                  📋 Copiar Todo el Texto
+                </button>
+              </div>
             </div>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;">

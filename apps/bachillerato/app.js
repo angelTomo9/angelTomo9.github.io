@@ -56,8 +56,67 @@ function initTasks() {
   saveTasks();
 }
 
+// 2.1 SINCRONIZACIÓN EN LA NUBE CON ANTIGRAVITY (NTFY.SH BRIDGE)
+const CLOUD_TOPIC_URL = 'https://ntfy.sh/angel_bachillerato_tasks_c06fe520';
+let syncDebounceTimer = null;
+
+function syncTasksWithCloud(manual = false) {
+  const syncBtn = document.getElementById('cloudSyncStatus');
+  if (syncBtn) {
+    syncBtn.innerHTML = '🔄 Sincronizando...';
+    syncBtn.style.color = '#facc15';
+  }
+
+  const payload = {
+    timestamp: new Date().toISOString(),
+    completedIds: Object.keys(tasksState).filter(id => tasksState[id].completed),
+    tasks: Object.keys(tasksState).reduce((acc, id) => {
+      acc[id] = tasksState[id].completed;
+      return acc;
+    }, {}),
+    xp: currentPoints,
+    streak: streakDays
+  };
+
+  fetch(CLOUD_TOPIC_URL, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+    headers: {
+      'Title': 'Tareas Actualizadas - Angel',
+      'Tags': 'white_check_mark,school'
+    }
+  })
+  .then(res => {
+    if (res.ok) {
+      if (syncBtn) {
+        syncBtn.innerHTML = '🟢 En Línea con Antigravity';
+        syncBtn.style.color = '#4ade80';
+      }
+      if (manual) {
+        showToast('☁️ ¡Sincronizado con Antigravity! Veo tus tareas en directo.');
+      }
+    } else {
+      throw new Error('Sync status ' + res.status);
+    }
+  })
+  .catch(err => {
+    console.warn('Sync notice:', err);
+    if (syncBtn) {
+      syncBtn.innerHTML = '🟡 Guardado Local';
+      syncBtn.style.color = '#f59e0b';
+    }
+    if (manual) {
+      showToast('⚠️ No hay conexión nube en este instante. Guardado en tu móvil.');
+    }
+  });
+}
+
 function saveTasks() {
   localStorage.setItem('angel_tasks_v5', JSON.stringify(tasksState));
+  if (syncDebounceTimer) clearTimeout(syncDebounceTimer);
+  syncDebounceTimer = setTimeout(() => {
+    syncTasksWithCloud(false);
+  }, 400);
 }
 
 // 3. ALTERNAR TAREA (CLICK EN CUALQUIER PARTE DE LA TARJETA)
@@ -500,4 +559,37 @@ document.addEventListener('DOMContentLoaded', () => {
   Object.keys(tasksState).forEach(id => updateTaskDOM(id));
   updateProgressBars();
   updateUI();
+
+  // Comprobar sincronización remota si existe
+  fetch(CLOUD_TOPIC_URL + '/json?poll=1')
+    .then(r => r.text())
+    .then(raw => {
+      if (!raw) return;
+      const lines = raw.trim().split('\n');
+      for (let i = lines.length - 1; i >= 0; i--) {
+        try {
+          const item = JSON.parse(lines[i]);
+          if (item && item.message) {
+            const data = JSON.parse(item.message);
+            if (data && data.tasks) {
+              let changed = false;
+              Object.keys(data.tasks).forEach(tid => {
+                if (tasksState[tid] && tasksState[tid].completed !== data.tasks[tid]) {
+                  tasksState[tid].completed = data.tasks[tid];
+                  updateTaskDOM(tid);
+                  changed = true;
+                }
+              });
+              if (changed) {
+                localStorage.setItem('angel_tasks_v5', JSON.stringify(tasksState));
+                updateProgressBars();
+                updateUI();
+              }
+              break;
+            }
+          }
+        } catch (e) {}
+      }
+    })
+    .catch(() => {});
 });
