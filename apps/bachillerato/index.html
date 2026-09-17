@@ -11,236 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260917-1845">
-
-  <style>
-    /* Estilos Críticos y Mejoras Visuales Inmediatas */
-    .urgent-banner {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.18), rgba(245, 158, 11, 0.18));
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      border-radius: var(--radius-md);
-      padding: 14px 20px;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      animation: softGlow 3s infinite alternate ease-in-out;
-    }
-    @keyframes softGlow {
-      0% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.15); }
-      100% { box-shadow: 0 0 25px rgba(245, 158, 11, 0.3); }
-    }
-    .urgent-badge {
-      background: #ef4444;
-      color: #fff;
-      font-size: 0.75rem;
-      font-weight: 800;
-      padding: 4px 10px;
-      border-radius: var(--radius-pill);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      white-space: nowrap;
-    }
-    .section-title-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.8rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 5px 12px;
-      border-radius: var(--radius-pill);
-      margin-bottom: 12px;
-    }
-    .tag-today { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.35); }
-    .tag-extra { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.35); }
-    .tag-weekend { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.35); }
-    .tag-project { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.35); }
-
-    /* Card de Proyecto TIC */
-    .tic-spotlight-card {
-      background: linear-gradient(145deg, rgba(17, 24, 39, 0.95), rgba(30, 41, 59, 0.9));
-      border: 2px solid rgba(56, 189, 248, 0.45);
-      box-shadow: 0 12px 35px -5px rgba(56, 189, 248, 0.2);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      margin-bottom: 24px;
-    }
-    .tic-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-    .tic-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 8px;
-    }
-    .badge-apa {
-      background: rgba(56, 189, 248, 0.2);
-      color: #38bdf8;
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: var(--radius-pill);
-    }
-    .badge-pptx {
-      background: rgba(249, 115, 22, 0.2);
-      color: #fb923c;
-      border: 1px solid rgba(249, 115, 22, 0.4);
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: var(--radius-pill);
-    }
-    .tic-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin: 16px 0;
-    }
-    .btn-action-primary {
-      background: linear-gradient(135deg, #0284c7, #2563eb);
-      color: #fff;
-      font-weight: 700;
-      font-size: 0.88rem;
-      padding: 10px 18px;
-      border-radius: var(--radius-md);
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-    .btn-action-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
-    }
-    .btn-action-secondary {
-      background: rgba(255, 255, 255, 0.08);
-      color: #f8fafc;
-      font-weight: 600;
-      font-size: 0.88rem;
-      padding: 10px 18px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s ease;
-    }
-    .btn-action-secondary:hover {
-      background: rgba(255, 255, 255, 0.15);
-      border-color: var(--accent-cyan);
-    }
-
-    /* Visor de Documento Simulado */
-    .document-viewer {
-      display: none;
-      background: #0f172a;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: var(--radius-md);
-      padding: 24px;
-      margin-top: 16px;
-      max-height: 500px;
-      overflow-y: auto;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-      line-height: 1.65;
-      color: #cbd5e1;
-    }
-    .document-viewer.open {
-      display: block;
-      animation: fadeIn 0.3s ease;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .paper-box {
-      background: #1e293b;
-      padding: 20px;
-      border-radius: 8px;
-      border-left: 4px solid var(--accent-cyan);
-      margin-bottom: 16px;
-    }
-    .paper-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #f8fafc;
-      margin-bottom: 8px;
-    }
-
-    /* Estilo de Misiones por Bloque */
-    .mission-group {
-      margin-bottom: 24px;
-    }
-    .mission-item.extraescolar {
-      border-left: 4px solid #c084fc;
-      background: rgba(168, 85, 247, 0.08);
-    }
-    .mission-item.personal {
-      border-left: 4px solid #f59e0b;
-      background: rgba(245, 158, 11, 0.08);
-    }
-    .mission-item.completed {
-      border-left: 4px solid #22c55e;
-      background: rgba(34, 197, 94, 0.08);
-    }
-    .subtask-list {
-      margin-top: 6px;
-      padding-left: 20px;
-      font-size: 0.82rem;
-      color: var(--text-secondary);
-    }
-    .subtask-list li {
-      margin-bottom: 3px;
-    }
-
-    /* FAQ Card para Word / PowerPoint */
-    .faq-card {
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-      margin-top: 20px;
-    }
-    .faq-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
-      margin-top: 14px;
-    }
-    .faq-item {
-      background: rgba(255, 255, 255, 0.03);
-      padding: 14px;
-      border-radius: var(--radius-sm);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-    }
-    .faq-item h4 {
-      font-size: 0.92rem;
-      color: var(--accent-cyan);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .faq-item p {
-      font-size: 0.82rem;
-      color: var(--text-secondary);
-      line-height: 1.45;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css?v=20260917-1850">
 </head>
 <body>
 
@@ -265,7 +36,7 @@
         <div class="stat-card xp-card glass">
           <div class="stat-card-header">
             <span class="stat-label">DISCIPLINA & XP</span>
-            <span class="xp-pill" id="xpGainAlert">+45 XP DISPONIBLES</span>
+            <span class="xp-pill" id="xpGainAlert">+45 XP HOY</span>
           </div>
           <div class="stat-value" id="totalPoints">50 <span class="unit">XP</span></div>
           <div class="progress-bar-wrap">
@@ -301,7 +72,7 @@
 
     <!-- Navigation Tabs for Mobile & Desktop -->
     <nav class="nav-tabs glass">
-      <button class="tab-btn active" onclick="switchTab('tab-hoy')">📋 Misiones & Deberes</button>
+      <button class="tab-btn active" onclick="switchTab('tab-hoy')">📋 Tareas & Misiones</button>
       <button class="tab-btn" onclick="switchTab('tab-tic')">💻 Proyecto TIC (APA 7)</button>
       <button class="tab-btn" onclick="switchTab('tab-examenes')">⏳ Calendario & Exámenes</button>
       <button class="tab-btn" onclick="switchTab('tab-apuntes')">📁 Biblioteca & Descargas</button>
@@ -324,25 +95,25 @@
             </div>
           </div>
           <div class="mother-quote" id="motherMessage">
-            «¡Ángel, ponte las pilas! Ya tienes registrada la tarea de Inglés CAE con Ana y la limpieza de galería. Y el trabajo de TIC sobre el River Ebro lo tienes aquí abajo completito en APA 7 listo para descargar y copiar. Termina Inglés EOI y Filosofía antes del gym. ¡A por el Nivel 3!»
+            «¡Toca en cualquier tarea para marcarla como completada y sumar puntos al instante! Ya tienes listos los deberes de Ana (Destination y Booster), la limpieza de galería y el trabajo de TIC. Termina antes de salir al gimnasio. ¡A por el Nivel 3!»
           </div>
           <div class="punishment-box" id="punishmentBox">
-            <span class="punishment-badge">⚠️ OBJETIVO INMEDIATO</span>
-            <p>18:30 salida puntual al gimnasio con <strong>Inglés EOI (pág 8) y Filosofía (págs 16-19) terminados</strong>. Si te vas sin hacerlos, penalización de -15 XP.</p>
+            <span class="punishment-badge">⚠️ OBJETIVO ANTES DEL GIMNASIO (18:30)</span>
+            <p>Salida puntual con <strong>Inglés EOI (pág 8) y Filosofía (págs 16-19) terminados</strong>. Si te vas sin hacerlos, penalización de -15 XP.</p>
           </div>
         </div>
 
         <!-- Live Action Check-in Buttons -->
         <div class="card glass">
-          <h3>⚡ Registro Rápido en Directo</h3>
-          <p class="section-sub">Marca con un toque cada acción para que quede sellada con hora exacta:</p>
+          <h3>⚡ Registro Rápido con 1 Toque</h3>
+          <p class="section-sub">Marca cada hito para que quede registrado con hora exacta:</p>
           <div class="checkin-buttons">
             <button class="btn-checkin" onclick="logEvent('🇬🇧 Inglés EOI Pág 8 terminado', 15)">🇬🇧 Inglés EOI Pág 8</button>
             <button class="btn-checkin" onclick="logEvent('🏛️ Filosofía Págs 16-19 leídas', 15)">🏛️ Filosofía Págs 16-19</button>
             <button class="btn-checkin" onclick="logEvent('📖 Lengua hojas revisadas', 10)">📖 Lengua Hojas</button>
             <button class="btn-checkin" onclick="logEvent('🏋️ Salida al Gimnasio (18:30)', 15)">🏋️ Al Gimnasio</button>
-            <button class="btn-checkin" onclick="logEvent('🍽️ Cenando con la familia', 0)">🍽️ Cena Familiar</button>
-            <button class="btn-checkin" onclick="logEvent('🛏️ En la cama a dormir', 10)">🛏️ A la Cama (22:00)</button>
+            <button class="btn-checkin" onclick="logEvent('🍽️ Cenando con la familia', 10)">🍽️ Cena Familiar</button>
+            <button class="btn-checkin" onclick="logEvent('🛏️ En la cama a dormir (22:00)', 15)">🛏️ A la Cama (22:00)</button>
           </div>
 
           <div class="audit-log-box">
@@ -356,7 +127,7 @@
         <!-- VDI & Links -->
         <div class="card links-card glass">
           <h3>🔗 Accesos Escolares Directos</h3>
-          <a href="https://vdisecundariagw.larioja.edu.es/portal/webclient/#/home" target="_blank" class="link-btn vdi-btn">
+          <a href="https://vdisecundariagw.larioja.edu.es/portal/webclient/#/home" target="_blank" class="vdi-btn">
             🖥️ Abrir Escritorio Virtual VDI (La Rioja)
           </a>
         </div>
@@ -366,16 +137,39 @@
       <!-- Center / Right Column: Tabbed Content -->
       <section class="main-content">
 
-        <!-- TAB 1: Misiones & Deberes -->
+        <!-- TAB 1: Misiones & Tareas Activas -->
         <div class="tab-pane active" id="tab-hoy">
 
-          <!-- SPOTLIGHT: PROYECTO TIC APA 7 (DIRECTO EN PORTADA) -->
+          <!-- Global Progress Bar -->
+          <div class="global-progress-box">
+            <div class="progress-header">
+              <span>📊 Progreso Total de Tareas</span>
+              <span id="globalProgressLabel" style="color: var(--accent-cyan);">0 de 14 tareas (0%)</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="globalProgressBar" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- Filter Bar & Add Task -->
+          <div class="filter-bar">
+            <div class="filter-btn-group">
+              <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">📋 Todas</button>
+              <button class="filter-btn" data-filter="pending" onclick="setFilter('pending')">⏳ Pendientes</button>
+              <button class="filter-btn" data-filter="completed" onclick="setFilter('completed')">✅ Completadas</button>
+            </div>
+            <button class="btn-add-task" onclick="addCustomTaskPrompt()">
+              ➕ Añadir Nueva Tarea
+            </button>
+          </div>
+
+          <!-- SPOTLIGHT: PROYECTO TIC APA 7 -->
           <div class="tic-spotlight-card">
             <div class="tic-header">
               <div>
                 <span class="section-title-tag tag-project">💻 TRABAJO DESTACADO TIC (APA 7)</span>
                 <h2 style="font-size: 1.35rem; margin-top: 4px;">Club Atlético River Ebro: Estructura Word & PowerPoint</h2>
-                <p style="color: var(--text-secondary); font-size: 0.88rem;">Memoria de investigación según Normas APA 7ª Edición + Guión técnico de 10 diapositivas para PowerPoint.</p>
+                <p style="color: var(--text-secondary); font-size: 0.88rem;">Memoria de investigación según Normas APA 7ª Edición + Guión de 10 diapositivas para PowerPoint.</p>
                 <div class="tic-badges">
                   <span class="badge-apa">✓ Portada Estudiante APA 7</span>
                   <span class="badge-apa">✓ 7 Secciones Oficiales</span>
@@ -430,135 +224,254 @@
             </div>
           </div>
 
-          <!-- BLOQUE 1: Misiones de Hoy (Jueves 17) -->
-          <div class="card mission-card glass mission-group">
-            <div class="card-header-flex">
+          <!-- BLOQUE 1: Misiones Críticas de Hoy (Jueves 17) -->
+          <div class="card glass">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
               <div>
                 <span class="section-title-tag tag-today">⚡ HOY JUEVES 17 SEPTIEMBRE</span>
-                <h2>Misiones Críticas para Esta Tarde</h2>
-                <p class="section-sub">Déjalo hecho antes de salir al gimnasio. ¡Gana XP!</p>
+                <h2>Misiones Críticas de la Tarde</h2>
               </div>
-              <button class="btn-primary" onclick="checkAllDailyDone()">Marcar Bloque Hecho</button>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="status-tag tag-pending" id="todayProgressBadge">0/5 hechas</span>
+                <button class="btn-checkin" style="font-size: 0.75rem; padding: 6px 12px;" onclick="markGroupDone('today')">
+                  ✓ Marcar Todo
+                </button>
+              </div>
             </div>
+            <p class="section-sub">Toca en cualquier tarea para marcarla como completada y sumar puntos:</p>
 
-            <ul class="mission-list" id="missionList">
-              <li class="mission-item done completed">
-                <input type="checkbox" checked disabled>
-                <div class="mission-text">
-                  <strong>Auditoría de Agenda: 100% de materias registradas</strong>
-                  <span>Física, Tecnología, Inglés, Lengua y Filosofía apuntadas a la primera.</span>
+            <ul class="task-list" id="todayTaskList">
+              
+              <!-- Tarea: Auditoría Agenda -->
+              <li id="task-agenda" class="task-card" onclick="toggleTask('task-agenda')">
+                <div class="custom-checkbox">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
-                <span class="xp-gain">+20 XP</span>
+                <div class="task-content">
+                  <strong class="task-title">Auditoría de Agenda: 100% de materias registradas</strong>
+                  <span class="task-desc">Física, Tecnología, Inglés, Lengua y Filosofía apuntadas a la primera.</span>
+                </div>
+                <div class="task-meta">
+                  <span class="status-tag tag-pending">⏳ PENDIENTE</span>
+                  <span class="xp-pill-badge">+20 XP</span>
+                </div>
               </li>
 
-              <li class="mission-item pending" id="mission-ingles-p8">
-                <input type="checkbox" id="check-ingles-p8" onchange="toggleTask('check-ingles-p8', 'mission-ingles-p8', 15)">
-                <div class="mission-text">
-                  <strong>Inglés EOI (Instituto): Pág. 8 ejercicios 2, 3, 4 y 5</strong>
-                  <span>Burlington Skills: vocabulario deportivo y comprensión auditiva/lectora de Unit 1.</span>
+              <!-- Tarea: Inglés EOI p8 -->
+              <li id="task-ingles-p8" class="task-card" onclick="toggleTask('task-ingles-p8')">
+                <div class="custom-checkbox">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
-                <span class="xp-gain">+15 XP</span>
+                <div class="task-content">
+                  <strong class="task-title">Inglés EOI (Instituto): Pág. 8 ejercicios 2, 3, 4 y 5</strong>
+                  <span class="task-desc">Burlington Skills: vocabulario deportivo y comprensión auditiva/lectora de Unit 1.</span>
+                </div>
+                <div class="task-meta">
+                  <span class="status-tag tag-pending">⏳ PENDIENTE</span>
+                  <span class="xp-pill-badge">+15 XP</span>
+                </div>
               </li>
 
-              <li class="mission-item pending" id="mission-filo-p16">
-                <input type="checkbox" id="check-filo-p16" onchange="toggleTask('check-filo-p16', 'mission-filo-p16', 15)">
-                <div class="mission-text">
-                  <strong>Filosofía: Págs. 16 a 19 (Lectura y actividades)</strong>
-                  <span>Oxford GENiOX Pro: afianzar presocráticos, arché y physis para el examen del 8 de octubre.</span>
+              <!-- Tarea: Filosofía p16-19 -->
+              <li id="task-filo-p16" class="task-card" onclick="toggleTask('task-filo-p16')">
+                <div class="custom-checkbox">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
-                <span class="xp-gain">+15 XP</span>
+                <div class="task-content">
+                  <strong class="task-title">Filosofía: Págs. 16 a 19 (Lectura y actividades)</strong>
+                  <span class="task-desc">Oxford GENiOX Pro: afianzar presocráticos, arché y physis para el examen del 8 de octubre.</span>
+                </div>
+                <div class="task-meta">
+                  <span class="status-tag tag-pending">⏳ PENDIENTE</span>
+                  <span class="xp-pill-badge">+15 XP</span>
+                </div>
               </li>
 
-              <li class="mission-item pending" id="mission-lengua-hojas">
-                <input type="checkbox" id="check-lengua-hojas" onchange="toggleTask('check-lengua-hojas', 'mission-lengua-hojas', 10)">
-                <div class="mission-text">
-                  <strong>Lengua Castellana: Hojas del dossier</strong>
-                  <span>Revisar ejercicios y textos prácticos mandados en clase.</span>
+              <!-- Tarea: Lengua Hojas -->
+              <li id="task-lengua-hojas" class="task-card" onclick="toggleTask('task-lengua-hojas')">
+                <div class="custom-checkbox">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
-                <span class="xp-gain">+10 XP</span>
+                <div class="task-content">
+                  <strong class="task-title">Lengua Castellana: Hojas del dossier</strong>
+                  <span class="task-desc">Revisar ejercicios y textos prácticos mandados en clase.</span>
+                </div>
+                <div class="task-meta">
+                  <span class="status-tag tag-pending">⏳ PENDIENTE</span>
+                  <span class="xp-pill-badge">+10 XP</span>
+                </div>
               </li>
 
-              <li class="mission-item pending" id="mission-gym-jueves">
-                <input type="checkbox" id="check-gym-jueves" onchange="toggleTask('check-gym-jueves', 'mission-gym-jueves', 15)">
-                <div class="mission-text">
-                  <strong>Gimnasio: Sesión 3 de la semana (18:30 - 20:00)</strong>
-                  <span>Entrenamiento de fuerza y desconexión física obligatoria.</span>
+              <!-- Tarea: Gimnasio -->
+              <li id="task-gym" class="task-card" onclick="toggleTask('task-gym')">
+                <div class="custom-checkbox">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
-                <span class="xp-gain">+15 XP</span>
+                <div class="task-content">
+                  <strong class="task-title">Gimnasio: Sesión 3 de la semana (18:30 - 20:00)</strong>
+                  <span class="task-desc">Entrenamiento de fuerza y desconexión física obligatoria.</span>
+                </div>
+                <div class="task-meta">
+                  <span class="status-tag tag-pending">⏳ PENDIENTE</span>
+                  <span class="xp-pill-badge">+15 XP</span>
+                </div>
               </li>
+
             </ul>
           </div>
 
-          <!-- BLOQUE 2: Extraescolar & Personal (¡NUEVAS TAREAS REQUERIDAS!) -->
-          <div class="card mission-card glass mission-group">
-            <div>
-              <span class="section-title-tag tag-extra">🇬🇧 EXTRAESCOLAR & PERSONAL</span>
-              <h2>Deberes de Academia y Organización Personal</h2>
-              <p class="section-sub">Tareas pendientes solicitadas directamente por Ángel:</p>
+          <!-- BLOQUE 2: Extraescolar & Personal -->
+          <div class="card glass">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+              <div>
+                <span class="section-title-tag tag-extra">🇬🇧 EXTRAESCOLAR & PERSONAL</span>
+                <h2>Deberes de Academia y Organización Personal</h2>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="status-tag tag-pending" id="extraProgressBadge">0/4 hechas</span>
+                <button class="btn-checkin" style="font-size: 0.75rem; padding: 6px 12px;" onclick="markGroupDone('extra')">
+                  ✓ Marcar Todo
+                </button>
+              </div>
             </div>
+            <p class="section-sub">Tareas pendientes solicitadas por Ángel:</p>
 
-            <ul class="mission-list" style="margin-top: 14px;">
-              <!-- Inglés Extraescolar Ana CAE -->
-              <li class="mission-item pending extraescolar" id="mission-ingles-cae">
-                <input type="checkbox" id="check-ingles-cae" onchange="toggleTask('check-ingles-cae', 'mission-ingles-cae', 25)">
-                <div class="mission-text">
-                  <strong>Inglés CAE (Profesora Ana - Extraescolar)</strong>
-                  <span>Deberes asignados para la próxima clase:</span>
-                  <ul class="subtask-list">
-                    <li>📘 <strong>Destination:</strong> Páginas 18 y 19 completas.</li>
-                    <li>📗 <strong>Booster:</strong> Páginas 36 y 37 (Reading & Comprehension).</li>
-                  </ul>
+            <ul class="task-list" id="extraTaskList">
+              
+              <!-- Tarea: Inglés CAE Destination -->
+              <li id="task-cae-dest" class="task-card" onclick="toggleTask('task-cae-dest')">
+                <div class="custom-checkbox">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
-                <span class="xp-gain" style="color: #c084fc;">+25 XP</span>
+                <div class="task-content">
+                  <strong class="task-title">📘 Inglés CAE (Ana): Destination C1/C2 — Págs. 18 y 19</strong>
+                  <span class="task-desc">Ejercicios de vocabulario avanzado y gramática de la unidad.</span>
+                </div>
+                <div class="task-meta">
+                  <span class="status-tag tag-pending">⏳ PENDIENTE</span>
+                  <span class="xp-pill-badge" style="color: #c084fc;">+15 XP</span>
+                </div>
               </li>
 
-              <!-- Limpieza de Galería -->
-              <li class="mission-item pending personal" id="mission-galeria">
-                <input type="checkbox" id="check-galeria" onchange="toggleTask('check-galeria', 'mission-galeria', 10)">
-                <div class="mission-text">
-                  <strong>📱 Limpieza y Organización de la Galería del Móvil</strong>
-                  <span>Borrar capturas antiguas, vídeos repetidos y organizar carpetas para liberar almacenamiento en el móvil antes del fin de semana.</span>
+              <!-- Tarea: Inglés CAE Booster -->
+              <li id="task-cae-boost" class="task-card" onclick="toggleTask('task-cae-boost')">
+                <div class="custom-checkbox">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
-                <span class="xp-gain" style="color: #f59e0b;">+10 XP</span>
+                <div class="task-content">
+                  <strong class="task-title">📗 Inglés CAE (Ana): Booster — Págs. 36 y 37 (Reading)</strong>
+                  <span class="task-desc">Comprensión lectora oficial modelo examen Cambridge CAE.</span>
+                </div>
+                <div class="task-meta">
+                  <span class="status-tag tag-pending">⏳ PENDIENTE</span>
+                  <span class="xp-pill-badge" style="color: #c084fc;">+15 XP</span>
+                </div>
               </li>
+
+              <!-- Tarea: Galería -->
+              <li id="task-galeria" class="task-card" onclick="toggleTask('task-galeria')">
+                <div class="custom-checkbox">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <div class="task-content">
+                  <strong class="task-title">📱 Personal: Limpiar y organizar la galería del móvil</strong>
+                  <span class="task-desc">Eliminar capturas antiguas, fotos duplicadas y liberar almacenamiento.</span>
+                </div>
+                <div class="task-meta">
+                  <span class="status-tag tag-pending">⏳ PENDIENTE</span>
+                  <span class="xp-pill-badge" style="color: #f59e0b;">+10 XP</span>
+                </div>
+              </li>
+
+              <!-- Tarea: Cena Familiar -->
+              <li id="task-cena" class="task-card" onclick="toggleTask('task-cena')">
+                <div class="custom-checkbox">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <div class="task-content">
+                  <strong class="task-title">🍽️ Personal: Cena en familia sin móvil (21:40)</strong>
+                  <span class="task-desc">Tiempo de calidad protegido con tus padres.</span>
+                </div>
+                <div class="task-meta">
+                  <span class="status-tag tag-pending">⏳ PENDIENTE</span>
+                  <span class="xp-pill-badge" style="color: #f59e0b;">+10 XP</span>
+                </div>
+              </li>
+
             </ul>
           </div>
 
-          <!-- BLOQUE 3: Deberes para Fin de Semana / Lunes -->
-          <div class="card mission-card glass mission-group">
-            <div>
-              <span class="section-title-tag tag-weekend">📚 PARA EL FIN DE SEMANA / LUNES 21</span>
-              <h2>Materias Troncales en Curso</h2>
-              <p class="section-sub">Avanzar el sábado por la mañana para dejar el domingo de relax:</p>
+          <!-- BLOQUE 3: Troncales Fin de Semana / Lunes 21 -->
+          <div class="card glass">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+              <div>
+                <span class="section-title-tag tag-weekend">📚 PARA EL FIN DE SEMANA / LUNES 21</span>
+                <h2>Materias Troncales en Curso</h2>
+              </div>
+              <button class="btn-checkin" style="font-size: 0.75rem; padding: 6px 12px;" onclick="markGroupDone('weekend')">
+                ✓ Marcar Todo
+              </button>
             </div>
+            <p class="section-sub">Avanza en estos días para no acumular trabajo el domingo noche:</p>
 
-            <ul class="mission-list" style="margin-top: 14px;">
-              <li class="mission-item pending" id="mission-fisica-p56">
-                <input type="checkbox" id="check-fisica-p56" onchange="toggleTask('check-fisica-p56', 'mission-fisica-p56', 20)">
-                <div class="mission-text">
-                  <strong>Física y Química (Editex): Pág. 56 nº 2 y Hoja Teams nº 1</strong>
-                  <span>Cinemática y cálculo vectorial del nuevo profesor.</span>
+            <ul class="task-list" id="weekendTaskList">
+              
+              <li id="task-fisica-p56" class="task-card" onclick="toggleTask('task-fisica-p56')">
+                <div class="custom-checkbox">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
-                <span class="xp-gain">+20 XP</span>
+                <div class="task-content">
+                  <strong class="task-title">Física y Química (Editex): Pág. 56 nº 2</strong>
+                  <span class="task-desc">Cálculo de magnitudes cinemáticas y vectores.</span>
+                </div>
+                <div class="task-meta">
+                  <span class="status-tag tag-pending">⏳ PENDIENTE</span>
+                  <span class="xp-pill-badge">+10 XP</span>
+                </div>
               </li>
 
-              <li class="mission-item pending" id="mission-tec-ej14">
-                <input type="checkbox" id="check-tec-ej14" onchange="toggleTask('check-tec-ej14', 'mission-tec-ej14', 15)">
-                <div class="mission-text">
-                  <strong>Tecnología e Ingeniería (Donostiarra): Ejercicios 1 al 14</strong>
-                  <span>Repaso y consolidación de los conceptos energéticos.</span>
+              <li id="task-fisica-teams" class="task-card" onclick="toggleTask('task-fisica-teams')">
+                <div class="custom-checkbox">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
-                <span class="xp-gain">+15 XP</span>
+                <div class="task-content">
+                  <strong class="task-title">Física y Química: Hoja Teams nº 1</strong>
+                  <span class="task-desc">Primer boletín práctico mandado por el profesor.</span>
+                </div>
+                <div class="task-meta">
+                  <span class="status-tag tag-pending">⏳ PENDIENTE</span>
+                  <span class="xp-pill-badge">+10 XP</span>
+                </div>
               </li>
 
-              <li class="mission-item pending" id="mission-filo-lectura">
-                <input type="checkbox" id="check-filo-lectura" onchange="toggleTask('check-filo-lectura', 'mission-filo-lectura', 10)">
-                <div class="mission-text">
-                  <strong>Filosofía: Lectura "El mundo de Sofía"</strong>
-                  <span>Avanzar lectura trimestral obligatoria (Jostein Gaarder).</span>
+              <li id="task-tec-14" class="task-card" onclick="toggleTask('task-tec-14')">
+                <div class="custom-checkbox">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
-                <span class="xp-gain">+10 XP</span>
+                <div class="task-content">
+                  <strong class="task-title">Tecnología (Donostiarra): Ejercicios 1 al 14</strong>
+                  <span class="task-desc">Afianzar el tema de energía térmica para la corrección del lunes.</span>
+                </div>
+                <div class="task-meta">
+                  <span class="status-tag tag-pending">⏳ PENDIENTE</span>
+                  <span class="xp-pill-badge">+15 XP</span>
+                </div>
               </li>
+
+              <li id="task-filo-sofia" class="task-card" onclick="toggleTask('task-filo-sofia')">
+                <div class="custom-checkbox">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <div class="task-content">
+                  <strong class="task-title">Filosofía: Lectura "El mundo de Sofía"</strong>
+                  <span class="task-desc">Lectura trimestral obligatoria (Jostein Gaarder).</span>
+                </div>
+                <div class="task-meta">
+                  <span class="status-tag tag-pending">⏳ PENDIENTE</span>
+                  <span class="xp-pill-badge">+10 XP</span>
+                </div>
+              </li>
+
             </ul>
           </div>
 
@@ -570,15 +483,15 @@
             <div class="faq-grid">
               <div class="faq-item">
                 <h4>📁 1. Archivos Nativos en tu PC</h4>
-                <p>Genero documentos <code>.docx</code>, <code>.pptx</code> y <code>.rtf</code> directamente en tu carpeta de proyectos (<code>d:\Angel\Clase1Bach\</code>). Al hacer doble clic se abren directamente en tu Microsoft Word o PowerPoint instalado.</p>
+                <p>Genero documentos <code>.docx</code>, <code>.pptx</code> y <code>.rtf</code> directamente en tu carpeta de proyectos (<code>d:\Angel\Clase1Bach\</code>). Al hacer doble clic se abren en tu Microsoft Word o PowerPoint instalado.</p>
               </div>
               <div class="faq-item">
                 <h4>☁️ 2. Sincronización con OneDrive</h4>
-                <p>Si vinculas tu carpeta escolar de OneDrive al Explorador de Windows, puedo depositar y editar las presentaciones y memorias ahí. Word Online y Teams se actualizarán automáticamente sin contraseñas.</p>
+                <p>Si vinculas tu carpeta escolar de OneDrive al Explorador de Windows, puedo depositar y editar las presentaciones y memorias ahí. Word Online y Teams se sincronizan automáticamente sin contraseñas.</p>
               </div>
               <div class="faq-item">
                 <h4>📱 3. Descarga Directa al Móvil</h4>
-                <p>En esta web tienes botones de descarga directa para bajarte los archivos <code>.rtf</code> o <code>.docx</code> al móvil y abrirlos con la app de Word o enviártelos al correo con un toque.</p>
+                <p>En esta web tienes botones de descarga directa para bajarte los archivos <code>.rtf</code> o <code>.docx</code> al móvil y abrirlos con la app de Word o compartirlos por WhatsApp/Teams.</p>
               </div>
             </div>
           </div>
@@ -830,6 +743,6 @@
 
   </div>
 
-  <script src="app.js?v=20260917-1845"></script>
+  <script src="app.js?v=20260917-1850"></script>
 </body>
 </html>
