@@ -399,6 +399,29 @@ function copyLicenseCode(code) {
   }
 }
 
+function copyDossierUrl(url, name) {
+  showToast(`Cargando dossier de ${name}...`);
+  fetch(url)
+    .then(res => {
+      if (!res.ok) throw new Error("Error cargando archivo");
+      return res.text();
+    })
+    .then(text => {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(`📋 ¡Dossier de ${name} copiado! Pégalo en NotebookLM.`);
+        }).catch(() => {
+          fallbackCopy(text);
+        });
+      } else {
+        fallbackCopy(text);
+      }
+    })
+    .catch(err => {
+      window.open(url, '_blank');
+    });
+}
+
 // 11. REGISTRO Y AUDITORÍA
 function logEvent(actionName, xpValue) {
   const now = new Date();
