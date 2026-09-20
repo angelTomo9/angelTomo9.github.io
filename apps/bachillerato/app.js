@@ -21,8 +21,9 @@ const defaultTasks = {
   'task-lengua-hojas': { title: 'Lengua Castellana: Hojas del dossier', xp: 10, completed: false, group: 'today' },
   'task-gym': { title: 'Gimnasio: Sesión 3 de fuerza (18:30 - 20:00)', xp: 15, completed: false, group: 'today' },
   
-  'task-cae-dest': { title: 'Inglés CAE (Ana): Destination Págs. 18 y 19', xp: 15, completed: false, group: 'extra' },
-  'task-cae-boost': { title: 'Inglés CAE (Ana): Booster Págs. 36 y 37 (Reading)', xp: 15, completed: false, group: 'extra' },
+  'task-extra-lunes': { title: 'Inglés CAE (Lunes 18:00): Tareas profesora de los lunes', xp: 15, completed: true, group: 'extra' },
+  'task-cae-dest': { title: 'Inglés CAE (Ana - Para Miércoles): Destination Págs. 18 y 19', xp: 15, completed: false, group: 'extra' },
+  'task-cae-boost': { title: 'Inglés CAE (Ana - Para Miércoles): Booster Págs. 36 y 37 (Reading)', xp: 15, completed: false, group: 'extra' },
   'task-galeria': { title: 'Personal: Limpiar y organizar galería del móvil', xp: 10, completed: false, group: 'extra' },
   'task-cena': { title: 'Personal: Cena en familia sin pantallas (21:40)', xp: 10, completed: false, group: 'extra' },
   
