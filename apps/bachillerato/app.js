@@ -13,15 +13,14 @@ const levels = [
   { min: 401, max: 1000, name: "Nivel 5: Élite de Bachillerato (10.0)" }
 ];
 
-// 2. ESTADO PREDETERMINADO DE TAREAS
+// 2. ESTADO PREDETERMINADO DE TAREAS (LUNES 21 SEPTIEMBRE)
 const defaultTasks = {
-  'task-agenda': { title: 'Auditoría de Agenda (100% materias)', xp: 20, completed: true, group: 'today' },
-  'task-ingles-p8': { title: 'Inglés EOI: Pág. 8 ejercicios 2, 3, 4 y 5', xp: 15, completed: false, group: 'today' },
-  'task-filo-p16': { title: 'Filosofía: Págs. 16 a 19 (Lectura y presocráticos)', xp: 15, completed: false, group: 'today' },
-  'task-lengua-hojas': { title: 'Lengua Castellana: Hojas del dossier', xp: 10, completed: false, group: 'today' },
-  'task-gym': { title: 'Gimnasio: Sesión 3 de fuerza (18:30 - 20:00)', xp: 15, completed: false, group: 'today' },
-  
-  'task-extra-lunes': { title: 'Inglés CAE (Lunes 18:00): Tareas profesora de los lunes', xp: 15, completed: true, group: 'extra' },
+  'task-tec-14': { title: 'Tecnología e Ingeniería: Terminar ejercicios para mañana 12:35 (Donostiarra)', xp: 25, completed: false, group: 'today' },
+  'task-gym': { title: 'Gimnasio: Sesión 1 de la semana (16:15 - 17:30)', xp: 15, completed: false, group: 'today' },
+  'task-extra-lunes': { title: 'Inglés CAE: Clase con Fátima (18:00 - 19:00)', xp: 15, completed: true, group: 'today' },
+  'task-fisica-plan': { title: 'Física y Química: Registrar temario examen 1ª sem. octubre', xp: 15, completed: false, group: 'today' },
+  'task-agenda': { title: 'Auditoría de Agenda (100% materias registradas)', xp: 20, completed: true, group: 'today' },
+
   'task-cae-dest': { title: 'Inglés CAE (Ana - Para Miércoles): Destination Págs. 18 y 19', xp: 15, completed: false, group: 'extra' },
   'task-cae-boost': { title: 'Inglés CAE (Ana - Para Miércoles): Booster Págs. 36 y 37 (Reading)', xp: 15, completed: false, group: 'extra' },
   'task-galeria': { title: 'Personal: Limpiar y organizar galería del móvil', xp: 10, completed: false, group: 'extra' },
@@ -29,7 +28,6 @@ const defaultTasks = {
   
   'task-fisica-p56': { title: 'Física y Química (Editex): Pág. 56 nº 2', xp: 10, completed: false, group: 'weekend' },
   'task-fisica-teams': { title: 'Física y Química: Hoja Teams nº 1', xp: 10, completed: false, group: 'weekend' },
-  'task-tec-14': { title: 'Tecnología (Donostiarra): Ejercicios 1 al 14', xp: 15, completed: false, group: 'weekend' },
   'task-filo-sofia': { title: 'Filosofía: Lectura "El mundo de Sofía"', xp: 10, completed: false, group: 'weekend' },
 
   'task-tic-apa7': { title: 'TIC: Memoria Word C.A. River Ebro (APA 7)', xp: 25, completed: true, group: 'projects' }
