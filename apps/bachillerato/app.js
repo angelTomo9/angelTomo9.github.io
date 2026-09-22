@@ -25,8 +25,11 @@ const defaultTasks = {
   'task-galeria': { title: 'Personal: Limpiar y clasificar galería del móvil', xp: 10, completed: false, group: 'extra' },
   'task-cena': { title: 'Personal: Cena en familia sin pantallas (21:40)', xp: 10, completed: false, group: 'extra' },
   
-  'task-fisica-plan': { title: 'Física y Química: Preparación examen 1ª sem. octubre', xp: 15, completed: false, group: 'weekend' },
-  'task-mates-plan': { title: 'Matemáticas I: Seguimiento examen Tema 1 (17 Oct / 16 Nov)', xp: 15, completed: false, group: 'weekend' },
+  'task-fisica-plan': { title: 'Física y Química: Preparación examen 1ª sem. octubre', xp: 15, completed: true, group: 'weekend' },
+  'task-mates-plan': { title: 'Matemáticas I: Seguimiento examen Tema 1 (17 Oct / 16 Nov)', xp: 15, completed: true, group: 'weekend' },
+  'task-fisica-p56': { title: 'Física y Química (Editex): Pág. 56 nº 2', xp: 10, completed: true, group: 'weekend' },
+  'task-fisica-teams': { title: 'Física y Química: Hoja Teams nº 1', xp: 10, completed: true, group: 'weekend' },
+  'task-tec-14': { title: 'Tecnología (Donostiarra): Ejercicios 1 al 14', xp: 15, completed: true, group: 'weekend' },
   'task-filo-sofia': { title: 'Filosofía: Lectura "El mundo de Sofía"', xp: 10, completed: false, group: 'weekend' },
 
   'task-tic-apa7': { title: 'TIC: Memoria Word C.A. River Ebro (APA 7)', xp: 25, completed: true, group: 'projects' }
@@ -136,7 +139,23 @@ function saveTasks() {
 
 // 3. ALTERNAR TAREA (CLICK EN CUALQUIER PARTE DE LA TARJETA)
 function toggleTask(taskId) {
-  if (!tasksState[taskId]) return;
+  if (!tasksState[taskId]) {
+    const card = document.getElementById(taskId);
+    const titleEl = card ? card.querySelector('.task-title') : null;
+    const title = titleEl ? titleEl.textContent.trim() : taskId;
+    const xpEl = card ? card.querySelector('.xp-pill-badge') : null;
+    let xpVal = 10;
+    if (xpEl) {
+      const match = xpEl.textContent.match(/\d+/);
+      if (match) xpVal = parseInt(match[0], 10);
+    }
+    tasksState[taskId] = {
+      title: title,
+      xp: xpVal,
+      completed: false,
+      group: 'weekend'
+    };
+  }
 
   const isNowCompleted = !tasksState[taskId].completed;
   tasksState[taskId].completed = isNowCompleted;
