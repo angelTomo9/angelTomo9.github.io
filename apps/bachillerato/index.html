@@ -64,12 +64,12 @@
       <div style="display: flex; align-items: center; gap: 12px;">
         <span class="urgent-badge">HORARIO SAGRADO</span>
         <div>
-          <strong style="color: #fff; font-size: 0.95rem;">Lunes 21 Septiembre: Sprint Estudio (16:25 - 17:45) ➔ Inglés C1 (18:00 - 19:00) ➔ Gimnasio (19:15 - 20:30)</strong>
-          <p style="color: #fca5a5; font-size: 0.82rem; margin: 0;">Misión ahora: Liquidar ejercicios de Tecnología (Donostiarra) antes de salir a inglés. ¡Así vas al gym con todo hecho!</p>
+          <strong style="color: #fff; font-size: 0.95rem;">Martes 22 Septiembre: Sprint Tareas (16:30 - 18:15) ➔ Gimnasio (18:30 - 20:00)</strong>
+          <p style="color: #fca5a5; font-size: 0.82rem; margin: 0;">Misión hoy: Liquidar deberes de Ana (Destination 18-19 & Booster 36-37) para mañana miércoles antes de salir al gym.</p>
         </div>
       </div>
-      <button class="btn-checkin" style="background: rgba(56, 189, 248, 0.25); border-color: #38bdf8;" onclick="logEvent('💻 Arranque Sprint Estudio Tarde', 15)">
-        💻 Arranque Sprint (16:25)
+      <button class="btn-checkin" style="background: rgba(168, 85, 247, 0.25); border-color: #a855f7;" onclick="logEvent('🇬🇧 Inicio Deberes Inglés CAE Ana', 15)">
+        📘 Arranque Tareas Inglés CAE
       </button>
     </div>
 
@@ -321,11 +321,11 @@
             </div>
           </div>
 
-          <!-- BLOQUE 1: Misiones Críticas de Hoy (Lunes 21) -->
+          <!-- BLOQUE 1: Misiones Críticas de Hoy (Martes 22) -->
           <div class="card glass">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
               <div>
-                <span class="section-title-tag tag-today">⚡ HOY LUNES 21 SEPTIEMBRE</span>
+                <span class="section-title-tag tag-today">⚡ HOY MARTES 22 SEPTIEMBRE</span>
                 <h2>Misiones Críticas de la Tarde</h2>
               </div>
               <div style="display: flex; align-items: center; gap: 10px;">
@@ -339,18 +339,48 @@
 
             <ul class="task-list" id="todayTaskList">
               
-              <!-- Tarea: Tecnología e Ingeniería ejercicios -->
-              <li id="task-tec-14" class="task-card" onclick="toggleTask('task-tec-14')">
+              <!-- Tarea: Inglés CAE Destination Ana -->
+              <li id="task-cae-dest" class="task-card" onclick="toggleTask('task-cae-dest')">
                 <div class="custom-checkbox">
                   <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
                 <div class="task-content">
-                  <strong class="task-title">⚙️ Tecnología e Ingeniería: Terminar ejercicios para mañana (12:35)</strong>
-                  <span class="task-desc">Editorial Donostiarra: Dejar resueltos todos los ejercicios del tema 1 antes de clase.</span>
+                  <strong class="task-title">📘 Inglés CAE (Ana - Para MAÑANA Miércoles): Destination C1/C2 — Págs. 18 y 19</strong>
+                  <span class="task-desc">Vocabulario y gramática avanzada. ¡Hacer hoy antes de ir al gimnasio!</span>
                 </div>
                 <div class="task-meta">
                   <span class="status-tag tag-pending">⏳ PENDIENTE</span>
-                  <span class="xp-pill-badge" style="color: #f59e0b;">+25 XP</span>
+                  <span class="xp-pill-badge" style="color: #c084fc;">+20 XP</span>
+                </div>
+              </li>
+
+              <!-- Tarea: Inglés CAE Booster Ana -->
+              <li id="task-cae-boost" class="task-card" onclick="toggleTask('task-cae-boost')">
+                <div class="custom-checkbox">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <div class="task-content">
+                  <strong class="task-title">📗 Inglés CAE (Ana - Para MAÑANA Miércoles): Booster — Págs. 36 y 37 (Reading)</strong>
+                  <span class="task-desc">Comprensión lectora examen oficial CAE. Llevarlo listo a la clase de mañana a las 19:00.</span>
+                </div>
+                <div class="task-meta">
+                  <span class="status-tag tag-pending">⏳ PENDIENTE</span>
+                  <span class="xp-pill-badge" style="color: #c084fc;">+20 XP</span>
+                </div>
+              </li>
+
+              <!-- Tarea: Tecnología centrales térmicas -->
+              <li id="task-tec-central" class="task-card" onclick="toggleTask('task-tec-central')">
+                <div class="custom-checkbox">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <div class="task-content">
+                  <strong class="task-title">⚙️ Tecnología e Ingeniería: Potencia y Rendimiento en Centrales Térmicas</strong>
+                  <span class="task-desc">Repasar fórmulas de potencia útil, calorífica y balance energético de la clase de hoy.</span>
+                </div>
+                <div class="task-meta">
+                  <span class="status-tag tag-pending">⏳ PENDIENTE</span>
+                  <span class="xp-pill-badge" style="color: #f59e0b;">+15 XP</span>
                 </div>
               </li>
 
@@ -360,27 +390,12 @@
                   <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
                 <div class="task-content">
-                  <strong class="task-title">🏋️ Gimnasio: Sesión 1 de la semana (16:15 - 17:30)</strong>
-                  <span class="task-desc">Entrenamiento de fuerza y reset físico antes de la clase de inglés.</span>
+                  <strong class="task-title">🏋️ Gimnasio: Sesión 2 de la semana (18:30 - 20:00)</strong>
+                  <span class="task-desc">Entrenamiento de fuerza y desconexión física tras liquidar el inglés de Ana.</span>
                 </div>
                 <div class="task-meta">
                   <span class="status-tag tag-pending">⏳ PENDIENTE</span>
                   <span class="xp-pill-badge">+15 XP</span>
-                </div>
-              </li>
-
-              <!-- Tarea: Física y Química temario examen -->
-              <li id="task-fisica-plan" class="task-card" onclick="toggleTask('task-fisica-plan')">
-                <div class="custom-checkbox">
-                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                </div>
-                <div class="task-content">
-                  <strong class="task-title">⚛️ Física y Química: Concretar temario examen 1ª semana octubre</strong>
-                  <span class="task-desc">Identificar qué entra exactamente (factores de conversión, vectores, cinemática).</span>
-                </div>
-                <div class="task-meta">
-                  <span class="status-tag tag-pending">⏳ PENDIENTE</span>
-                  <span class="xp-pill-badge" style="color: #f87171;">+15 XP</span>
                 </div>
               </li>
 
@@ -390,8 +405,8 @@
                   <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
                 <div class="task-content">
-                  <strong class="task-title">📋 Registro y Puesta al Día de Asignaturas</strong>
-                  <span class="task-desc">Novedades de ingeniería, física y temario del instituto sincronizados.</span>
+                  <strong class="task-title">📋 Auditoría de Agenda: 100% materias registradas</strong>
+                  <span class="task-desc">Ingeniería (centrales térmicas), Inglés (Ana y Fátima) y examen de Mates registrados.</span>
                 </div>
                 <div class="task-meta">
                   <span class="status-tag tag-done">✓ COMPLETADA</span>
@@ -399,30 +414,15 @@
                 </div>
               </li>
 
-              <!-- Tarea: Lengua Preparación Comentario -->
-              <li id="task-lengua-hojas" class="task-card" onclick="toggleTask('task-lengua-hojas')">
-                <div class="custom-checkbox">
-                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                </div>
-                <div class="task-content">
-                  <strong class="task-title">📖 Lengua Castellana: Avanzar preparación examen comentario crítico</strong>
-                  <span class="task-desc">Revisar dossier y plantilla para el examen del ~5 de octubre (14 días).</span>
-                </div>
-                <div class="task-meta">
-                  <span class="status-tag tag-pending">⏳ PENDIENTE</span>
-                  <span class="xp-pill-badge">+10 XP</span>
-                </div>
-              </li>
-
             </ul>
           </div>
 
-          <!-- BLOQUE 2: Extraescolar & Personal -->
+          <!-- BLOQUE 2: Extraescolar & Planificación -->
           <div class="card glass">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
               <div>
-                <span class="section-title-tag tag-extra">🇬🇧 EXTRAESCOLAR & PERSONAL</span>
-                <h2>Deberes de Academia y Organización Personal</h2>
+                <span class="section-title-tag tag-extra">🇬🇧 EXTRAESCOLAR & PLANIFICACIÓN</span>
+                <h2>Deberes de Academia y Organización Semanal</h2>
               </div>
               <div style="display: flex; align-items: center; gap: 10px;">
                 <span class="status-tag tag-pending" id="extraProgressBadge">0/4 hechas</span>
@@ -431,67 +431,52 @@
                 </button>
               </div>
             </div>
-            <p class="section-sub">Tareas pendientes solicitadas por Ángel:</p>
+            <p class="section-sub">Tareas pendientes de medio plazo:</p>
 
             <ul class="task-list" id="extraTaskList">
               
-              <!-- Tarea: Inglés Extraescolar Lunes -->
-              <li id="task-extra-lunes" class="task-card is-completed" onclick="toggleTask('task-extra-lunes')">
-                <div class="custom-checkbox checked">
-                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                </div>
-                <div class="task-content">
-                  <strong class="task-title">🇬🇧 Inglés CAE (Lunes 18:00): Deberes Profesora de los Lunes</strong>
-                  <span class="task-desc">Completados el miércoles antes del viaje. ¡Listo para la clase de hoy!</span>
-                </div>
-                <div class="task-meta">
-                  <span class="status-tag tag-done">✓ COMPLETADA</span>
-                  <span class="xp-pill-badge" style="color: #4ade80;">+15 XP</span>
-                </div>
-              </li>
-
-              <!-- Tarea: Inglés CAE Destination -->
-              <li id="task-cae-dest" class="task-card" onclick="toggleTask('task-cae-dest')">
+              <!-- Tarea: Inglés CAE Fátima -->
+              <li id="task-cae-fatima" class="task-card" onclick="toggleTask('task-cae-fatima')">
                 <div class="custom-checkbox">
                   <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
                 <div class="task-content">
-                  <strong class="task-title">📘 Inglés CAE (Ana - Para Miércoles): Destination C1/C2 — Págs. 18 y 19</strong>
-                  <span class="task-desc">Vocabulario y gramática avanzada. Se entrega en la clase de Ana del miércoles.</span>
+                  <strong class="task-title">🇬🇧 Inglés CAE (Fátima - Para Lunes 28): Destination pág. 10 ej. F y G</strong>
+                  <span class="task-desc">Ejercicios de vocabulario asignados en la clase de ayer lunes.</span>
                 </div>
                 <div class="task-meta">
                   <span class="status-tag tag-pending">⏳ PENDIENTE</span>
-                  <span class="xp-pill-badge" style="color: #c084fc;">+15 XP</span>
+                  <span class="xp-pill-badge" style="color: #38bdf8;">+15 XP</span>
                 </div>
               </li>
 
-              <!-- Tarea: Inglés CAE Booster -->
-              <li id="task-cae-boost" class="task-card" onclick="toggleTask('task-cae-boost')">
+              <!-- Tarea: Examen Mates seguimiento -->
+              <li id="task-mates-plan" class="task-card" onclick="toggleTask('task-mates-plan')">
                 <div class="custom-checkbox">
                   <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
                 <div class="task-content">
-                  <strong class="task-title">📗 Inglés CAE (Ana - Para Miércoles): Booster — Págs. 36 y 37 (Reading)</strong>
-                  <span class="task-desc">Comprensión lectora oficial modelo examen. Para la clase de Ana del miércoles.</span>
+                  <strong class="task-title">📐 Matemáticas I: Concretar fecha examen (17 Octubre / 16 Noviembre)</strong>
+                  <span class="task-desc">Confirmar con Miriam Jarauta si el 17 de octubre es parcial y el 16 de nov global.</span>
                 </div>
                 <div class="task-meta">
                   <span class="status-tag tag-pending">⏳ PENDIENTE</span>
-                  <span class="xp-pill-badge" style="color: #c084fc;">+15 XP</span>
+                  <span class="xp-pill-badge">+15 XP</span>
                 </div>
               </li>
 
-              <!-- Tarea: Galería -->
+              <!-- Tarea: Limpieza Galería -->
               <li id="task-galeria" class="task-card" onclick="toggleTask('task-galeria')">
                 <div class="custom-checkbox">
                   <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
                 <div class="task-content">
-                  <strong class="task-title">📱 Personal: Limpiar y organizar la galería del móvil</strong>
-                  <span class="task-desc">Eliminar capturas antiguas, fotos duplicadas y liberar almacenamiento.</span>
+                  <strong class="task-title">📱 Personal: Limpiar y clasificar galería del móvil</strong>
+                  <span class="task-desc">Borrar fotos duplicadas, memes y organizar capturas de estudio.</span>
                 </div>
                 <div class="task-meta">
                   <span class="status-tag tag-pending">⏳ PENDIENTE</span>
-                  <span class="xp-pill-badge" style="color: #f59e0b;">+10 XP</span>
+                  <span class="xp-pill-badge">+10 XP</span>
                 </div>
               </li>
 
@@ -501,12 +486,12 @@
                   <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
                 <div class="task-content">
-                  <strong class="task-title">🍽️ Personal: Cena en familia sin móvil (21:40)</strong>
-                  <span class="task-desc">Tiempo de calidad protegido con tus padres.</span>
+                  <strong class="task-title">🍽️ Personal: Cena en familia sin pantallas (21:40)</strong>
+                  <span class="task-desc">Cena saludable para reponer energía tras el gimnasio.</span>
                 </div>
                 <div class="task-meta">
                   <span class="status-tag tag-pending">⏳ PENDIENTE</span>
-                  <span class="xp-pill-badge" style="color: #f59e0b;">+10 XP</span>
+                  <span class="xp-pill-badge">+10 XP</span>
                 </div>
               </li>
 

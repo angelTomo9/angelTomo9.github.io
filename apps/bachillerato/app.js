@@ -13,21 +13,20 @@ const levels = [
   { min: 401, max: 1000, name: "Nivel 5: Élite de Bachillerato (10.0)" }
 ];
 
-// 2. ESTADO PREDETERMINADO DE TAREAS (LUNES 21 SEPTIEMBRE)
+// 2. ESTADO PREDETERMINADO DE TAREAS (MARTES 22 SEPTIEMBRE)
 const defaultTasks = {
-  'task-tec-14': { title: 'Tecnología e Ingeniería: Terminar ejercicios para mañana 12:35 (Donostiarra)', xp: 25, completed: false, group: 'today' },
-  'task-gym': { title: 'Gimnasio: Sesión 1 de la semana (16:15 - 17:30)', xp: 15, completed: false, group: 'today' },
-  'task-extra-lunes': { title: 'Inglés CAE: Clase con Fátima (18:00 - 19:00)', xp: 15, completed: true, group: 'today' },
-  'task-fisica-plan': { title: 'Física y Química: Registrar temario examen 1ª sem. octubre', xp: 15, completed: false, group: 'today' },
+  'task-cae-dest': { title: 'Inglés CAE (Ana - Para MAÑANA Miércoles): Destination Págs. 18 y 19', xp: 20, completed: false, group: 'today' },
+  'task-cae-boost': { title: 'Inglés CAE (Ana - Para MAÑANA Miércoles): Booster Págs. 36 y 37 (Reading)', xp: 20, completed: false, group: 'today' },
+  'task-tec-central': { title: 'Tecnología e Ingeniería: Potencia y Rendimiento en Centrales Térmicas', xp: 15, completed: false, group: 'today' },
+  'task-gym': { title: 'Gimnasio: Sesión 2 de fuerza (18:30 - 20:00)', xp: 15, completed: false, group: 'today' },
   'task-agenda': { title: 'Auditoría de Agenda (100% materias registradas)', xp: 20, completed: true, group: 'today' },
 
-  'task-cae-dest': { title: 'Inglés CAE (Ana - Para Miércoles): Destination Págs. 18 y 19', xp: 15, completed: false, group: 'extra' },
-  'task-cae-boost': { title: 'Inglés CAE (Ana - Para Miércoles): Booster Págs. 36 y 37 (Reading)', xp: 15, completed: false, group: 'extra' },
-  'task-galeria': { title: 'Personal: Limpiar y organizar galería del móvil', xp: 10, completed: false, group: 'extra' },
+  'task-cae-fatima': { title: 'Inglés CAE (Fátima - Para Lunes 28): Destination pág. 10 ej. F y G', xp: 15, completed: false, group: 'extra' },
+  'task-galeria': { title: 'Personal: Limpiar y clasificar galería del móvil', xp: 10, completed: false, group: 'extra' },
   'task-cena': { title: 'Personal: Cena en familia sin pantallas (21:40)', xp: 10, completed: false, group: 'extra' },
   
-  'task-fisica-p56': { title: 'Física y Química (Editex): Pág. 56 nº 2', xp: 10, completed: false, group: 'weekend' },
-  'task-fisica-teams': { title: 'Física y Química: Hoja Teams nº 1', xp: 10, completed: false, group: 'weekend' },
+  'task-fisica-plan': { title: 'Física y Química: Preparación examen 1ª sem. octubre', xp: 15, completed: false, group: 'weekend' },
+  'task-mates-plan': { title: 'Matemáticas I: Seguimiento examen Tema 1 (17 Oct / 16 Nov)', xp: 15, completed: false, group: 'weekend' },
   'task-filo-sofia': { title: 'Filosofía: Lectura "El mundo de Sofía"', xp: 10, completed: false, group: 'weekend' },
 
   'task-tic-apa7': { title: 'TIC: Memoria Word C.A. River Ebro (APA 7)', xp: 25, completed: true, group: 'projects' }
@@ -40,7 +39,6 @@ function initTasks() {
   if (saved) {
     try {
       tasksState = JSON.parse(saved);
-      // Asegurar que todas las defaultTasks existan
       Object.keys(defaultTasks).forEach(id => {
         if (!tasksState[id]) {
           tasksState[id] = defaultTasks[id];
@@ -55,7 +53,7 @@ function initTasks() {
   saveTasks();
 }
 
-// 2.1 SINCRONIZACIÓN EN LA NUBE CON ANTIGRAVITY (NTFY.SH BRIDGE)
+// 2.1 SINCRONIZACIÓN EN LA NUBE CON ANTIGRAVITY (LOCAL SERVER + NTFY BRIDGE)
 const CLOUD_TOPIC_URL = 'https://ntfy.sh/angel_bachillerato_tasks_c06fe520';
 let syncDebounceTimer = null;
 
@@ -77,6 +75,29 @@ function syncTasksWithCloud(manual = false) {
     streak: streakDays
   };
 
+  const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+  // 1. Si estamos en localhost, escribir directamente al servidor Node local (tasks_state.json)
+  if (isLocalhost) {
+    fetch('/api/tasks', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (syncBtn) {
+        syncBtn.innerHTML = '🟢 En Línea con Antigravity (Localhost)';
+        syncBtn.style.color = '#4ade80';
+      }
+      if (manual) {
+        showToast('💻 ¡Sincronizado en Localhost! Antigravity lo ve al instante.');
+      }
+    })
+    .catch(err => console.warn('Localhost API warning:', err));
+  }
+
+  // 2. Sincronización en la nube (ntfy) para acceso móvil / remoto
   fetch(CLOUD_TOPIC_URL, {
     method: 'POST',
     body: JSON.stringify(payload),
@@ -87,25 +108,20 @@ function syncTasksWithCloud(manual = false) {
   })
   .then(res => {
     if (res.ok) {
-      if (syncBtn) {
+      if (!isLocalhost && syncBtn) {
         syncBtn.innerHTML = '🟢 En Línea con Antigravity';
         syncBtn.style.color = '#4ade80';
       }
-      if (manual) {
+      if (manual && !isLocalhost) {
         showToast('☁️ ¡Sincronizado con Antigravity! Veo tus tareas en directo.');
       }
-    } else {
-      throw new Error('Sync status ' + res.status);
     }
   })
   .catch(err => {
-    console.warn('Sync notice:', err);
-    if (syncBtn) {
+    console.warn('Cloud sync notice:', err);
+    if (!isLocalhost && syncBtn) {
       syncBtn.innerHTML = '🟡 Guardado Local';
       syncBtn.style.color = '#f59e0b';
-    }
-    if (manual) {
-      showToast('⚠️ No hay conexión nube en este instante. Guardado en tu móvil.');
     }
   });
 }
@@ -558,6 +574,31 @@ document.addEventListener('DOMContentLoaded', () => {
   Object.keys(tasksState).forEach(id => updateTaskDOM(id));
   updateProgressBars();
   updateUI();
+
+  // Comprobar sincronización local o remota
+  const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  if (isLocalhost) {
+    fetch('/api/tasks')
+      .then(r => r.json())
+      .then(localData => {
+        if (localData && localData.tasks) {
+          let changed = false;
+          Object.keys(localData.tasks).forEach(tid => {
+            if (tasksState[tid] && tasksState[tid].completed !== localData.tasks[tid]) {
+              tasksState[tid].completed = localData.tasks[tid];
+              updateTaskDOM(tid);
+              changed = true;
+            }
+          });
+          if (changed) {
+            localStorage.setItem('angel_tasks_v5', JSON.stringify(tasksState));
+            updateProgressBars();
+            updateUI();
+          }
+        }
+      })
+      .catch(() => {});
+  }
 
   // Comprobar sincronización remota si existe
   fetch(CLOUD_TOPIC_URL + '/json?poll=1')
