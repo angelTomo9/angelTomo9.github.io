@@ -18,7 +18,7 @@ const defaultTasks = {
   // Miércoles 23 - Misiones de la tarde
   'task-lengua-comentario': { title: 'Lengua Castellana: Repaso Plantilla Comentario Crítico', xp: 20, completed: false, group: 'today' },
   'task-ingles-vocab': { title: 'Inglés C1: Repaso Vocabulario Unit 1 & Collocations', xp: 15, completed: false, group: 'today' },
-  'task-bio-intro': { title: 'Biología: Concretar temario y resolver ejercicios asignados', xp: 15, completed: false, group: 'today' },
+  'task-filo-intro': { title: 'Filosofía: Paso del Mito al Logos & "El mundo de Sofía"', xp: 15, completed: false, group: 'today' },
   'task-fisica-t1': { title: 'Física y Química: Fórmulas y vectores Tema 1', xp: 15, completed: false, group: 'today' },
   'task-clase-ana': { title: 'Inglés CAE: Clase con Ana (19:00 - 20:00) con deberes al día', xp: 20, completed: false, group: 'today' },
 
