@@ -13,20 +13,22 @@ const levels = [
   { min: 401, max: 1000, name: "Nivel 5: Élite de Bachillerato (10.0)" }
 ];
 
-// 2. ESTADO PREDETERMINADO DE TAREAS (MARTES 22 SEPTIEMBRE)
+// 2. ESTADO PREDETERMINADO DE TAREAS (MIÉRCOLES 23 SEPTIEMBRE)
 const defaultTasks = {
-  'task-cae-dest': { title: 'Inglés CAE (Ana - Para MAÑANA Miércoles): Destination Págs. 18 y 19', xp: 20, completed: false, group: 'today' },
-  'task-cae-boost': { title: 'Inglés CAE (Ana - Para MAÑANA Miércoles): Booster Págs. 36 y 37 (Reading)', xp: 20, completed: false, group: 'today' },
-  'task-tec-central': { title: 'Tecnología e Ingeniería: Potencia y Rendimiento en Centrales Térmicas', xp: 15, completed: false, group: 'today' },
-  'task-gym': { title: 'Gimnasio: Sesión 2 de fuerza (18:30 - 20:00)', xp: 15, completed: false, group: 'today' },
-  'task-agenda': { title: 'Auditoría de Agenda (100% materias registradas)', xp: 20, completed: true, group: 'today' },
+  // Miércoles 23 - Misiones de la tarde
+  'task-lengua-comentario': { title: 'Lengua Castellana: Repaso Plantilla Comentario Crítico', xp: 20, completed: false, group: 'today' },
+  'task-ingles-vocab': { title: 'Inglés C1: Repaso Vocabulario Unit 1 & Collocations', xp: 15, completed: false, group: 'today' },
+  'task-bio-intro': { title: 'Biología: Concretar temario y resolver ejercicios asignados', xp: 15, completed: false, group: 'today' },
+  'task-fisica-t1': { title: 'Física y Química: Fórmulas y vectores Tema 1', xp: 15, completed: false, group: 'today' },
+  'task-clase-ana': { title: 'Inglés CAE: Clase con Ana (19:00 - 20:00) con deberes al día', xp: 20, completed: false, group: 'today' },
 
+  // Extraescolar & Planificación
   'task-cae-fatima': { title: 'Inglés CAE (Fátima - Para Lunes 28): Destination pág. 10 ej. F y G', xp: 15, completed: false, group: 'extra' },
+  'task-mates-plan': { title: 'Matemáticas I: Concretar fecha examen (17 Octubre / 16 Noviembre)', xp: 15, completed: false, group: 'extra' },
   'task-galeria': { title: 'Personal: Limpiar y clasificar galería del móvil', xp: 10, completed: false, group: 'extra' },
   'task-cena': { title: 'Personal: Cena en familia sin pantallas (21:40)', xp: 10, completed: false, group: 'extra' },
   
-  'task-fisica-plan': { title: 'Física y Química: Preparación examen 1ª sem. octubre', xp: 15, completed: true, group: 'weekend' },
-  'task-mates-plan': { title: 'Matemáticas I: Seguimiento examen Tema 1 (17 Oct / 16 Nov)', xp: 15, completed: true, group: 'weekend' },
+  // Troncales & Lecturas
   'task-fisica-p56': { title: 'Física y Química (Editex): Pág. 56 nº 2', xp: 10, completed: true, group: 'weekend' },
   'task-fisica-teams': { title: 'Física y Química: Hoja Teams nº 1', xp: 10, completed: true, group: 'weekend' },
   'task-tec-14': { title: 'Tecnología (Donostiarra): Ejercicios 1 al 14', xp: 15, completed: true, group: 'weekend' },
@@ -53,6 +55,30 @@ function initTasks() {
   } else {
     tasksState = JSON.parse(JSON.stringify(defaultTasks));
   }
+
+  // Auto-registrar cualquier tarjeta presente en el DOM para permitir clic y sincronización inmediata
+  document.querySelectorAll('.task-card').forEach(card => {
+    const id = card.id;
+    if (id && !tasksState[id]) {
+      const titleEl = card.querySelector('.task-title');
+      const title = titleEl ? titleEl.textContent.trim() : id;
+      const xpEl = card.querySelector('.xp-pill-badge');
+      let xpVal = 10;
+      if (xpEl) {
+        const match = xpEl.textContent.match(/\d+/);
+        if (match) xpVal = parseInt(match[0], 10);
+      }
+      const isCompleted = card.classList.contains('is-completed');
+      const group = card.closest('#todayTaskList') ? 'today' : (card.closest('#extraTaskList') ? 'extra' : 'weekend');
+      tasksState[id] = {
+        title: title,
+        xp: xpVal,
+        completed: isCompleted,
+        group: group
+      };
+    }
+  });
+
   saveTasks();
 }
 
