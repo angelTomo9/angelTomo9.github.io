@@ -13,14 +13,14 @@ const levels = [
   { min: 401, max: 1000, name: "Nivel 5: Élite de Bachillerato (10.0)" }
 ];
 
-// 2. ESTADO PREDETERMINADO DE TAREAS (MIÉRCOLES 23 SEPTIEMBRE)
+// 2. ESTADO PREDETERMINADO DE TAREAS (JUEVES 24 SEPTIEMBRE • PRE-FIESTAS)
 const defaultTasks = {
-  // Miércoles 23 - Misiones de la tarde
-  'task-lengua-comentario': { title: 'Lengua Castellana: Repaso Plantilla Comentario Crítico', xp: 20, completed: false, group: 'today' },
-  'task-ingles-vocab': { title: 'Inglés C1: Repaso Vocabulario Unit 1 & Collocations', xp: 15, completed: false, group: 'today' },
-  'task-filo-intro': { title: 'Filosofía: Paso del Mito al Logos & "El mundo de Sofía"', xp: 15, completed: false, group: 'today' },
-  'task-fisica-t1': { title: 'Física y Química: Fórmulas y vectores Tema 1', xp: 15, completed: false, group: 'today' },
-  'task-clase-ana': { title: 'Inglés CAE: Clase con Ana (19:00 - 20:00) con deberes al día', xp: 20, completed: false, group: 'today' },
+  // Jueves 24 - Operación Pre-Fiestas
+  'task-tec-ej18': { title: 'Tecnología e Ingeniería: Ejercicio 18 (Págs. 236-237 Donostiarra)', xp: 20, completed: false, group: 'today' },
+  'task-fisica-t1': { title: 'Física y Química: Fórmulas y vectores Tema 1', xp: 20, completed: false, group: 'today' },
+  'task-lengua-comentario': { title: 'Lengua Castellana: Repaso Plantilla Comentario Crítico', xp: 15, completed: false, group: 'today' },
+  'task-gym-jueves': { title: 'Gimnasio: Sesión 3 de la semana (18:30 - 20:00)', xp: 15, completed: false, group: 'today' },
+  'task-mochila-fiestas': { title: 'Cierre Semanal & Mochila: ¡Modo Fiestas del Pueblo!', xp: 10, completed: false, group: 'today' },
 
   // Extraescolar & Planificación
   'task-cae-fatima': { title: 'Inglés CAE (Fátima - Para Lunes 28): Destination pág. 10 ej. F y G', xp: 15, completed: false, group: 'extra' },
