@@ -13,14 +13,14 @@ const levels = [
   { min: 401, max: 1000, name: "Nivel 5: Élite de Bachillerato (10.0)" }
 ];
 
-// 2. ESTADO PREDETERMINADO DE TAREAS (JUEVES 24 SEPTIEMBRE • PRE-FIESTAS)
+// 2. ESTADO PREDETERMINADO DE TAREAS (DOMINGO 27 SEPTIEMBRE • SPRINT RETORNO)
 const defaultTasks = {
-  // Jueves 24 - Operación Pre-Fiestas
-  'task-tec-ej18': { title: 'Tecnología e Ingeniería: Ejercicio 18 (Págs. 236-237 Donostiarra)', xp: 20, completed: false, group: 'today' },
-  'task-fisica-t1': { title: 'Física y Química: Fórmulas y vectores Tema 1', xp: 20, completed: false, group: 'today' },
-  'task-lengua-comentario': { title: 'Lengua Castellana: Repaso Plantilla Comentario Crítico', xp: 15, completed: false, group: 'today' },
-  'task-gym-jueves': { title: 'Gimnasio: Sesión 3 de la semana (18:30 - 20:00)', xp: 15, completed: false, group: 'today' },
-  'task-mochila-fiestas': { title: 'Cierre Semanal & Mochila: ¡Modo Fiestas del Pueblo!', xp: 10, completed: false, group: 'today' },
+  // Domingo 27 - Sprint Retorno Semanal
+  'task-ingles-hoja': { title: 'Inglés Oficial: Completar "Hoja de Inglés" de clase', xp: 20, completed: false, group: 'today' },
+  'task-lengua-comentario': { title: 'Lengua Castellana: Tema, Tesis, Modalidad y Funciones', xp: 20, completed: false, group: 'today' },
+  'task-cae-fatima': { title: 'Inglés CAE (Fátima - Para Mañana Lunes a las 18:00): Destination pág. 10 ej. F y G', xp: 15, completed: false, group: 'today' },
+  'task-tec-ej18': { title: 'Tecnología e Ingeniería: Ejercicio 18 (Págs. 236-237 Donostiarra)', xp: 15, completed: false, group: 'today' },
+  'task-mochila-lunes': { title: 'Organización: Mochila lista con cuadernos y material de Lunes', xp: 10, completed: false, group: 'today' },
 
   // Extraescolar & Planificación
   'task-cae-fatima': { title: 'Inglés CAE (Fátima - Para Lunes 28): Destination pág. 10 ej. F y G', xp: 15, completed: false, group: 'extra' },
