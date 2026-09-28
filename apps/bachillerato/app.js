@@ -13,14 +13,15 @@ const levels = [
   { min: 401, max: 1000, name: "Nivel 5: Élite de Bachillerato (10.0)" }
 ];
 
-// 2. ESTADO PREDETERMINADO DE TAREAS (DOMINGO 27 SEPTIEMBRE • SPRINT RETORNO)
+// 2. ESTADO PREDETERMINADO DE TAREAS (LUNES 28 SEPTIEMBRE)
 const defaultTasks = {
-  // Domingo 27 - Sprint Retorno Semanal
-  'task-ingles-hoja': { title: 'Inglés Oficial: Completar "Hoja de Inglés" de clase', xp: 20, completed: false, group: 'today' },
-  'task-lengua-comentario': { title: 'Lengua Castellana: Tema, Tesis, Modalidad y Funciones', xp: 20, completed: false, group: 'today' },
-  'task-cae-fatima': { title: 'Inglés CAE (Fátima - Para Mañana Lunes a las 18:00): Destination pág. 10 ej. F y G', xp: 15, completed: false, group: 'today' },
-  'task-tec-ej18': { title: 'Tecnología e Ingeniería: Ejercicio 18 (Págs. 236-237 Donostiarra)', xp: 15, completed: false, group: 'today' },
-  'task-mochila-lunes': { title: 'Organización: Mochila lista con cuadernos y material de Lunes', xp: 10, completed: false, group: 'today' },
+  // Lunes 28 - Misiones Críticas de la Tarde
+  'task-ing-ej5-8': { title: 'Tecnología e Ingeniería: Ejercicios 5 al 8 y Apartado 5', xp: 20, completed: false, group: 'today' },
+  'task-lengua-funciones': { title: 'Lengua Castellana: Terminar estudiar funciones y aplicar', xp: 20, completed: false, group: 'today' },
+  'task-ing-test-vocab': { title: 'Inglés Oficial: Repaso Test Vocabulario Unit 1 (Miércoles 30)', xp: 15, completed: false, group: 'today' },
+  'task-filo-empezar': { title: 'Filosofía: Empezar Tema 1 (Mito al Logos) y "El mundo de Sofía"', xp: 15, completed: false, group: 'today' },
+  'task-cae-fatima': { title: 'Inglés CAE: Clase con Fátima (18:00 - 19:00)', xp: 20, completed: false, group: 'today' },
+  'task-gym-lunes': { title: 'Gimnasio: Sesión 1 de la semana (Fuerza)', xp: 15, completed: false, group: 'today' },
 
   // Extraescolar & Planificación
   'task-cae-fatima': { title: 'Inglés CAE (Fátima - Para Lunes 28): Destination pág. 10 ej. F y G', xp: 15, completed: false, group: 'extra' },
