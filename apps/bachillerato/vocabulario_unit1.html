@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>🇬🇧 Vocabulario Unit 1: Game On! — 1º Bachillerato</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --border: rgba(255, 255, 255, 0.1);
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --tag-bg: rgba(56, 189, 248, 0.15);
+      --tag-text: #7dd3fc;
+      --warn: #f59e0b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 16px;
+      padding-bottom: 90px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(11, 15, 25, 0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-exam {
+      background: #dc2626;
+      color: #fff;
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .search-box {
+      position: relative;
+      margin-bottom: 10px;
+    }
+
+    .search-box input {
+      width: 100%;
+      background: rgba(30, 41, 59, 0.9);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 12px 14px 12px 38px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+
+    .filters::-webkit-scrollbar { display: none; }
+
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .filter-btn.active {
+      background: var(--accent);
+      color: #0f172a;
+      border-color: var(--accent);
+    }
+
+    .stats {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      padding: 0 4px;
+    }
+
+    .vocab-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .vocab-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      backdrop-filter: blur(8px);
+      transition: transform 0.15s, border-color 0.15s;
+    }
+
+    .vocab-card:active {
+      transform: scale(0.99);
+    }
+
+    .vocab-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+
+    .term {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .phonetic {
+      font-size: 0.8rem;
+      color: #38bdf8;
+      font-weight: normal;
+      margin-left: 6px;
+    }
+
+    .tag {
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+
+    .meaning {
+      font-size: 0.95rem;
+      color: #34d399;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .example {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      font-style: italic;
+      line-height: 1.4;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 8px 10px;
+      border-radius: 8px;
+      border-left: 3px solid var(--accent);
+    }
+
+    .pitfall-box {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 14px;
+      padding: 14px;
+      margin-top: 16px;
+    }
+
+    .pitfall-box h3 {
+      color: var(--warn);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .nav-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.95);
+      border-top: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-around;
+      backdrop-filter: blur(16px);
+      z-index: 200;
+    }
+
+    .nav-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-weight: 600;
+    }
+
+    .nav-btn.active { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-top">
+      <h1>🇬🇧 Game On! <span style="font-size:0.8rem; color:var(--text-muted); font-weight:normal;">Unit 1</span></h1>
+      <span class="badge-exam">Examen: 16 Oct</span>
+    </div>
+
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Buscar palabra en inglés o español..." oninput="filterVocab()">
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" onclick="setCategory('all', this)">Todos (<span id="count-all">0</span>)</button>
+      <button class="filter-btn" onclick="setCategory('phrasal', this)">Phrasal Verbs</button>
+      <button class="filter-btn" onclick="setCategory('venue', this)">Lugares & Material</button>
+      <button class="filter-btn" onclick="setCategory('collocation', this)">Collocations & Verbos</button>
+      <button class="filter-btn" onclick="setCategory('idiom', this)">Idioms C1</button>
+      <button class="filter-btn" onclick="setCategory('adj', this)">Adjetivos</button>
+    </div>
+  </header>
+
+  <div class="stats" id="statsBar">Mostrando todas las palabras</div>
+
+  <main class="vocab-grid" id="vocabContainer"></main>
+
+  <div class="pitfall-box">
+    <h3>⚠️ Las 2 Preguntas Trampa del Examen</h3>
+    <p style="font-size:0.85rem; margin-bottom:6px;"><strong>1. WIN vs. BEAT:</strong></p>
+    <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:8px;">
+      • <strong>WIN</strong> + trofeo, partido o medalla (<em>win a match, win a medal</em>)<br>
+      • <strong>BEAT</strong> + oponente o equipo rival (<em>Alcaraz beat Sinner</em>, <strong>NUNCA</strong> <em>won Sinner</em>).
+    </p>
+    <p style="font-size:0.85rem; margin-bottom:6px;"><strong>2. SPECTATOR vs. AUDIENCE vs. VIEWER:</strong></p>
+    <p style="font-size:0.8rem; color:#94a3b8;">
+      • <strong>Spectator:</strong> Deporte en directo en un estadio.<br>
+      • <strong>Audience:</strong> Teatro, cine o concierto.<br>
+      • <strong>Viewer:</strong> Telespectador / streaming en casa.
+    </p>
+  </div>
+
+  <nav class="nav-bar">
+    <a href="index.html" class="nav-btn">
+      <span>📊</span>
+      <span>Dashboard</span>
+    </a>
+    <a href="#" class="nav-btn active">
+      <span>📖</span>
+      <span>Vocabulario</span>
+    </a>
+    <a href="apuntes/Unit01_Game_On.md" download class="nav-btn">
+      <span>📥</span>
+      <span>Descargar MD</span>
+    </a>
+  </nav>
+
+  <script>
+    const vocabulary = [
+      // Phrasal Verbs
+      { term: "Take up", phonetic: "/teɪk ʌp/", cat: "phrasal", trans: "Empezar a practicar (un deporte/afición)", ex: "She decided to take up tennis to boost her stamina." },
+      { term: "Work out", phonetic: "/wɜːk aʊt/", cat: "phrasal", trans: "Entrenar / Hacer ejercicio físico en gimnasio", ex: "I work out four days a week with weights." },
+      { term: "Warm up", phonetic: "/wɔːm ʌp/", cat: "phrasal", trans: "Calentar antes de hacer ejercicio", ex: "Always warm up for 10 minutes to prevent muscle injury." },
+      { term: "Cool down", phonetic: "/kuːl daʊn/", cat: "phrasal", trans: "Estirar y enfriar tras entrenar", ex: "Cooling down helps lower your heart rate safely." },
+      { term: "Give up", phonetic: "/ɡɪv ʌp/", cat: "phrasal", trans: "Rendirse / Abandonar", ex: "Never give up, even when defeat seems inevitable." },
+      { term: "Give in", phonetic: "/ɡɪv ɪn/", cat: "phrasal", trans: "Ceder / Claudicar ante la presión", ex: "The defenders finally gave in after relentless pressure." },
+      { term: "Knock out", phonetic: "/nɒk aʊt/", cat: "phrasal", trans: "Eliminar de un torneo / Dejar KO", ex: "Real Madrid knocked out Bayern in the semi-finals." },
+      { term: "Join in", phonetic: "/dʒɔɪn ɪn/", cat: "phrasal", trans: "Unirse / Participar con otros", ex: "They asked me to join in their basketball game." },
+      { term: "Drop out", phonetic: "/drɒp aʊt/", cat: "phrasal", trans: "Retirarse / Abandonar una carrera antes del final", ex: "Three runners dropped out due to severe dehydration." },
+      { term: "Pass out", phonetic: "/pɑːs aʊt/", cat: "phrasal", trans: "Desmayarse / Perder el conocimiento", ex: "The marathon runner passed out at the finish line." },
+      { term: "Show off", phonetic: "/ʃəʊ ɒf/", cat: "phrasal", trans: "Fardar / Presumir de habilidades", ex: "He tried to show off his dribbling and lost the ball." },
+      { term: "Burn off", phonetic: "/bɜːn ɒf/", cat: "phrasal", trans: "Quemar calorías o energía", ex: "A good run burns off hundreds of calories." },
+      { term: "Keep up with", phonetic: "/kiːp ʌp wɪð/", cat: "phrasal", trans: "Mantener el ritmo de los demás", ex: "It was hard to keep up with the leading group." },
+      { term: "Cheer on", phonetic: "/tʃɪər ɒn/", cat: "phrasal", trans: "Animar y jalear a un deportista", ex: "Thousands of fans cheered on their national team." },
+      { term: "Call off", phonetic: "/kɔːl ɒf/", cat: "phrasal", trans: "Suspender / Cancelar un partido", ex: "The match was called off because of heavy rain." },
+      { term: "Put off", phonetic: "/pʊt ɒf/", cat: "phrasal", trans: "Posponer / Aplazar a otra fecha", ex: "The final was put off until next weekend." },
+      { term: "Pull out of", phonetic: "/pʊl aʊt əv/", cat: "phrasal", trans: "Retirarse de una competición por lesión", ex: "He had to pull out of the French Open with a wrist injury." },
+
+      // Venues & Equipment
+      { term: "Pitch / Field", phonetic: "/pɪtʃ/", cat: "venue", trans: "Campo de césped (fútbol, rugby)", ex: "The referee inspected the flooded football pitch." },
+      { term: "Court", phonetic: "/kɔːt/", cat: "venue", trans: "Pista / Cancha delimitada (tenis, baloncesto)", ex: "Players stepped onto the tennis court." },
+      { term: "Ring", phonetic: "/rɪŋ/", cat: "venue", trans: "Cuadrilátero de boxeo / lucha", ex: "The boxer stepped into the ring ready to fight." },
+      { term: "Rink", phonetic: "/rɪŋk/", cat: "venue", trans: "Pista de hielo / patinaje", ex: "The ice hockey team practised on the rink." },
+      { term: "Track", phonetic: "/træk/", cat: "venue", trans: "Pista de atletismo / circuito de velocidad", ex: "Usain Bolt ran down the 100m running track." },
+      { term: "Slope / Piste", phonetic: "/sləʊp/", cat: "venue", trans: "Pista de esquí / ladera nevada", ex: "The ski slopes were crowded this morning." },
+      { term: "Course", phonetic: "/kɔːs/", cat: "venue", trans: "Campo de golf / circuito campo a través", ex: "An 18-hole golf course." },
+      { term: "Bat", phonetic: "/bæt/", cat: "venue", trans: "Bate (béisbol, críquet)", ex: "He hit a home run with his new bat." },
+      { term: "Racket / Racquet", phonetic: "/ˈræk.ɪt/", cat: "venue", trans: "Raqueta (tenis, pádel, squash)", ex: "He strung his racket with high tension." },
+      { term: "Club", phonetic: "/klʌb/", cat: "venue", trans: "Palo de golf", ex: "He pulled out a number 5 iron club." },
+      { term: "Puck", phonetic: "/pʌk/", cat: "venue", trans: "Disco de hockey sobre hielo", ex: "The puck flew straight into the top corner." },
+      { term: "Shuttlecock", phonetic: "/ˈʃʌt.əl.kɒk/", cat: "venue", trans: "Volante / Pluma de bádminton", ex: "The shuttlecock landed outside the white line." },
+      { term: "Goggles", phonetic: "/ˈɡɒɡ.əlz/", cat: "venue", trans: "Gafas de natación o esquí", ex: "He adjusted his swimming goggles." },
+      { term: "Shin guards", phonetic: "/ʃɪn ɡɑːdz/", cat: "venue", trans: "Espinilleras protectoras", ex: "Shin guards are mandatory in official matches." },
+
+      // Collocations & Verbs
+      { term: "Beat", phonetic: "/biːt/", cat: "collocation", trans: "Vencer / Derrotar a un rival o equipo", ex: "Alcaraz beat his opponent in three straight sets." },
+      { term: "Win", phonetic: "/wɪn/", cat: "collocation", trans: "Ganar un premio, trofeo, medalla o partido", ex: "They won the national championship." },
+      { term: "Break a record", phonetic: "/breɪk ə ˈrek.ɔːd/", cat: "collocation", trans: "Batir / Romper un récord mundial", ex: "Duplantis managed to break the pole vault record." },
+      { term: "Set a record", phonetic: "/set ə ˈrek.ɔːd/", cat: "collocation", trans: "Establecer una nueva marca o récord", ex: "She set a new personal record in the 200m." },
+      { term: "Hold a record", phonetic: "/həʊld ə ˈrek.ɔːd/", cat: "collocation", trans: "Poseer un récord vigente", ex: "He holds the European marathon record." },
+      { term: "Hold a tournament", phonetic: "/həʊld ə ˈtʊə.nə.mənt/", cat: "collocation", trans: "Organizar / Albergar un torneo", ex: "Spain will hold the upcoming world tournament." },
+      { term: "Score", phonetic: "/skɔː/", cat: "collocation", trans: "Anotar / Marcar (gol, canasta, punto)", ex: "He scored the winning goal in the 93rd minute." },
+      { term: "Runner-up", phonetic: "/ˈrʌn.ər.ʌp/", cat: "collocation", trans: "Subcampeón / Segundo puesto", ex: "He received a silver trophy as the runner-up." },
+      { term: "Take the lead", phonetic: "/teɪk ðə liːd/", cat: "collocation", trans: "Ponerse en cabeza / Liderar la carrera", ex: "The Ferrari driver took the lead on lap 40." },
+      { term: "Make a comeback", phonetic: "/meɪk ə ˈkʌm.bæk/", cat: "collocation", trans: "Remontar / Volver con éxito", ex: "The team made an epic second-half comeback." },
+      { term: "Fair play", phonetic: "/feər pleɪ/", cat: "collocation", trans: "Juego limpio y deportividad", ex: "Fair play is the foundation of competitive athletics." },
+
+      // Idioms C1
+      { term: "On the ball", phonetic: "[Idiom]", cat: "idiom", trans: "Estar muy atento, despierto y con reflejos rápidos", ex: "Our goalkeeper was really on the ball tonight." },
+      { term: "A long shot", phonetic: "[Idiom]", cat: "idiom", trans: "Algo casi imposible / Con poquísimas opciones", ex: "Qualifying was a long shot, but they pulled it off." },
+      { term: "The ball is in your court", phonetic: "[Idiom]", cat: "idiom", trans: "Te toca a ti decidir o mover ficha", ex: "We made our offer; now the ball is in their court." },
+      { term: "Skating on thin ice", phonetic: "[Idiom]", cat: "idiom", trans: "Asumiendo un riesgo enorme y peligroso", ex: "With that yellow card, he's skating on thin ice." },
+      { term: "Jump the gun", phonetic: "[Idiom]", cat: "idiom", trans: "Adelantarse antes de tiempo a los hechos", ex: "Don't jump the gun before the final score is verified." },
+      { term: "Throw in the towel", phonetic: "[Idiom]", cat: "idiom", trans: "Tirar la toalla / Rendirse definitivamente", ex: "After the third penalty, they threw in the towel." },
+      { term: "Front runner", phonetic: "[Idiom]", cat: "idiom", trans: "El favorito indiscutible para la victoria", ex: "Alcaraz enters the tournament as the front runner." },
+      { term: "Hit below the belt", phonetic: "[Idiom]", cat: "idiom", trans: "Dar un golpe bajo / Actuar con juego sucio", ex: "Insulting his rival was clearly hitting below the belt." },
+
+      // Adjectives
+      { term: "Thrilled", phonetic: "/θrɪld/", cat: "adj", trans: "Emocionadísimo / Entusiasmado", ex: "He was thrilled to be called up for the national squad." },
+      { term: "Resilient", phonetic: "/rɪˈzɪl.i.ənt/", cat: "adj", trans: "Resiliente / Capaz de sobreponerse a derrotas", ex: "She is a resilient competitor who bounces back fast." },
+      { term: "Determined", phonetic: "/dɪˈtɜː.mɪnd/", cat: "adj", trans: "Determinado / Firmemente decidido a ganar", ex: "His determined gaze showed he wouldn't back down." },
+      { term: "Committed", phonetic: "/kəˈmɪt.ɪd/", cat: "adj", trans: "Comprometido al 100% con su objetivo", ex: "Dedicated athletes are fully committed to training." },
+      { term: "Tough", phonetic: "/tʌf/", cat: "adj", trans: "Duro, correoso y fuerte mentalmente", ex: "It was a tough game against the defending champions." },
+      { term: "Scruffy", phonetic: "/ˈskrʌf.i/", cat: "adj", trans: "Desaliñado / Poco aseado (ropa vieja)", ex: "He turned up in a scruffy, faded training tracksuit." },
+      { term: "Attached (to)", phonetic: "/əˈtætʃt/", cat: "adj", trans: "Muy encariñado / Vinculado sentimentalmente", ex: "He remains deeply attached to his hometown club." }
+    ];
+
+    let currentCategory = 'all';
+
+    function renderVocab(items) {
+      const container = document.getElementById('vocabContainer');
+      document.getElementById('statsBar').textContent = `Mostrando ${items.length} de ${vocabulary.length} términos`;
+      
+      if (items.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:40px 20px; color:var(--text-muted)">
+          <div style="font-size:2rem; margin-bottom:8px;">🔍</div>
+          No se encontraron términos que coincidan con tu búsqueda.
+        </div>`;
+        return;
+      }
+
+      container.innerHTML = items.map(v => `
+        <div class="vocab-card">
+          <div class="vocab-header">
+            <div>
+              <span class="term">${v.term}</span>
+              <span class="phonetic">${v.phonetic}</span>
+            </div>
+            <span class="tag">${v.cat}</span>
+          </div>
+          <div class="meaning">${v.trans}</div>
+          <div class="example">${v.ex}</div>
+        </div>
+      `).join('');
+    }
+
+    function filterVocab() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      let filtered = vocabulary;
+
+      if (currentCategory !== 'all') {
+        filtered = filtered.filter(v => v.cat === currentCategory);
+      }
+
+      if (q) {
+        filtered = filtered.filter(v => 
+          v.term.toLowerCase().includes(q) || 
+          v.trans.toLowerCase().includes(q) ||
+          v.ex.toLowerCase().includes(q)
+        );
+      }
+
+      renderVocab(filtered);
+    }
+
+    function setCategory(cat, btn) {
+      currentCategory = cat;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterVocab();
+    }
+
+    // Inicializar contador y lista
+    document.getElementById('count-all').textContent = vocabulary.length;
+    renderVocab(vocabulary);
+  </script>
+</body>
+</html>
